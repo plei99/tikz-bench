@@ -1,0 +1,14 @@
+{"auroux_18937_l15": {"pdf": "sources/auroux/18.937_L15.pdf",
+  "regions": [
+    {"page": 1, "bbox": [88, 180, 270, 266], "note": "open book: pages Sigma spinning around the binding in M"},
+    {"page": 1, "bbox": [16, 622, 130, 742], "note": "open book of S^3: unknot z_1=0, disk pages D^2 in C_{z_2}, theta = arg z_1"},
+    {"page": 2, "bbox": [118, 508, 526, 674], "note": "branched cover of solid-torus picture via f over braid in solid torus, then p to S^1, glue opposite sides"},
+    {"page": 3, "bbox": [414, 270, 566, 338], "note": "larger disc D' containing disc D with n points plus point n+1"},
+    {"page": 3, "bbox": [412, 344, 566, 440], "note": "Sigma' = Sigma plus 1-handle, two drawings with curve tau_n"},
+    {"page": 3, "bbox": [390, 442, 494, 490], "note": "hatched 1-handle attached to boundary of Sigma"},
+    {"page": 3, "bbox": [448, 568, 558, 640], "note": "hatched 1-handle attached to Sigma with curve gamma through it"},
+    {"page": 4, "bbox": [458, 218, 598, 404], "note": "surgery near binding B: handle attached along arc gamma, neighborhood V, page Sigma"},
+    {"page": 4, "bbox": [240, 340, 338, 386], "note": "two stacked tubes with vertical arrow (replacing Sigma x (-eps, eps))"},
+    {"page": 4, "bbox": [48, 642, 374, 712], "note": "2:1 cover of disks: cylinder over disk, stabilized cylinder with handle over disk with sigma_1"},
+    {"page": 5, "bbox": [288, 177, 580, 308], "note": "standard contact structure on R^3: planes along lines parallel to x-axis twisting, axes x, y, z"}
+  ]}}

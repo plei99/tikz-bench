@@ -1,0 +1,19 @@
+{"summer2020_lecture19": {"pdf": "sources/okounkov/summer2020/lecture19.pdf", "regions": [
+{"page": 1, "bbox": [318, 344, 510, 414], "note": "genus g=4 surface with marked points p1, p2, ..., pn (n=3)"},
+{"page": 2, "bbox": [35, 555, 540, 640], "note": "M_{g,n}(P^1) = moduli of curve with points and contracted component --f--> sphere with 0, infinity, q"},
+{"page": 3, "bbox": [398, 373, 576, 540], "note": "torus with cycles 3:1 and 2:1 mapping down to sphere with 0 and infinity"},
+{"page": 3, "bbox": [85, 465, 200, 540], "note": "sphere with 0 and infinity and dashed blue equator"},
+{"page": 3, "bbox": [240, 545, 505, 582], "note": "d copies of small sphere with dashed circle -> sphere"},
+{"page": 3, "bbox": [48, 550, 236, 636], "note": "boxed: cap with point 0 and dashed boundary = <prod tau_ki(0) e^alpha_1"},
+{"page": 4, "bbox": [72, 108, 250, 190], "note": "cylinder with marked point pt, labelled tau_k(pt)"},
+{"page": 4, "bbox": [50, 543, 480, 674], "note": "target curve B ~> target 3-fold with line bundles L1, L2 (weights t1, t2), Mumford arrow back"},
+{"page": 5, "bbox": [318, 82, 485, 138], "note": "cylinder with marked point pt"},
+{"page": 5, "bbox": [272, 192, 380, 288], "note": "cap with point 0 and dashed boundary, labelled exp(sum tau_k(0) t_k)"},
+{"page": 5, "bbox": [55, 355, 214, 488], "note": "local curve 3-fold: green curve with two blue line-bundle fibers"},
+{"page": 5, "bbox": [210, 372, 300, 488], "note": "diagram S -> X -> B (surface, curve)"},
+{"page": 6, "bbox": [60, 30, 222, 162], "note": "two blue spheres with chains of orange and green bubbles attached"},
+{"page": 6, "bbox": [425, 74, 500, 116], "note": "two-box diagram with shaded boxes, labels x2 and x1^2"},
+{"page": 6, "bbox": [70, 425, 570, 542], "note": "3-fold over curve B ~> same 3-fold times circle of time"},
+{"page": 7, "bbox": [70, 105, 440, 265], "note": "intertwiner Psi box with strands V1..Vn in and V1'..Vn' out, orange line passing above vs below"},
+{"page": 7, "bbox": [210, 298, 392, 338], "note": "orange and blue strand crossing ~> crossing moved"}
+]}}

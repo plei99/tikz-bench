@@ -1,0 +1,12 @@
+{"okounkov_talk_simons3": {"pdf": "sources/okounkov/talks/Simons3_upright.pdf",
+  "regions": [
+    {"page": 2, "bbox": [169, 256, 767, 560], "note": "orange sphere mapped by red arrow into a Calabi-Yau 3-fold X"},
+    {"page": 3, "bbox": [176, 126, 742, 352], "note": "genus-2 curve C mapped by f into 3-fold X"},
+    {"page": 4, "bbox": [9, 442, 326, 554], "note": "set of maps from curve C to 3-fold X in braces, modulo isomorphism"},
+    {"page": 5, "bbox": [27, 56, 308, 284], "note": "3-fold X containing an orange curve C"},
+    {"page": 9, "bbox": [7, 364, 236, 551], "note": "disk in q-plane with points GW at q=-1 and DT at q=0"},
+    {"page": 13, "bbox": [16, 117, 479, 529], "note": "grid of monomials x^i y^j with orange staircase, hatched region and diagonal line"},
+    {"page": 14, "bbox": [22, 162, 784, 408], "note": "two monomial charts at x=0 and x=infinity joined by an orange staircase, circled generators"},
+    {"page": 24, "bbox": [216, 245, 492, 454], "note": "diagram A -> B <- A^vee with maps pi and pi^vee"},
+    {"page": 25, "bbox": [50, 171, 706, 432], "note": "dual torus fibrations A^vee and A over a base segment with maps pi^vee and pi"}
+  ]}}

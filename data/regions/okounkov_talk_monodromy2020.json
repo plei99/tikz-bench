@@ -1,0 +1,23 @@
+{"okounkov_talk_monodromy2020": {"pdf": "sources/okounkov/talks/Monodromy2020.pdf",
+  "regions": [
+    {"page": 2, "bbox": [125, 368, 545, 525], "note": "path z in the plane avoiding singularities (crosses), with arrows marking the singularities"},
+    {"page": 3, "bbox": [175, 105, 470, 265], "note": "closed path gamma from a base point looping around singularities marked by crosses"},
+    {"page": 4, "bbox": [548, 195, 722, 326], "note": "loop gamma circling the point z counterclockwise"},
+    {"page": 13, "bbox": [5, 35, 775, 545], "note": "q->1 picture: dotted spirals of singularities of F_infinity and F_0 around 0, crosses for poles/zeros of A(z), labeled"},
+    {"page": 15, "bbox": [400, 306, 725, 603], "note": "rational curve C (sphere) meeting cycles alpha, beta, gamma dual"},
+    {"page": 16, "bbox": [0, 35, 415, 287], "note": "sheet with thick curve C crossed by cycles alpha, beta, gamma dual"},
+    {"page": 20, "bbox": [30, 45, 373, 458], "note": "curve in sheet X mapped by f to P^1 with points and q-rotation, a-action arrow"},
+    {"page": 22, "bbox": [20, 38, 306, 565], "note": "T*P^1 as blow-up: P^1 with cotangent fibers mapping down to the nilpotent cone"},
+    {"page": 23, "bbox": [65, 338, 296, 462], "note": "ADE organisms: D-type Dynkin diagram with cell-shaped nodes"},
+    {"page": 25, "bbox": [15, 198, 745, 480], "note": "interface in a 2+1d theory: time-slice ellipse with two vacua regions and cone/hyperboloid pictures; monodromy = crossing times turning strands"},
+    {"page": 28, "bbox": [30, 205, 488, 540], "note": "square in (z,a) plane with circled corners and pole lines of the z- and a-solutions"},
+    {"page": 29, "bbox": [125, 245, 575, 472], "note": "commutative square: monodromy between F_{z->0}, F_{z->inf} and pole subtraction matrices to F_{a->0}"},
+    {"page": 32, "bbox": [30, 68, 336, 475], "note": "X with fixed components X^a and attracting flow lines Attr"},
+    {"page": 34, "bbox": [30, 55, 468, 482], "note": "square in (z,a) plane with Stab and R-matrix arrows, X^a on edges, no curves inside"},
+    {"page": 34, "bbox": [500, 485, 700, 575], "note": "crossing strands = R-matrices"},
+    {"page": 35, "bbox": [296, 380, 545, 545], "note": "fan of cones for Pic_G with L1, L2"},
+    {"page": 37, "bbox": [232, 215, 632, 372], "note": "triangle diagram pi_1(Z minus sing) -> Aut D^b Coh X -> GL(H(X))"},
+    {"page": 39, "bbox": [80, 104, 470, 380], "note": "circle |z|=1 with singular points separating Hilb(C^2,n) and its flop, BK arrows"},
+    {"page": 39, "bbox": [492, 160, 750, 535], "note": "compact torus mapped to Pic(X) with hyperplane arrangement in a box, shaded alcove"},
+    {"page": 40, "bbox": [298, 150, 705, 310], "note": "square diagram D^b Coh X, D^b Coh X^A and quantization modules with BK, Stab, parabolic induction"}
+  ]}}

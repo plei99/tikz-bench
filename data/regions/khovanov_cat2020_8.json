@@ -1,0 +1,867 @@
+{
+ "khovanov_cat2020_8": {
+  "pdf": "sources/khovanov/cat2020_8_sl3_link_homology.pdf",
+  "regions": [
+   {
+    "page": 1,
+    "bbox": [
+     120,
+     360,
+     495,
+     408
+    ],
+    "note": "skein relation for U_q(sl3) invariant: crossings and oriented smoothing"
+   },
+   {
+    "page": 1,
+    "bbox": [
+     205,
+     592,
+     418,
+     655
+    ],
+    "note": "P of k disjoint circles with underbrace k equals [3]^k"
+   },
+   {
+    "page": 2,
+    "bbox": [
+     140,
+     278,
+     462,
+     340
+    ],
+    "note": "two types of oriented trivalent web vertices (sources and sinks)"
+   },
+   {
+    "page": 2,
+    "bbox": [
+     170,
+     390,
+     276,
+     474
+    ],
+    "note": "example web: two circles joined by an edge (theta-like web)"
+   },
+   {
+    "page": 2,
+    "bbox": [
+     346,
+     390,
+     436,
+     474
+    ],
+    "note": "example web: square web with inner square and diagonal edges"
+   },
+   {
+    "page": 2,
+    "bbox": [
+     138,
+     528,
+     478,
+     640
+    ],
+    "note": "resolving positive and negative crossings into oriented smoothing and webs"
+   },
+   {
+    "page": 2,
+    "bbox": [
+     75,
+     680,
+     210,
+     726
+    ],
+    "note": "web simplification (1): circle equals [3]"
+   },
+   {
+    "page": 3,
+    "bbox": [
+     70,
+     100,
+     205,
+     176
+    ],
+    "note": "web simplification (2): digon equals [2] times strand"
+   },
+   {
+    "page": 3,
+    "bbox": [
+     68,
+     180,
+     450,
+     266
+    ],
+    "note": "web simplification (3): square equals sum of two pairs of arcs"
+   },
+   {
+    "page": 3,
+    "bbox": [
+     140,
+     312,
+     452,
+     382
+    ],
+    "note": "circle, digon and square webs"
+   },
+   {
+    "page": 3,
+    "bbox": [
+     62,
+     485,
+     565,
+     725
+    ],
+    "note": "consistency check: tree of simplifications of a web with square and circle"
+   },
+   {
+    "page": 4,
+    "bbox": [
+     78,
+     346,
+     510,
+     438
+    ],
+    "note": "sink trivalent vertex bent to V tensor cube, containing Lambda^3 V = C"
+   },
+   {
+    "page": 4,
+    "bbox": [
+     78,
+     448,
+     510,
+     558
+    ],
+    "note": "source trivalent vertex bent to V* tensor cube, containing Lambda^3 V* = C"
+   },
+   {
+    "page": 5,
+    "bbox": [
+     224,
+     246,
+     388,
+     376
+    ],
+    "note": "web with boundary signed points top and bottom"
+   },
+   {
+    "page": 5,
+    "bbox": [
+     232,
+     428,
+     362,
+     522
+    ],
+    "note": "braiding of signed points epsilon, epsilon'"
+   },
+   {
+    "page": 5,
+    "bbox": [
+     255,
+     648,
+     340,
+     770
+    ],
+    "note": "elliptic web with hexagonal faces"
+   },
+   {
+    "page": 6,
+    "bbox": [
+     238,
+     174,
+     352,
+     238
+    ],
+    "note": "basis webs of Hom(++,++): two parallel strands and I-shaped web"
+   },
+   {
+    "page": 7,
+    "bbox": [
+     165,
+     278,
+     446,
+     380
+    ],
+    "note": "pair of pants surface S maps to F(S): A^{tensor k} -> A^{tensor l}"
+   },
+   {
+    "page": 7,
+    "bbox": [
+     183,
+     548,
+     424,
+     595
+    ],
+    "note": "maps between H(two arcs) and H(I-web) in both directions"
+   },
+   {
+    "page": 7,
+    "bbox": [
+     120,
+     645,
+     532,
+     725
+    ],
+    "note": "chain complex 0 -> H(arcs){-2} -> H(web){-3} -> 0 with homological degree 0"
+   },
+   {
+    "page": 8,
+    "bbox": [
+     120,
+     94,
+     555,
+     172
+    ],
+    "note": "chain complex 0 -> H(web){3} -> H(arcs){2} -> 0 with homological degree 0"
+   },
+   {
+    "page": 8,
+    "bbox": [
+     192,
+     386,
+     402,
+     442
+    ],
+    "note": "web with boundary and two arcs"
+   },
+   {
+    "page": 8,
+    "bbox": [
+     138,
+     505,
+     254,
+     625
+    ],
+    "note": "foam: two sheets merging with singular arc (zip)"
+   },
+   {
+    "page": 8,
+    "bbox": [
+     340,
+     505,
+     461,
+     625
+    ],
+    "note": "foam: sheets with singular arc (unzip)"
+   },
+   {
+    "page": 9,
+    "bbox": [
+     264,
+     108,
+     374,
+     262
+    ],
+    "note": "Y x I foam near singular locus"
+   },
+   {
+    "page": 9,
+    "bbox": [
+     228,
+     342,
+     374,
+     442
+    ],
+    "note": "oriented foam facet with boundary orientations"
+   },
+   {
+    "page": 9,
+    "bbox": [
+     152,
+     508,
+     266,
+     618
+    ],
+    "note": "foam generator: zip cobordism"
+   },
+   {
+    "page": 9,
+    "bbox": [
+     332,
+     508,
+     446,
+     618
+    ],
+    "note": "foam generator: unzip cobordism"
+   },
+   {
+    "page": 10,
+    "bbox": [
+     224,
+     224,
+     298,
+     293
+    ],
+    "note": "theta web"
+   },
+   {
+    "page": 10,
+    "bbox": [
+     116,
+     336,
+     505,
+     406
+    ],
+    "note": "merging a circle into each of the three edges of the theta web"
+   },
+   {
+    "page": 12,
+    "bbox": [
+     102,
+     440,
+     510,
+     582
+    ],
+    "note": "unit and trace foams between empty set and theta web (resp.)"
+   },
+   {
+    "page": 13,
+    "bbox": [
+     76,
+     84,
+     500,
+     154
+    ],
+    "note": "sheets with 0, 1, 2 dots labelled 1, x, x^2"
+   },
+   {
+    "page": 13,
+    "bbox": [
+     232,
+     210,
+     398,
+     276
+    ],
+    "note": "sheet with n>=3 dots equals 0"
+   },
+   {
+    "page": 13,
+    "bbox": [
+     262,
+     326,
+     344,
+     406
+    ],
+    "note": "unit foam with dots r, s, t on facets"
+   },
+   {
+    "page": 13,
+    "bbox": [
+     188,
+     464,
+     428,
+     582
+    ],
+    "note": "closing up theta foam with cap gives closed theta foam"
+   },
+   {
+    "page": 13,
+    "bbox": [
+     196,
+     624,
+     348,
+     722
+    ],
+    "note": "theta foam with dots 2,1 evaluates to 1"
+   },
+   {
+    "page": 14,
+    "bbox": [
+     188,
+     88,
+     442,
+     182
+    ],
+    "note": "theta foam with dots r,s evaluates to 0 unless r=2, s=1"
+   },
+   {
+    "page": 14,
+    "bbox": [
+     156,
+     255,
+     330,
+     335
+    ],
+    "note": "anti-symmetry: swapping dots on theta cup facets changes sign"
+   },
+   {
+    "page": 14,
+    "bbox": [
+     232,
+     390,
+     356,
+     456
+    ],
+    "note": "symmetric dot distribution on theta cup equals 0"
+   },
+   {
+    "page": 14,
+    "bbox": [
+     206,
+     600,
+     405,
+     680
+    ],
+    "note": "neck cutting: cylinder equals sum of cup and cap with dual basis dots"
+   },
+   {
+    "page": 15,
+    "bbox": [
+     170,
+     142,
+     450,
+     222
+    ],
+    "note": "neck cutting relation: cylinder = - sum of cup/cap pairs with dots"
+   },
+   {
+    "page": 15,
+    "bbox": [
+     85,
+     326,
+     384,
+     462
+    ],
+    "note": "foam near singular circle and surgery along purple circle"
+   },
+   {
+    "page": 15,
+    "bbox": [
+     72,
+     480,
+     222,
+     592
+    ],
+    "note": "(1) cutting out purple band around singular circle"
+   },
+   {
+    "page": 15,
+    "bbox": [
+     50,
+     628,
+     580,
+     726
+    ],
+    "note": "(2) pasting back patches: sum of three foams with dotted caps"
+   },
+   {
+    "page": 16,
+    "bbox": [
+     50,
+     94,
+     594,
+     186
+    ],
+    "note": "surgery result: theta bubble with dots and separate wall"
+   },
+   {
+    "page": 16,
+    "bbox": [
+     162,
+     308,
+     428,
+     390
+    ],
+    "note": "sum of theta bubble between two walls carrying dots"
+   },
+   {
+    "page": 17,
+    "bbox": [
+     210,
+     84,
+     348,
+     228
+    ],
+    "note": "foam from empty to theta with dots r, s, t between sheets"
+   },
+   {
+    "page": 17,
+    "bbox": [
+     112,
+     492,
+     478,
+     572
+    ],
+    "note": "linear combination of dotted theta cups in R(Gamma)"
+   },
+   {
+    "page": 18,
+    "bbox": [
+     242,
+     246,
+     356,
+     374
+    ],
+    "note": "stacked sheets S' and S with Gamma = empty"
+   },
+   {
+    "page": 18,
+    "bbox": [
+     268,
+     556,
+     344,
+     662
+    ],
+    "note": "foam from empty to circle with dot (vase shape)"
+   },
+   {
+    "page": 19,
+    "bbox": [
+     120,
+     88,
+     455,
+     200
+    ],
+    "note": "surgery on vase foam: sum of dotted cups and caps"
+   },
+   {
+    "page": 19,
+    "bbox": [
+     205,
+     278,
+     392,
+     326
+    ],
+    "note": "three cups with 0, 1, 2 dots"
+   },
+   {
+    "page": 19,
+    "bbox": [
+     134,
+     412,
+     488,
+     456
+    ],
+    "note": "H(circle) = Z<cup> + Z<dotted cup> + Z<2-dot cup>"
+   },
+   {
+    "page": 20,
+    "bbox": [
+     76,
+     152,
+     536,
+     254
+    ],
+    "note": "Lemma 2: cobordism decomposition of digon identity"
+   },
+   {
+    "page": 20,
+    "bbox": [
+     106,
+     400,
+     505,
+     554
+    ],
+    "note": "maps between a digon and a line (foams)"
+   },
+   {
+    "page": 20,
+    "bbox": [
+     166,
+     652,
+     442,
+     720
+    ],
+    "note": "boxed: H(digon) = H(strand){1} + H(strand){-1}"
+   },
+   {
+    "page": 21,
+    "bbox": [
+     148,
+     170,
+     450,
+     258
+    ],
+    "note": "square removal relation"
+   },
+   {
+    "page": 21,
+    "bbox": [
+     94,
+     292,
+     536,
+     380
+    ],
+    "note": "maps between two arcs, square web and two arcs"
+   },
+   {
+    "page": 21,
+    "bbox": [
+     166,
+     436,
+     442,
+     524
+    ],
+    "note": "square webs with singular points colored red/blue in pairs"
+   },
+   {
+    "page": 21,
+    "bbox": [
+     246,
+     540,
+     414,
+     734
+    ],
+    "note": "example foam from arcs to square web"
+   },
+   {
+    "page": 22,
+    "bbox": [
+     188,
+     128,
+     450,
+     204
+    ],
+    "note": "maps between square web and horizontal arcs"
+   },
+   {
+    "page": 22,
+    "bbox": [
+     144,
+     274,
+     482,
+     352
+    ],
+    "note": "boxed: H(square) = H(vertical arcs) + H(horizontal arcs)"
+   },
+   {
+    "page": 22,
+    "bbox": [
+     192,
+     462,
+     428,
+     528
+    ],
+    "note": "square web isomorphic to sum of two arc pairs"
+   },
+   {
+    "page": 23,
+    "bbox": [
+     60,
+     276,
+     580,
+     368
+    ],
+    "note": "complex for positive crossing with zip foam map"
+   },
+   {
+    "page": 23,
+    "bbox": [
+     60,
+     380,
+     580,
+     464
+    ],
+    "note": "complex for negative crossing with unzip foam map"
+   },
+   {
+    "page": 24,
+    "bbox": [
+     224,
+     192,
+     405,
+     294
+    ],
+    "note": "Hopf link diagram D"
+   },
+   {
+    "page": 24,
+    "bbox": [
+     178,
+     340,
+     450,
+     510
+    ],
+    "note": "complete resolution square of the Hopf link with maps alpha, beta, gamma, delta"
+   },
+   {
+    "page": 24,
+    "bbox": [
+     50,
+     551,
+     594,
+     630
+    ],
+    "note": "chain complex H(D) of the Hopf link"
+   },
+   {
+    "page": 25,
+    "bbox": [
+     206,
+     408,
+     436,
+     478
+    ],
+    "note": "RII moves with different orientations"
+   },
+   {
+    "page": 25,
+    "bbox": [
+     196,
+     520,
+     424,
+     686
+    ],
+    "note": "complete resolution of RII l.h.s."
+   },
+   {
+    "page": 26,
+    "bbox": [
+     94,
+     88,
+     528,
+     154
+    ],
+    "note": "total complex for RII"
+   },
+   {
+    "page": 26,
+    "bbox": [
+     134,
+     188,
+     518,
+     386
+    ],
+    "note": "web isomorphisms decomposing digon and square resolutions"
+   },
+   {
+    "page": 26,
+    "bbox": [
+     242,
+     650,
+     378,
+     722
+    ],
+    "note": "RIII move for chosen orientation"
+   },
+   {
+    "page": 27,
+    "bbox": [
+     66,
+     152,
+     546,
+     306
+    ],
+    "note": "total complex for RIII after complete resolution"
+   },
+   {
+    "page": 27,
+    "bbox": [
+     144,
+     648,
+     432,
+     720
+    ],
+    "note": "B^epsilon for epsilon=(++--): two non-elliptic webs a, b"
+   },
+   {
+    "page": 28,
+    "bbox": [
+     192,
+     192,
+     428,
+     262
+    ],
+    "note": "basic building block webs for B^epsilon"
+   },
+   {
+    "page": 28,
+    "bbox": [
+     50,
+     386,
+     580,
+     532
+    ],
+    "note": "W(b)a: reflecting web b and gluing to a to form closed web"
+   },
+   {
+    "page": 29,
+    "bbox": [
+     94,
+     88,
+     510,
+     272
+    ],
+    "note": "canonical cobordism W(d)c tensor W(b)a to W(d)a"
+   },
+   {
+    "page": 29,
+    "bbox": [
+     188,
+     368,
+     442,
+     626
+    ],
+    "note": "unit: canonical cobordism from empty to W(a)a"
+   },
+   {
+    "page": 30,
+    "bbox": [
+     54,
+     98,
+     580,
+     212
+    ],
+    "note": "tangle web T mapping to bimodule H(T)"
+   },
+   {
+    "page": 31,
+    "bbox": [
+     188,
+     530,
+     405,
+     725
+    ],
+    "note": "hexagonal non-elliptic web a with boundary signs"
+   },
+   {
+    "page": 32,
+    "bbox": [
+     76,
+     128,
+     536,
+     248
+    ],
+    "note": "canonical cobordism from hexagonal web a to web b"
+   },
+   {
+    "page": 32,
+    "bbox": [
+     144,
+     646,
+     432,
+     724
+    ],
+    "note": "B^epsilon' for epsilon'=(+-+-): webs a, b"
+   },
+   {
+    "page": 33,
+    "bbox": [
+     230,
+     424,
+     366,
+     520
+    ],
+    "note": "tangle T with signed endpoints"
+   },
+   {
+    "page": 33,
+    "bbox": [
+     226,
+     656,
+     366,
+     752
+    ],
+    "note": "inverse tangle T'"
+   },
+   {
+    "page": 34,
+    "bbox": [
+     170,
+     120,
+     410,
+     316
+    ],
+    "note": "H(T) o H(T') = H(T o T') = Id via tangle pictures"
+   }
+  ]
+ }
+}

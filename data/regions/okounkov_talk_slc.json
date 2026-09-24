@@ -1,0 +1,10 @@
+{"okounkov_talk_slc": {"pdf": "sources/okounkov/talks/slc.pdf", "regions": [
+{"page": 4, "bbox": [100, 175, 672, 362], "note": "kernel diagram: K(X) -> box 'a K-theory class on X x X' -> K(X)"},
+{"page": 16, "bbox": [180, 143, 780, 466], "note": "local curve: smooth curve C with line bundle arrows L_2, L_3 at its endpoints, labels 'C smooth'"},
+{"page": 17, "bbox": [40, 58, 705, 352], "note": "commutative square: D in coprod S^n C -> M = PT(X,[C]), vertical maps to 0 -> Sections of L_2+L_3 = Chow(X)"},
+{"page": 18, "bbox": [20, 180, 582, 505], "note": "curve C with four line bundle arrows L_2, L_3, L_4 q, L_5 q^-1 at one endpoint"},
+{"page": 22, "bbox": [5, 88, 830, 545], "note": "C_q^x-fixed curves in Z: sheets X_i, X_j with curves joined by vertical orbits (annotated 'orbits discarded in Chow(X) become equiv. variables'), yellow arrow to Chow(X) showing the two sheets; second pair X_i, X_j with one orbit 'gives Phi_ij in K(X_i x X_j)'"},
+{"page": 26, "bbox": [148, 100, 805, 374], "note": "diagram M2(Z) <-hook- M2(Z)^{C_q^x}, pi down to Chow(X) labelled 'semigroup'"},
+{"page": 29, "bbox": [110, 45, 815, 290], "note": "diagram M2(Z) -proper-> Chow(X) <-not proper, need (-q)^chi- DT(X)"},
+{"page": 31, "bbox": [130, 145, 782, 321], "note": "Z with arrows to X (C_q^x action) and X' (a different action)"}
+]}}

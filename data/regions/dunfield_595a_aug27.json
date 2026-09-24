@@ -1,0 +1,21 @@
+{"dunfield_595a_aug27": {"pdf": "sources/dunfield/595A_Aug27.pdf",
+  "regions": [
+    {"page": 1, "bbox": [354, 588, 576, 770], "note": "level curves of f(x,y) = (x^2-1)e^y forming the foliation F-tilde"},
+    {"page": 2, "bbox": [384, 36, 560, 183], "note": "Reeb foliation of an annulus"},
+    {"page": 2, "bbox": [388, 200, 592, 318], "note": "half-plane M = {y >= 0} foliated by horizontal leaves L = R x {y}, boundary a leaf"},
+    {"page": 2, "bbox": [110, 320, 366, 406], "note": "half-plane foliated by vertical leaves L = {x} x [0, inf) transverse to boundary"},
+    {"page": 2, "bbox": [280, 400, 478, 522], "note": "solid torus D^2 x S^1 foliated by meridian discs"},
+    {"page": 3, "bbox": [55, 117, 190, 226], "note": "Reeb foliation of annulus A drawn as a rectangle with identified ends"},
+    {"page": 3, "bbox": [285, 45, 566, 180], "note": "foliation of upper half-plane minus origin by curves, with marks -2..2 on axis"},
+    {"page": 3, "bbox": [325, 190, 546, 402], "note": "annulus in R^2 minus 0 with scaling map x -> 2x, fundamental domain"},
+    {"page": 3, "bbox": [96, 335, 295, 492], "note": "torus with foliation having two compact leaves and spiralling leaves"},
+    {"page": 4, "bbox": [40, 2, 278, 258], "note": "nested level surfaces of (r^2-1)e^z around the cylinder f = 0"},
+    {"page": 4, "bbox": [414, 5, 484, 108], "note": "solid cylinder M-tilde = {r <= 1}"},
+    {"page": 4, "bbox": [90, 280, 412, 447], "note": "Reeb foliation of the solid torus"},
+    {"page": 4, "bbox": [345, 472, 588, 594], "note": "half-ball foliated by nested caps on plane R^2 x [0, inf)"},
+    {"page": 5, "bbox": [226, 20, 582, 136], "note": "two solid tori glued interchanging meridian and longitude"},
+    {"page": 5, "bbox": [283, 160, 558, 292], "note": "two balls as boxes with tunnel removed and glued to other piece"},
+    {"page": 5, "bbox": [40, 278, 321, 475], "note": "ball drawn as box with tunnel, with 'glue' arrow to the other piece"},
+    {"page": 5, "bbox": [312, 262, 606, 587], "note": "second ball (box) glued into solid torus, forming S^3 as union of two solid tori"},
+    {"page": 6, "bbox": [24, 36, 460, 430], "note": "foliation of S^3 by two Reeb solid tori"}
+  ]}}

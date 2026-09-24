@@ -1,0 +1,16 @@
+{"dunfield_595b_lecture8": {"pdf": "sources/dunfield/595B_Lecture8.pdf",
+  "regions": [
+    {"page": 1, "bbox": [378, 190, 515, 302], "note": "cusped surface (ideal triangle) with cusp neighborhoods"},
+    {"page": 2, "bbox": [32, 108, 265, 254], "note": "OK: light cone cut by plane E through a face"},
+    {"page": 2, "bbox": [262, 96, 556, 306], "note": "Bad: plane tangent to light cone, arrow to disk with shaded ideal region at p"},
+    {"page": 2, "bbox": [448, 546, 584, 660], "note": "hyperboloid with triangle and barycentric point"},
+    {"page": 3, "bbox": [45, 163, 222, 352], "note": "Voronoi cells around points"},
+    {"page": 3, "bbox": [294, 172, 412, 352], "note": "Delaunay triangulation"},
+    {"page": 3, "bbox": [48, 488, 584, 728], "note": "horoballs of various sizes along a line, Ford domain"},
+    {"page": 4, "bbox": [16, 32, 222, 166], "note": "ideal triangle with horocycles and parabolic stabilizers"},
+    {"page": 4, "bbox": [248, 160, 560, 334], "note": "upper half-plane semicircles with shaded Ford domain strip"},
+    {"page": 4, "bbox": [294, 395, 572, 538], "note": "plane over dome: equidistant set"},
+    {"page": 5, "bbox": [36, 30, 540, 252], "note": "disk with horoballs -> light cone picture with folded triangles"},
+    {"page": 5, "bbox": [342, 449, 532, 501], "note": "diagonal flip: square with one diagonal -> square with other diagonal"},
+    {"page": 5, "bbox": [76, 502, 372, 678], "note": "light cone with tetrahedron of vectors (fold)"}
+  ]}}

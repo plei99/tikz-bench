@@ -1,0 +1,12 @@
+{"summer2020_lecture18": {"pdf": "sources/okounkov/summer2020/lecture18.pdf", "regions": [
+{"page": 1, "bbox": [42, 198, 242, 302], "note": "framed quiver Q with loops at v1, arrows v1->v2->v3 and framing squares w1,w2,w3"},
+{"page": 1, "bbox": [224, 275, 392, 402], "note": "= quiver with extra vertex v0=1 and w1 arrows from v0 to v1"},
+{"page": 2, "bbox": [50, 125, 150, 198], "note": "small double cone with fixed point labelled t^-1"},
+{"page": 2, "bbox": [220, 190, 378, 316], "note": "double cone with point R, tangent weights a^-1 h^-1 and a h^-1"},
+{"page": 2, "bbox": [80, 335, 410, 486], "note": "loop t1 at vertex means chain a1 -> a1 t1^-1 -> ... -> a1 t1^(1-n), arrows from a1 and down to a2, w=2"},
+{"page": 4, "bbox": [275, 40, 405, 142], "note": "axes with -a-h and 0 directions, orange Stab_ curve"},
+{"page": 4, "bbox": [410, 40, 560, 140], "note": "axes with -a-h and 0 directions, blue Stab_+ curve"},
+{"page": 4, "bbox": [58, 155, 245, 218], "note": "C^2 (x) C^2 <-> H*(TG(2)) with maps Stab_ and Stab_+^T"},
+{"page": 4, "bbox": [285, 148, 478, 218], "note": "C^2 (x) C^2 <-> H*(TG(2)) with maps Stab_^T and Stab_+"},
+{"page": 5, "bbox": [380, 450, 612, 566], "note": "box with divisor curves alpha, beta, gamma and rational curve C, labelled rational curve of some degree"}
+]}}

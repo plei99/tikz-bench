@@ -1,0 +1,22 @@
+{"auroux_253y18_7": {"pdf": "sources/auroux/253y18_7.pdf",
+  "regions": [
+    {"page": 1, "bbox": [95, 118, 212, 192], "note": "1-parameter family of moduli spaces between t=0 and t=1 with a strand escaping (?)"},
+    {"page": 1, "bbox": [396, 348, 520, 414], "note": "stable map domain: nodal Riemann surface with sphere bubbles and marked points"},
+    {"page": 1, "bbox": [26, 527, 136, 604], "note": "image u_n(S^2): hyperbola-like curve near the coordinate axes"},
+    {"page": 2, "bbox": [18, 84, 99, 176], "note": "bubble tree: surface with a tree of sphere bubbles attached"},
+    {"page": 2, "bbox": [296, 496, 360, 548], "note": "sphere with three marked points 0, 1, infinity"},
+    {"page": 2, "bbox": [228, 522, 472, 600], "note": "sphere with marked points z_1=0, z_2=1, z_3=inf, z_4; as z_4 -> z_i limit is two-sphere bubble tree"},
+    {"page": 2, "bbox": [450, 604, 594, 720], "note": "domain rescaling: sphere with z_4 near z_i is equivalent to a sphere with a bubble containing z_4, z_i"},
+    {"page": 2, "bbox": [238, 632, 303, 671], "note": "stratum of M_{0,5}bar: two spheres joined at a node with marked points"},
+    {"page": 2, "bbox": [318, 630, 386, 688], "note": "stratum of M_{0,5}bar: chain of three spheres with marked points"},
+    {"page": 2, "bbox": [178, 690, 300, 745], "note": "M_{1,1}bar: torus C/(Z+tau Z) with a marked point and nodal torus"},
+    {"page": 3, "bbox": [100, 8, 250, 46], "note": "A_3 = {disc with three boundary marked points} = pt"},
+    {"page": 3, "bbox": [298, 8, 538, 94], "note": "associahedron A_4: interval with disc configurations at the ends and middle"},
+    {"page": 3, "bbox": [86, 43, 348, 214], "note": "associahedron A_5: pentagon with arrows to nodal disc configurations"},
+    {"page": 3, "bbox": [420, 116, 612, 182], "note": "faces of A_6: square for one disc tree, pentagon for another"},
+    {"page": 3, "bbox": [424, 326, 580, 396], "note": "stabilization: tree of spheres with marked points collapsing unstable components"},
+    {"page": 4, "bbox": [545, 324, 592, 372], "note": "disc with three marked points 1, 2, 3 and cycles C_1, C_2"},
+    {"page": 4, "bbox": [365, 568, 447, 610], "note": "sphere with inputs alpha_1*alpha_2, alpha_3, alpha_4"},
+    {"page": 4, "bbox": [480, 570, 573, 611], "note": "two bubbled spheres with marked points alpha_1, alpha_2 | alpha_3, alpha_4"},
+    {"page": 4, "bbox": [188, 683, 292, 748], "note": "z_inf and z_0: two-sphere nodal configurations with points 1,2 | 3,4 and 1,4 | 2,3"}
+  ]}}

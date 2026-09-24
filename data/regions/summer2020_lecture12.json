@@ -1,0 +1,19 @@
+{"summer2020_lecture12": {"pdf": "sources/okounkov/summer2020/lecture12.pdf", "regions": [
+{"page": 1, "bbox": [446, 226, 606, 284], "note": "A_{n-1} quiver: chain of nodes with brace n-1 nodes"},
+{"page": 1, "bbox": [64, 594, 152, 708], "note": "tall n x k rectangle (matrix of rank k)"},
+{"page": 1, "bbox": [380, 618, 448, 722], "note": "n x k grid with orange 1s in a staircase (coordinate subspace)"},
+{"page": 2, "bbox": [390, 40, 452, 164], "note": "n x k grid with orange 1s and green stars (Schubert cell Attr(p))"},
+{"page": 2, "bbox": [42, 116, 124, 230], "note": "n x k grid with 1s and green stars, row labels 1, 4, 5"},
+{"page": 2, "bbox": [134, 138, 218, 240], "note": "grid with hatched complementary partition, n-k, k, lambda^c"},
+{"page": 2, "bbox": [270, 222, 350, 272], "note": "(n-k) x k rectangle with hatched corner cell"},
+{"page": 3, "bbox": [190, 106, 366, 246], "note": "points a1..al on line with d-l zeros at infinity, degenerating (hbar -> infinity) to points a1, a2, ..., b_{d-1}, b_d"},
+{"page": 4, "bbox": [172, 490, 364, 590], "note": "diagram mu_G^{-1}(0)/H -> mu_H^{-1}(0)/H, down to mu_G^{-1}(0)/G"},
+{"page": 5, "bbox": [452, 42, 612, 180], "note": "axes s vs a, hbar with lines s = a_i^{-1} and s = a_i^{-1} hbar^{-1} for the flop"},
+{"page": 5, "bbox": [66, 200, 150, 310], "note": "curve C from p1 to p2 with weight w > 0 arrow"},
+{"page": 5, "bbox": [70, 376, 218, 502], "note": "three lines 1, 2, 3 with hatched region and vanishing point"},
+{"page": 5, "bbox": [248, 362, 368, 492], "note": "three lines 1, 2, 3 with hatched region and vanishing point (flop)"},
+{"page": 5, "bbox": [62, 566, 200, 712], "note": "smooth genus 1 curve with point at infinity"},
+{"page": 5, "bbox": [248, 550, 364, 676], "note": "nodal curve (equivariant K-theory)"},
+{"page": 5, "bbox": [380, 545, 520, 672], "note": "cuspidal curve (equivariant cohomology)"},
+{"page": 6, "bbox": [30, 100, 276, 228], "note": "lines through origin in (s, a hbar) plane crossing fixed points a1..a_{k-1} and a_k hbar.. a_n hbar (flop)"}
+]}}

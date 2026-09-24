@@ -1,0 +1,17 @@
+{"okounkov_talk_slc3": {"pdf": "sources/okounkov/talks/slc3.pdf",
+  "regions": [
+    {"page": 3, "bbox": [38, 119, 362, 292], "note": "framed quiver with three gauge vertices V1,V2,V3, framing squares W1,W2,W3, arrows and a loop"},
+    {"page": 5, "bbox": [288, 225, 538, 425], "note": "crossing curved arrows from F1 (x) F2 to F2 (x) F1 labelled by the R-matrix R_{V1,V2}"},
+    {"page": 6, "bbox": [205, 340, 575, 500], "note": "crossing arrows from F1(a1) (x) F2(a2) to F2(a2) (x) F1(a1), the R-matrix with spectral parameters"},
+    {"page": 7, "bbox": [278, 312, 540, 508], "note": "R-matrix picture: F0 (x) _ mapped to _ (x) F0 by crossing arrows labelled R"},
+    {"page": 8, "bbox": [45, 182, 815, 375], "note": "diagram M(w) x M(w') --Stab+--> M(w+w') <--Stab-- M(w') x M(w) with curved arrow R"},
+    {"page": 11, "bbox": [22, 35, 340, 400], "note": "Lie A box with green weight hyperplanes, hatched chamber, cocharacter sigma, labelled A-weights in N_{X/X^A}"},
+    {"page": 12, "bbox": [42, 52, 318, 310], "note": "stacked parallelogram sheets Y_i, Y_j with a flow line from x through a point up to f"},
+    {"page": 13, "bbox": [25, 25, 442, 305], "note": "periodic hyperplane arrangement in Pic(X) (x) R with hatched alcove and Pic(X) lattice label"},
+    {"page": 15, "bbox": [488, 296, 805, 585], "note": "box with three lines through origin forming chambers C and C' with arrow between them"},
+    {"page": 19, "bbox": [65, 108, 305, 320], "note": "hyperplane arrangement with highlighted wall between alcoves L and L'"},
+    {"page": 20, "bbox": [158, 165, 780, 562], "note": "plane with axes v in Z^I and Z=(C_q^x)^, lattice points alpha, 2alpha, k, -k and a sloped wall line with marked points"},
+    {"page": 23, "bbox": [22, 78, 350, 352], "note": "lattice of roots in (n,m) plane coloured yellow/cyan, separated by a green diagonal line"},
+    {"page": 26, "bbox": [375, 378, 606, 585], "note": "axes x and a with O(1) label and cyan lines x=a and x=1, the P^1 curve"},
+    {"page": 29, "bbox": [360, 305, 785, 485], "note": "torus C*/q^Z degenerating (arrow) into a nodal curve as q -> 0"}
+  ]}}

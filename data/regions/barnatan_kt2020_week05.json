@@ -1,0 +1,23 @@
+{"barnatan_kt2020_week05": {"pdf": "sources/barnatan/20-1350-KnotTheoryWeek05.pdf",
+  "regions": [
+    {"page": 1, "bbox": [48, 440, 478, 542], "note": "lk(Hopf link with +,+ crossings) = 1/2(1+1) = 1"},
+    {"page": 2, "bbox": [387, 390, 563, 540], "note": "framed knot: knot diagram with green normal vectors"},
+    {"page": 2, "bbox": [100, 645, 550, 757], "note": "framed crossing -> blackboard-framed crossings with hatch marks"},
+    {"page": 6, "bbox": [85, 495, 225, 673], "note": "2-singular figure-eight knot and its chord diagram 1122"},
+    {"page": 6, "bbox": [265, 505, 525, 610], "note": "2-singular knot and its chord diagram 1212"},
+    {"page": 6, "bbox": [80, 685, 456, 785], "note": "chord diagram -> singular knot realizing it"},
+    {"page": 7, "bbox": [15, 495, 360, 603], "note": "FI: chord diagram with isolated chord mapped by W_V to 0"},
+    {"page": 7, "bbox": [45, 620, 580, 770], "note": "singular knot with isolated double point -> V(..) - V(..) = 0"},
+    {"page": 8, "bbox": [80, 3, 611, 150], "note": "4T for singular knots: V(three strands) - V(...) = 0 with numbered strands"},
+    {"page": 8, "bbox": [35, 162, 602, 312], "note": "four-term (4T) relation on circle chord diagrams"},
+    {"page": 9, "bbox": [318, 452, 596, 532], "note": "long knot on a line, labelled 'long knots'"},
+    {"page": 9, "bbox": [225, 585, 585, 675], "note": "connected sum of long knots K1 # K2 = K1K2 = K2K1 (boxes on lines)"},
+    {"page": 10, "bbox": [85, 128, 275, 200], "note": "associativity square for m on A(x)A(x)A"},
+    {"page": 10, "bbox": [95, 218, 265, 300], "note": "commutativity triangle for m with sigma"},
+    {"page": 10, "bbox": [335, 128, 520, 222], "note": "co-associativity square for Delta"},
+    {"page": 10, "bbox": [310, 326, 592, 410], "note": "FI chord diagram on a line = 0; A(line) as span of chord diagrams mod 4T"},
+    {"page": 10, "bbox": [3, 428, 556, 478], "note": "4T relation on linear chord diagrams (red/green chords)"},
+    {"page": 10, "bbox": [68, 540, 556, 644], "note": "circle chord diagram and linear chord diagram on an arrowed line"},
+    {"page": 10, "bbox": [108, 645, 495, 765], "note": "linear chord diagram with hooks and signs"},
+    {"page": 11, "bbox": [75, 262, 600, 318], "note": "product of linear chord diagrams # = concatenated diagram (boxed)"}
+  ]}}

@@ -1,0 +1,16 @@
+{"dunfield_595a_oct11": {"pdf": "sources/dunfield/595A_Oct11.pdf",
+  "regions": [
+    {"page": 1, "bbox": [358, 372, 605, 508], "note": "surface times Cantor set K = {0} u {1/n} lamination"},
+    {"page": 1, "bbox": [22, 594, 334, 744], "note": "train track on genus-2 surface with weights"},
+    {"page": 1, "bbox": [396, 722, 600, 792], "note": "train track switch with weights a + b = c"},
+    {"page": 2, "bbox": [30, 24, 384, 224], "note": "closed curve carried by train track on genus-2 surface"},
+    {"page": 2, "bbox": [380, 48, 560, 292], "note": "train track switch and its tie neighbourhood N(tau)"},
+    {"page": 2, "bbox": [30, 336, 168, 450], "note": "annulus train track with weights a + b = b (no full support)"},
+    {"page": 2, "bbox": [60, 476, 578, 664], "note": "blowing up a train track switch into a lamination segment x K"},
+    {"page": 3, "bbox": [28, 116, 594, 262], "note": "surface M with S' cut open to M \\\\ S, with N(S')"},
+    {"page": 3, "bbox": [24, 316, 252, 405], "note": "annulus A with lamination Lambda = boundary u leaf L"},
+    {"page": 3, "bbox": [12, 605, 558, 752], "note": "Denjoy blowup: foliation F with leaf L_0 blown up into a lamination"},
+    {"page": 4, "bbox": [334, 305, 580, 356], "note": "complementary region R with ideal monogon"},
+    {"page": 4, "bbox": [130, 610, 300, 748], "note": "closed transversal gamma crossing leaves"},
+    {"page": 5, "bbox": [130, 277, 556, 608], "note": "universal circle: disk with geodesic lamination, times R"}
+  ]}}

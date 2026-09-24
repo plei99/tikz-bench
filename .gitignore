@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+# Source PDFs; re-download with scripts/download_sources.py
+sources/
+
+# Rendered crops (~180 MB); regenerate with scripts/build.py
+data/images/

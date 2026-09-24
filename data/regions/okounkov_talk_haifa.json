@@ -1,0 +1,18 @@
+{"okounkov_talk_haifa": {"pdf": "sources/okounkov/talks/haifa.pdf",
+  "regions": [
+    {"page": 2, "bbox": [62, 65, 240, 220], "note": "A2 root system: six arrows from a point"},
+    {"page": 2, "bbox": [310, 62, 472, 224], "note": "B2 root system: eight arrows (long and short roots)"},
+    {"page": 2, "bbox": [580, 64, 758, 220], "note": "G2 root system: twelve arrows"},
+    {"page": 3, "bbox": [5, 75, 381, 530], "note": "roots alpha, beta and the reflection of beta across the hyperplane orthogonal to alpha"},
+    {"page": 4, "bbox": [30, 135, 572, 548], "note": "nested ellipses: root systems inside finite reflection groups inside discrete reflection groups"},
+    {"page": 5, "bbox": [80, 108, 768, 335], "note": "two B2/C2 root systems (long/short roots swapped) linked by a duality double arrow"},
+    {"page": 7, "bbox": [10, 90, 718, 418], "note": "B2 root system inside its affine hyperplane arrangement (x,alpha) in Z"},
+    {"page": 21, "bbox": [85, 216, 632, 431], "note": "diagram: A -> Deformations(X), root subtori -> Discriminant, with inclusion arrows"},
+    {"page": 22, "bbox": [95, 162, 592, 380], "note": "diagram: A -> Aut(X,omega), root subtori -> {a | X^a != X^A}, with inclusion arrows"},
+    {"page": 24, "bbox": [120, 198, 445, 518], "note": "non-reflection-invariant line arrangement: horizontal, vertical and diagonal lines"},
+    {"page": 31, "bbox": [88, 82, 472, 498], "note": "spacetime picture: space B surface with time axis, particle worldlines, boundary cylinder dB with boundary conditions"},
+    {"page": 32, "bbox": [82, 140, 730, 320], "note": "holomorphic map f from a surface with marked points to the vacua space X"},
+    {"page": 33, "bbox": [95, 228, 715, 405], "note": "B = C square with q-rotation mapped by f to singular space X with Aut(X) action"},
+    {"page": 35, "bbox": [28, 250, 832, 574], "note": "3d mirror symmetry: line arrangements and root marks on lines swapped by crossing arrows between X and X^vee"},
+    {"page": 38, "bbox": [28, 32, 715, 328], "note": "spacetime B with boundary cylinder mapped by f to X with dual component X^vee"}
+  ]}}

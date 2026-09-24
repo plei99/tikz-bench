@@ -1,0 +1,19 @@
+{"summer2020_lecture22": {"pdf": "sources/okounkov/summer2020/lecture22.pdf", "regions": [
+{"page": 1, "bbox": [55, 128, 572, 302], "note": "{curve C --f--> Hilb(C^2,n)} = {subscheme in C^2 x C flat over curve C, pi}"},
+{"page": 1, "bbox": [420, 356, 555, 402], "note": "circle with flow arrows, C = P^1"},
+{"page": 2, "bbox": [317, 434, 520, 504], "note": "line with points b, a and Jordan block boxes"},
+{"page": 2, "bbox": [70, 563, 300, 702], "note": "PT: grid of boxes in x0,x1 plane with Coker s boxes"},
+{"page": 2, "bbox": [320, 552, 585, 740], "note": "DT: grid of boxes with x0-torsion column, mult by x0, x1"},
+{"page": 3, "bbox": [68, 128, 582, 295], "note": "four 3D box piles: PT with axes x1,x2; ker(s) with x0,x1,x2 infinite; x0-torsion; slices"},
+{"page": 4, "bbox": [78, 98, 525, 158], "note": "QM{curve with p1..pn --f--> X} --ev--> (f(p1),...) in X^n"},
+{"page": 4, "bbox": [235, 155, 590, 262], "note": "(P_Aut over curve with p1..pn, f(p1)..f(pn)) in Bun x X^n"},
+{"page": 4, "bbox": [58, 258, 280, 338], "note": "curve with P_Aut, p1..pn ~ nodal curve with P', P''"},
+{"page": 4, "bbox": [350, 400, 600, 612], "note": "family of curves C_t with base pts, marked pt p, t axis"},
+{"page": 4, "bbox": [70, 570, 232, 716], "note": "t = t_bad fiber with base pts and marked pt curves"},
+{"page": 4, "bbox": [255, 630, 590, 740], "note": "old curve with bubble chain, base pts, new home of p"},
+{"page": 5, "bbox": [286, 248, 600, 374], "note": "3D box pile twisted through bubbles C*"},
+{"page": 5, "bbox": [70, 603, 310, 688], "note": "QM(crossing lines) = ?"},
+{"page": 6, "bbox": [88, 100, 465, 190], "note": "vs: separated lines p1,p2 and accordion lines"},
+{"page": 6, "bbox": [98, 262, 398, 324], "note": "crossing = <lines with p1,p2, Glue^-1>"},
+{"page": 6, "bbox": [428, 266, 560, 335], "note": "Glue = zigzag accordion /(C*)^5"}
+]}}

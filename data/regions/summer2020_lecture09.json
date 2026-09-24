@@ -1,0 +1,16 @@
+{"summer2020_lecture09": {"pdf": "sources/okounkov/summer2020/lecture09.pdf", "regions": [
+{"page": 1, "bbox": [385, 150, 605, 312], "note": "phase diagram: box in Lie A with lines through X^A, attracting/repelling directions"},
+{"page": 1, "bbox": [62, 273, 225, 372], "note": "fixed component F1 with point f and attracting trajectories from x"},
+{"page": 1, "bbox": [95, 390, 228, 494], "note": "components F2, F3 joined by orange CP^1 trajectory"},
+{"page": 1, "bbox": [265, 384, 505, 488], "note": "cylinder CP^1 = C with C* rotation and purple coordinate curve"},
+{"page": 1, "bbox": [64, 492, 158, 574], "note": "F3 corner with orange, yellow and green attracting flows"},
+{"page": 1, "bbox": [60, 610, 205, 720], "note": "F2, F3 with orange CP^1 trajectories and green flows"},
+{"page": 2, "bbox": [40, 303, 228, 492], "note": "F2, F3, F4 with attracting flows; brace: remove this to get X3"},
+{"page": 2, "bbox": [55, 548, 159, 667], "note": "hexagon (3 rhombi) p1, p2, p3 = E^2 = Ell_A(pt) for T*P^2"},
+{"page": 2, "bbox": [160, 612, 245, 692], "note": "triangle with vertices p1, p2, p3 and orange arrows"},
+{"page": 3, "bbox": [155, 255, 382, 367], "note": "surface Z with divisor Z' and section of L"},
+{"page": 3, "bbox": [38, 588, 548, 750], "note": "0 -> functions on Ell_A(p3) -> O_Ell(X4) -> restr O_Ell(X3) -> 0 with rhombus/hexagon pictures"},
+{"page": 4, "bbox": [410, 498, 494, 582], "note": "square E x E with green diagonal and point a"},
+{"page": 4, "bbox": [210, 596, 372, 700], "note": "square E x E with projections p1, p2 and L1, L2 arrows"},
+{"page": 5, "bbox": [368, 600, 467, 718], "note": "rhombus polytope V with fixed point on line Y"}
+]}}

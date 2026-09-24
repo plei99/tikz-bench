@@ -1,0 +1,11 @@
+{"summer2020_lecture31": {"pdf": "sources/okounkov/summer2020/lecture31.pdf", "regions": [
+{"page": 1, "bbox": [235, 272, 582, 510], "note": "diamond diagram Z, Z_st, Y=mu^-1(0), Y_st, X with push-forward/pull back labels"},
+{"page": 1, "bbox": [330, 572, 570, 722], "note": "Z_st -> Z, Ell(Z_st) -> Ell(Z), crossed lines -> boxed crossed lines (interpolate)"},
+{"page": 2, "bbox": [185, 60, 465, 170], "note": "Z\\Y -> Z, Ell(Z\\Y) -> Ell(Z), crossed lines -> boxed crossing (wheel conditions)"},
+{"page": 2, "bbox": [365, 265, 470, 305], "note": "two 3-box Young diagrams"},
+{"page": 3, "bbox": [145, 572, 430, 688], "note": "Riemann surface of genus 3 with relative alpha marked point"},
+{"page": 4, "bbox": [98, 176, 520, 276], "note": "curve with marked point = curve glued to bubble (Gluing, apply the theorem)"},
+{"page": 5, "bbox": [188, 598, 595, 742], "note": "z=0 crossing lines (fixed pts) vs z!=0 perturbed curves (Bethe equations)"},
+{"page": 6, "bbox": [300, 260, 530, 360], "note": "Stab/Delta vertex-edge pictogram = chain with wavy edges and crosses"},
+{"page": 7, "bbox": [62, 205, 372, 448], "note": "box pile, stacked cubes x1..x4, strands crossing thick arrow to vacuum (Fock R-matrix)"}
+]}}

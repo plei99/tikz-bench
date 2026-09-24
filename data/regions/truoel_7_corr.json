@@ -1,0 +1,20 @@
+{"truoel_7_corr": {"pdf": "sources/truoel/3-mfds_Lecture_7_corr.pdf",
+  "regions": [
+    {"page": 1, "bbox": [110, 340, 590, 425], "note": "three tori with simple closed curves mu, lambda and -mu+lambda"},
+    {"page": 2, "bbox": [430, 514, 594, 570], "note": "sanity check: torus with meridian mu_2 mapped to torus with longitude lambda_1"},
+    {"page": 2, "bbox": [190, 646, 380, 734], "note": "solid tori V_1 and V_2 with curves for p=3, q=2"},
+    {"page": 2, "bbox": [442, 640, 578, 730], "note": "square torus grid with line of slope p/q"},
+    {"page": 2, "bbox": [250, 738, 470, 842], "note": "genus 1 Heegaard diagram for L(3,2): pair of disks with winding curve"},
+    {"page": 3, "bbox": [250, 15, 470, 145], "note": "Heegaard diagram for lens space L(p,q): pair of disks connected by bands with p-q and q strands"},
+    {"page": 4, "bbox": [100, 190, 190, 250], "note": "unknot diagrams"},
+    {"page": 4, "bbox": [228, 190, 300, 250], "note": "trefoil knot"},
+    {"page": 4, "bbox": [368, 190, 430, 252], "note": "figure-8 knot"},
+    {"page": 4, "bbox": [100, 280, 160, 325], "note": "unlink of two components"},
+    {"page": 4, "bbox": [228, 270, 280, 330], "note": "Hopf link"},
+    {"page": 4, "bbox": [375, 255, 545, 375], "note": "Borromean rings, two diagrams"},
+    {"page": 4, "bbox": [232, 392, 410, 442], "note": "wild knot with infinitely many shrinking knotted pieces"},
+    {"page": 5, "bbox": [99, 580, 185, 643], "note": "negative Hopf link with components K, J oriented"},
+    {"page": 5, "bbox": [225, 580, 305, 643], "note": "positive Hopf link with components K, J oriented"},
+    {"page": 6, "bbox": [382, 202, 522, 265], "note": "crossing signs +1 and -1 for J passing under K"},
+    {"page": 6, "bbox": [185, 333, 297, 423], "note": "link diagram of K and J with two crossings, linking number +2"}
+  ]}}

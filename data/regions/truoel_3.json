@@ -1,0 +1,23 @@
+{"truoel_3": {"pdf": "sources/truoel/3-mfds_Lecture_3.pdf",
+  "regions": [
+    {"page": 1, "bbox": [166, 99, 588, 290], "note": "3-dim 1-handle attached to boundary of M^3, with core, cocore, attaching and belt sphere labels"},
+    {"page": 3, "bbox": [126, 56, 261, 112], "note": "collar example: annulus with collar mapped to disk"},
+    {"page": 3, "bbox": [375, 54, 558, 108], "note": "collar example: cylinder with collar embedded into surface"},
+    {"page": 3, "bbox": [18, 189, 385, 318], "note": "schematic of diffeo M_0 -> M_1 via handles attached to collar dM x I, with maps H_0, H_1, id"},
+    {"page": 4, "bbox": [322, 480, 408, 560], "note": "graph of x1^2+x2^2 (index 0 critical point)"},
+    {"page": 4, "bbox": [308, 574, 495, 650], "note": "graph of x1^2-x2^2 (index 1 saddle)"},
+    {"page": 4, "bbox": [298, 658, 512, 735], "note": "graph of -x1^2+x2^2 near index 2 critical point, two views"},
+    {"page": 5, "bbox": [70, 53, 390, 182], "note": "torus with height function and index 0,1,2 critical points"},
+    {"page": 5, "bbox": [22, 180, 535, 279], "note": "handle decomposition of torus: 0-handle with 1-handles union 2-handle"},
+    {"page": 5, "bbox": [288, 286, 441, 351], "note": "small picture: surface with 1-handles union 2-handle"},
+    {"page": 6, "bbox": [121, 305, 243, 382], "note": "transverse intersection of a line and a plane in 3-space"},
+    {"page": 6, "bbox": [166, 405, 274, 499], "note": "transverse intersection of two planes in 3-space"},
+    {"page": 7, "bbox": [7, 52, 558, 502], "note": "handles h_k, h_l on dM^3 moved by ambient isotopies so A_l' misses B_k"},
+    {"page": 8, "bbox": [124, 40, 332, 118], "note": "1-handle and 2-handle cancel to a disk (n=2)"},
+    {"page": 8, "bbox": [168, 166, 326, 275], "note": "2-handle attached over 1-handle on dM^3 with belt sphere B_1"},
+    {"page": 8, "bbox": [90, 306, 386, 432], "note": "cancelling 1- and 2-handle on dM^3, diffeomorphic to dM^3"},
+    {"page": 8, "bbox": [333, 380, 452, 500], "note": "better picture of cancelling handle pair as a 3D box/arch"},
+    {"page": 9, "bbox": [99, 211, 364, 288], "note": "dual handle decomposition: square with core/cocore swapped"},
+    {"page": 9, "bbox": [80, 598, 410, 682], "note": "three 0-handles (balls) connected by 1-handles"},
+    {"page": 9, "bbox": [415, 672, 572, 718], "note": "cancelling 0-handle and 1-handle pair"}
+  ]}}

@@ -1,0 +1,12 @@
+{"summer2020_lecture07": {"pdf": "sources/okounkov/summer2020/lecture07.pdf", "regions": [
+{"page": 1, "bbox": [405, 538, 578, 670], "note": "plot: E axis with s, lines s=v_i^-1 over base Ell_G(pt)"},
+{"page": 2, "bbox": [78, 128, 250, 260], "note": "plot: E axis with s, lines s=v_i^-1 over base Ell_G(X)"},
+{"page": 2, "bbox": [55, 254, 224, 362], "note": "P(v) and P(v+O_x) cones over X with collapse arrow"},
+{"page": 2, "bbox": [226, 244, 352, 362], "note": "green hatched tubular neighborhood around curve X"},
+{"page": 2, "bbox": [80, 380, 258, 504], "note": "plot: E axis, lines s=v_i^-1 and s=1 over Ell_G(pt)"},
+{"page": 3, "bbox": [188, 596, 308, 708], "note": "Sigma^1 X: orange cylinder over X with fiber at x0"},
+{"page": 3, "bbox": [355, 545, 458, 716], "note": "suspension of X as double cone with apices CX"},
+{"page": 4, "bbox": [26, 126, 160, 220], "note": "diagram 0->Ker->C^N->V->0 with maps down to X"},
+{"page": 5, "bbox": [125, 172, 396, 322], "note": "X included in blue box V_Y with hatched normal arc, projection down to Y"},
+{"page": 6, "bbox": [180, 636, 385, 752], "note": "commutative square Ell_H(X)->Ell_G(X) over Ell_H(pt)->Ell_G(pt), pullback"}
+]}}

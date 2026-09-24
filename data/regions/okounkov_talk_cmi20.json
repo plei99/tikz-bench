@@ -1,0 +1,17 @@
+{"okounkov_talk_cmi20": {"pdf": "sources/okounkov/talks/CMI20.pdf",
+  "regions": [
+    {"page": 7, "bbox": [25, 288, 792, 495], "note": "Verma module chain |lambda>, |lambda+2>, ... with e/f arrows and coefficients"},
+    {"page": 8, "bbox": [30, 85, 826, 400], "note": "Verma module chain with vanishing f matrix element, boxed irreducible submodule and braced quotient"},
+    {"page": 9, "bbox": [12, 92, 838, 262], "note": "char p Verma module: dotted weight chain with crossed arrows at k=3,7,10,14 and nested submodule brackets"},
+    {"page": 11, "bbox": [45, 70, 728, 280], "note": "Verma chain with reflection arc s(lambda)=-lambda"},
+    {"page": 11, "bbox": [35, 424, 790, 585], "note": "dotted chain with mirrors at |0>, |p>, |2p> (affine Weyl/Hecke)"},
+    {"page": 12, "bbox": [505, 185, 815, 498], "note": "three reflection hyperplanes for sl3 with loop s_i"},
+    {"page": 13, "bbox": [668, 152, 782, 246], "note": "small loop around a hyperplane (monodromy s_i)"},
+    {"page": 16, "bbox": [58, 275, 790, 399], "note": "row of dots with circled poles for k=1-c, pole bracket (char 0)"},
+    {"page": 16, "bbox": [58, 428, 772, 565], "note": "row of dots with concentric circles of growing pole order and nested brackets (char p)"},
+    {"page": 18, "bbox": [466, 38, 825, 578], "note": "graph of decreasing function with q-number values marked on axes"},
+    {"page": 21, "bbox": [40, 186, 592, 362], "note": "quantum group Verma chain with e/f arrows and q-number coefficients"},
+    {"page": 27, "bbox": [200, 410, 410, 482], "note": "Even <-> Odd with Dirac operator arrows"},
+    {"page": 30, "bbox": [45, 62, 832, 330], "note": "map f from B=C (square with point, q action) to star-shaped X with Aut(X) and maximal torus"},
+    {"page": 33, "bbox": [85, 15, 415, 594], "note": "rational hyperplane arrangement (grid with diagonals) with labels <alpha,x> in Z and Lie A or H^2(X)"}
+  ]}}

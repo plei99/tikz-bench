@@ -1,0 +1,15 @@
+{"summer2020_lecture30": {"pdf": "sources/okounkov/summer2020/lecture30.pdf", "regions": [
+{"page": 1, "bbox": [356, 172, 525, 265], "note": "diagram QM(star->) with ev_0 to stack X and ev_inf to X"},
+{"page": 1, "bbox": [70, 362, 367, 465], "note": "diagram Y_ss -> Y = mu^-1(0) -> ambient Z, with Y_ss -> X quotient by G"},
+{"page": 1, "bbox": [45, 578, 250, 735], "note": "P(V) with G-orbits in Y, cone to X, G-equivariant labels"},
+{"page": 2, "bbox": [275, 205, 400, 325], "note": "Newton polygon: pentagon enclosing lattice dots"},
+{"page": 2, "bbox": [364, 340, 468, 492], "note": "cone spanned by T-weights with dashed rays and vector -chi"},
+{"page": 2, "bbox": [210, 625, 326, 745], "note": "t1,t2 axes with weight cone and vector -chi"},
+{"page": 3, "bbox": [70, 397, 545, 560], "note": "diagram K_eq(X)=K(Y_ss) --???--> K(Y), arrow to K(Z) supported on Y"},
+{"page": 4, "bbox": [370, 100, 525, 255], "note": "fixed components F1, F2 with attracting sets Attr(F1), Attr(F2)"},
+{"page": 4, "bbox": [45, 345, 165, 520], "note": "stable Newton polygon with lattice dots and origin star, label Z\\Z1"},
+{"page": 4, "bbox": [185, 360, 345, 500], "note": "Newton polygon supp(z) with orange line, shortest path sigma to origin star"},
+{"page": 5, "bbox": [252, 233, 396, 362], "note": "t1,t2,t3 axes with weight rays and vector -chi"},
+{"page": 5, "bbox": [55, 415, 276, 630], "note": "Newton polygon stratified by parallel orange scribbles, Attr_sigma(F_i)"},
+{"page": 6, "bbox": [400, 80, 545, 165], "note": "P_+ = matrix with hatched block-triangular shape"}
+]}}

@@ -1,0 +1,22 @@
+{"spin_elsv": {"pdf": "sources/drive/drive_1yhorW0r.pdf", "regions": [
+{"page": 5, "bbox": [65, 95, 405, 512], "note": "Hurwitz cover: genus-g surface with preimage points mu, arrow f is d:1 to base surface with branch points x_1..x_k"},
+{"page": 6, "bbox": [200, 553, 312, 630], "note": "commutative triangle C --phi--> C', f, f' down to B"},
+{"page": 7, "bbox": [8, 88, 276, 258], "note": "torus with 3 roots of x^3+ax+b plus infinity, 2:1 map to sphere P^1(C) with x_1, x_2"},
+{"page": 7, "bbox": [182, 485, 482, 532], "note": "H^0(genus-2 surface; (3),(2,1)^6) = ? with inline surface drawing"},
+{"page": 7, "bbox": [182, 530, 558, 584], "note": "H^0(genus-4 surface; (3)^4,(2,1)^6) = ? with inline surface drawing"},
+{"page": 10, "bbox": [70, 360, 285, 718], "note": "covering sheets with preimages f^(j)(y), f^(k)(y), map f d:1 to base with loop gamma around x_i based at y"},
+{"page": 11, "bbox": [0, 150, 238, 253], "note": "disk with sheets pulled behind contracting to one point, arrow to sphere with points"},
+{"page": 11, "bbox": [368, 736, 471, 774], "note": "inline genus-g surface pictogram"},
+{"page": 15, "bbox": [355, 222, 594, 290], "note": "cylinder-like box with 1's at ends mapsto box with mu, nu boundary labels"},
+{"page": 16, "bbox": [60, 65, 470, 175], "note": "vacuum |> as Maya diagram of white/black stones with half-integer positions"},
+{"page": 16, "bbox": [20, 172, 595, 515], "note": "bijection partitions <-> charge zero Maya diagrams, lambda=(3,2,2) mapsto V_lambda"},
+{"page": 17, "bbox": [5, 290, 305, 594], "note": "Russian Young diagram over Maya diagram, alpha_2 move of a stone giving (-1)^1, attempt resulting in zero"},
+{"page": 17, "bbox": [335, 290, 592, 520], "note": "Russian Young diagram over Maya diagram, stone move giving (-1)^0 = +1"},
+{"page": 18, "bbox": [190, 712, 450, 842], "note": "E_m(z) specialising to alpha_m (z=0) and F_{r+1}/(r+1)! ([z^{r+1}], m=0)"},
+{"page": 28, "bbox": [136, 246, 410, 396], "note": "commutative diagram L over universal curve C^{r,s}_{g,a}, pi, epsilon: M^{r,s}_{g,a} -> M_{g,n} forgetting the root"},
+{"page": 31, "bbox": [100, 512, 492, 640], "note": "Spectral curve --TR--> CohFT and back via Givental, D.O.S.S.'13"},
+{"page": 34, "bbox": [40, 430, 330, 562], "note": "what didn't happen: W_2 Omega(2,1;1) with arrows R=1 to Lambda . Lambda"},
+{"page": 34, "bbox": [352, 422, 594, 595], "note": "what actually happened: W_2 Omega(2,1;1) with crossing arrows to Lambda Lambda, like 2 cup of something"},
+{"page": 37, "bbox": [108, 78, 262, 222], "note": "surface X with curve D in |K_X|"},
+{"page": 40, "bbox": [20, 72, 594, 802], "note": "flowchart of the logic: signed count -> Cunningham -> uncharged fermions -> TR ansatz -> spin ELSV -> GW/H -> 2-BKP -> solve GW -> Kahler surfaces"}
+]}}

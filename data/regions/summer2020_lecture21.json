@@ -1,0 +1,14 @@
+{"summer2020_lecture21": {"pdf": "sources/okounkov/summer2020/lecture21.pdf", "regions": [
+{"page": 1, "bbox": [86, 191, 482, 294], "note": "genus-3 curve C --f--> X, holomorphic"},
+{"page": 2, "bbox": [144, 168, 252, 290], "note": "conic in P^2 with lines, f from P^1 with point"},
+{"page": 2, "bbox": [445, 150, 568, 220], "note": "nodal curve: flower of rational components"},
+{"page": 2, "bbox": [42, 282, 325, 348], "note": "C minus pt union formal disk, formal punctured disk"},
+{"page": 2, "bbox": [315, 205, 495, 355], "note": "curve with map, forget the map arrow down to curve"},
+{"page": 2, "bbox": [75, 358, 455, 428], "note": "curve C --f--> image curve in smooth surface X"},
+{"page": 3, "bbox": [40, 256, 222, 338], "note": "genus-3 curve"},
+{"page": 3, "bbox": [85, 272, 397, 402], "note": "{curve -> M/G} = {curve with principal G-bundle fibers P}"},
+{"page": 3, "bbox": [85, 428, 565, 512], "note": "{curve -> Y/G} = {P + section of P x_G Y over C}"},
+{"page": 3, "bbox": [128, 620, 380, 688], "note": "curve with point x --f--> P^{n-1}"},
+{"page": 4, "bbox": [160, 570, 385, 649], "note": "ADHM quiver: C <-> V via A,B with loops x1,x2, W"},
+{"page": 6, "bbox": [300, 72, 492, 150], "note": "quasimap curve QM with base pt"}
+]}}

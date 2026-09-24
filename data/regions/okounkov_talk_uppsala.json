@@ -1,0 +1,21 @@
+{"okounkov_talk_uppsala": {"pdf": "sources/okounkov/talks/uppsala.pdf",
+  "regions": [
+    {"page": 3, "bbox": [22, 64, 592, 178], "note": "Space (genus-2 surface B) x Time (circle S^1)"},
+    {"page": 3, "bbox": [20, 263, 572, 436], "note": "susy sigma-model: surface B mapping to X = moduli of vacua, modulated vacua"},
+    {"page": 4, "bbox": [45, 97, 582, 338], "note": "surface B with arrow to singular cone X: x^2=yz"},
+    {"page": 8, "bbox": [48, 60, 568, 222], "note": "Moduli( surface B with marked points p1,p2,pn --f--> cone X )"},
+    {"page": 9, "bbox": [34, 88, 600, 222], "note": "pointed surface B degenerating to nodal curve with marked points"},
+    {"page": 9, "bbox": [222, 298, 604, 428], "note": "2-pointed sphere P^1 with rotation q mapping to K(X)^{tensor 2}"},
+    {"page": 15, "bbox": [34, 128, 578, 300], "note": "Maps( plane B with rotation q, points 0 and infinity --f--> cone X, f(infinity) )"},
+    {"page": 17, "bbox": [185, 12, 612, 190], "note": "cone X: x^2=yz with blow-up from T^*P^1"},
+    {"page": 22, "bbox": [50, 12, 604, 235], "note": "CP^1 with disks around 0 and infinity, singularities of Psi_0 and Psi_infinity, solution regions"},
+    {"page": 23, "bbox": [296, 184, 580, 436], "note": "square with horizontal lines of poles in a and vertical lines of poles in z, labels z=0, z=infinity, a=0, a=infinity"},
+    {"page": 25, "bbox": [13, 198, 537, 432], "note": "square diagram: monodromy and pole subtraction between Psi at z->0, z->infinity, a->0; monodromy at a=0"},
+    {"page": 26, "bbox": [52, 65, 548, 412], "note": "rectangle in (z,a) with corner labels and annotations: no curves at z=0, count curves in fixed locus at a=0,infinity"},
+    {"page": 29, "bbox": [352, 20, 612, 402], "note": "attracting manifold: fixed locus X^A with flow lines to X"},
+    {"page": 31, "bbox": [64, 160, 604, 430], "note": "surface B with boundary circle, boundary S^1 x time S^1 = torus, arrow to X"},
+    {"page": 33, "bbox": [92, 228, 580, 380], "note": "cigar B = P^1 with duality interface circles near infinity"},
+    {"page": 34, "bbox": [86, 236, 588, 446], "note": "staircase grid of fixed points in X x X^vee with Stab(p) in X and Stab(p^vee) in X^vee"},
+    {"page": 35, "bbox": [100, 238, 566, 438], "note": "diagram: E --chern classes--> Hom(Pic(X), C*/q), down to Ell_equiv(pt) = A/q, dual to Z/q"},
+    {"page": 40, "bbox": [26, 80, 588, 294], "note": "Maps(B minus pt -> X) --> universal cover Maps(Spec C[[t,t^-1]] -> X) with q-action"}
+  ]}}

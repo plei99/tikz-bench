@@ -1,0 +1,16 @@
+{"okounkov_talk_slc2": {"pdf": "sources/okounkov/talks/slc2.pdf", "regions": [
+{"page": 4, "bbox": [35, 64, 345, 312], "note": "threefold X (ellipse) with divisor D and curve F meeting D in three points"},
+{"page": 4, "bbox": [128, 280, 720, 480], "note": "diagram M_transverse -> Hilb(D), hook to M_relative D, ev (proper) to Hilb(D)"},
+{"page": 5, "bbox": [478, 212, 774, 480], "note": "X (ellipse) with two divisors D_1, D_2 and a curve meeting each three times"},
+{"page": 7, "bbox": [38, 28, 342, 340], "note": "degeneration: X deforming to X_1 union_D X_2, two sheets glued along D"},
+{"page": 8, "bbox": [198, 232, 735, 400], "note": "loop X <-> (X,D): degeneration arrow and 'replace relative by tautological' arrow"},
+{"page": 9, "bbox": [88, 236, 362, 380], "note": "diagram A_n surface -hook-> X, down to P^1"},
+{"page": 9, "bbox": [30, 366, 295, 585], "note": "toric web diagram with cyan and green edges (three ladder rungs)"},
+{"page": 13, "bbox": [42, 118, 345, 290], "note": "quiver: nodes V_1, V_2, V_3 with arrows and loop, framing squares W_1, W_2, W_3"},
+{"page": 14, "bbox": [482, 10, 670, 165], "note": "cyclic A_5 quiver: hexagon with six nodes"},
+{"page": 18, "bbox": [78, 322, 360, 542], "note": "periodic hyperplane arrangement (lines in three directions) in a box labelled lambda"},
+{"page": 20, "bbox": [515, 280, 822, 556], "note": "Kahler moduli space polygon with X, flop X, and 'toric with the fan of ample cones'"},
+{"page": 23, "bbox": [38, 83, 805, 322], "note": "X-bundle over P^1: fibers X_0, X_infinity over 0, infinity, curve meeting fibers, P^1 with C_q^x action"},
+{"page": 27, "bbox": [250, 20, 800, 272], "note": "fibers X_0, X_infinity over P^1 with sheaf F, ev_* arrow to K_eq(X), 'impose a relative condition at X_infinity'"},
+{"page": 28, "bbox": [445, 432, 700, 542], "note": "hexagon quiver Q with six nodes, = g_Q"}
+]}}

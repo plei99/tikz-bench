@@ -1,0 +1,15 @@
+{"summer2020_lecture17": {"pdf": "sources/okounkov/summer2020/lecture17.pdf", "regions": [
+{"page": 1, "bbox": [104, 90, 164, 174], "note": "Jordan quiver loop with weights t1, -hbar-t1"},
+{"page": 1, "bbox": [168, 262, 334, 318], "note": "AGT: 4-plane (parallelogram) x Riemann surface tube C"},
+{"page": 1, "bbox": [322, 386, 612, 506], "note": "rows of dots with modes alpha_n, c1(Taut) axis, W(gl(3)) brace"},
+{"page": 1, "bbox": [508, 566, 566, 646], "note": "framed Jordan quiver: loop at V with framing W"},
+{"page": 2, "bbox": [110, 494, 210, 590], "note": "ellipse with points z, 1 and vertical arrow 2"},
+{"page": 2, "bbox": [252, 508, 528, 636], "note": "two stacked ellipses with points z, 1, 1', 2 = braided strands with R, R^-1 (YB)"},
+{"page": 3, "bbox": [342, 98, 432, 178], "note": "circle with points x_i, x_j joined by a chord"},
+{"page": 3, "bbox": [454, 566, 604, 608], "note": "circle = dotted line mod Z"},
+{"page": 5, "bbox": [262, 170, 516, 280], "note": "strands through box Phi = strands through box Phi (commuting)"},
+{"page": 5, "bbox": [262, 280, 406, 436], "note": "hyperboloid X with shaded slice --> cone X0 with point 0"},
+{"page": 5, "bbox": [60, 341, 190, 506], "note": "slice X' with shaded strips --> neighborhood of 0 in X'0"},
+{"page": 6, "bbox": [70, 120, 196, 214], "note": "vectors -hbar-u, hbar+u and u from a point"},
+{"page": 6, "bbox": [200, 150, 324, 280], "note": "double cone with orange vertex and weights -hbar-u, -hbar+u"}
+]}}

@@ -1,0 +1,23 @@
+{"khovanov_cat2020_6": {"pdf": "sources/khovanov/cat2020_6_Milnors_conjecture.pdf",
+  "regions": [
+    {"page": 3, "bbox": [166, 346, 368, 423], "note": "link L with a marked fixed base point"},
+    {"page": 3, "bbox": [154, 513, 441, 648], "note": "merging link L with a small circle near the base point at infinity"},
+    {"page": 4, "bbox": [225, 93, 337, 216], "note": "cobordism S between links L1 and L2 with base points joined by a path"},
+    {"page": 4, "bbox": [203, 419, 379, 487], "note": "pair of pants multiplication cobordism A{-1} (x) A{-1} -> A{-1}"},
+    {"page": 8, "bbox": [111, 93, 519, 306], "note": "graded columns Q x^k with x-action arrows and degree-2g shift arrows between H_t(L1) and H_t(L2)"},
+    {"page": 8, "bbox": [153, 414, 451, 621], "note": "Lee homology Q+Q boxes with degree labels and degree-2g arrows"},
+    {"page": 9, "bbox": [139, 550, 320, 664], "note": "connected sum L1 # L2 with base points merging a circle"},
+    {"page": 11, "bbox": [185, 236, 375, 285], "note": "positive crossing mapped to its 0-resolution"},
+    {"page": 11, "bbox": [236, 338, 353, 424], "note": "positive knot L with oriented twisted strands"},
+    {"page": 11, "bbox": [230, 457, 342, 542], "note": "orientation compatible resolution of L into two circles"},
+    {"page": 11, "bbox": [236, 597, 341, 683], "note": "shaded orientable surface bounding L"},
+    {"page": 12, "bbox": [259, 177, 314, 231], "note": "shaded twisted band at a positive crossing"},
+    {"page": 12, "bbox": [168, 309, 489, 560], "note": "Euler characteristic of shaded surface computed as chi of pictures (= n - c)"},
+    {"page": 13, "bbox": [177, 571, 398, 744], "note": "0-resolution and 1-resolutions of a positive diagram with maps"},
+    {"page": 14, "bbox": [258, 235, 362, 337], "note": "oriented unknot diagram with one crossing loop"},
+    {"page": 14, "bbox": [186, 346, 430, 568], "note": "resolution cube of the unknot diagram with signed circles"},
+    {"page": 15, "bbox": [80, 94, 490, 334], "note": "resolution cube of the unknot with element alpha and its images under d"},
+    {"page": 17, "bbox": [172, 209, 423, 261], "note": "two oriented crossings mapped to their oriented 0-resolution"},
+    {"page": 17, "bbox": [136, 329, 487, 648], "note": "oriented diagram to unique 0-resolution with a,b circle labels and merge maps m to 0"},
+    {"page": 18, "bbox": [200, 372, 364, 445], "note": "braid group generator sigma_i as strand picture with crossing at i, i+1"}
+  ]}}

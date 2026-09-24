@@ -1,0 +1,11 @@
+{"summer2020_lecture24": {"pdf": "sources/okounkov/summer2020/lecture24.pdf", "regions": [
+{"page": 1, "bbox": [345, 96, 612, 193], "note": "genus-2 curve C --> X inside quotient stack"},
+{"page": 1, "bbox": [45, 192, 316, 268], "note": "C = P^1 circle with 0, infinity, rotation a = parallelogram plane C with 0 and a"},
+{"page": 1, "bbox": [177, 380, 342, 482], "note": "3D box pile, fiber at infinity, infinite leg"},
+{"page": 1, "bbox": [220, 560, 352, 592], "note": "degeneration: *-o = *-)(-o"},
+{"page": 2, "bbox": [228, 44, 372, 72], "note": "localization: (-) = (-o o-)"},
+{"page": 2, "bbox": [45, 262, 185, 405], "note": "segment with base pts and C* rotation a; fixed loci with big fat base pt"},
+{"page": 4, "bbox": [80, 600, 215, 632], "note": "*-o = *-)(-o"},
+{"page": 4, "bbox": [130, 708, 280, 745], "note": "alpha (-o = f_alpha *-o"},
+{"page": 6, "bbox": [314, 62, 455, 162], "note": "3D box pile with leg lengths d_i"}
+]}}

@@ -1,0 +1,16 @@
+{"summer2020_lecture25": {"pdf": "sources/okounkov/summer2020/lecture25.pdf", "regions": [
+{"page": 2, "bbox": [40, 203, 264, 357], "note": "DT configuration for P^1 x C^2: 3D box pile with t1, t2, q, q^-1, nonsingular at infinity"},
+{"page": 2, "bbox": [283, 205, 492, 358], "note": "twisted 3D box pile in total space of O(1)+O with t1, t2, q t1"},
+{"page": 2, "bbox": [40, 405, 140, 518], "note": "triangle P^2 with vertex weights a, q, q^-1, q^0 and C^2"},
+{"page": 2, "bbox": [172, 408, 245, 504], "note": "triangle labelled O_{P^1}(1)"},
+{"page": 3, "bbox": [304, 510, 455, 608], "note": "two overlapping circles with fixed points joined by an edge"},
+{"page": 4, "bbox": [45, 28, 274, 192], "note": "0 = point -> 3D box pile with t1, t2, q^-1, F_infinity, = infinity"},
+{"page": 4, "bbox": [272, 154, 380, 254], "note": "box diagram with weights t3^-1, t1^-1, t2^-1 entries"},
+{"page": 5, "bbox": [50, 38, 568, 155], "note": "T_vir(box pile) = T_vir(box pile) + poly(F_0) + poly(F_inf)"},
+{"page": 5, "bbox": [45, 348, 535, 475], "note": "T_vir(two circles with extra boxes) = T_vir(two circles, pure edge) +"},
+{"page": 5, "bbox": [65, 540, 268, 702], "note": "3D box pile with axes t1, t2, q^-1, q t1"},
+{"page": 5, "bbox": [80, 712, 180, 756], "note": "lambda = Young diagram"},
+{"page": 6, "bbox": [45, 448, 540, 594], "note": "weight(box pile, ideal sheaf J1) = weight(box pile with sections), same box"},
+{"page": 7, "bbox": [62, 36, 262, 204], "note": "3D box pile with transparent grid extending the leg to infinity"},
+{"page": 7, "bbox": [448, 252, 548, 316], "note": "box diagram with weights t2^-1, t1^-1 t2^-1, 1, t1^-1, t1^-2"}
+]}}

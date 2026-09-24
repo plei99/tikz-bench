@@ -1,0 +1,19 @@
+{"auroux_253y18_3": {"pdf": "sources/auroux/253y18_3.pdf",
+  "regions": [
+    {"page": 2, "bbox": [336, 250, 522, 362], "note": "fibration pi(x,y)=xy over C: sheet with nodal fiber xy=0 and cylindrical fiber xy=t, asymptotic labels"},
+    {"page": 2, "bbox": [466, 563, 606, 650], "note": "symplectic fibration M -> Sigma: fiber F_p over p with horizontal lift v# of a vector v"},
+    {"page": 3, "bbox": [222, 18, 390, 113], "note": "cone fibers sum z_i^2=0 and sum z_i^2=c over a plane containing a closed curve gamma"},
+    {"page": 3, "bbox": [32, 355, 202, 415], "note": "Lefschetz thimble: nodal cone and smooth fibers over the segment [0,1], unit ball, Delta in R^n in C^n"},
+    {"page": 3, "bbox": [420, 374, 560, 438], "note": "matching path in the base plane joining two critical points, with the Lagrangian sphere over it"},
+    {"page": 4, "bbox": [393, 182, 438, 237], "note": "wavy graph with a fold"},
+    {"page": 4, "bbox": [503, 165, 604, 243], "note": "front of the generating family: cubic curve in (x, xi)-plane for a<0"},
+    {"page": 4, "bbox": [549, 474, 612, 540], "note": "box R^2 with a circle displaced by an arrow"},
+    {"page": 5, "bbox": [380, 166, 465, 221], "note": "immersed sphere with one double point, and curve enclosing 0"},
+    {"page": 5, "bbox": [476, 484, 565, 568], "note": "Lagrangian surgery model: axes A and B with hyperbola branches L_epsilon"},
+    {"page": 5, "bbox": [300, 731, 372, 772], "note": "cutoff profile curve on axes"},
+    {"page": 5, "bbox": [515, 733, 570, 778], "note": "derivative of cutoff: bump function on axes"},
+    {"page": 6, "bbox": [172, 270, 422, 334], "note": "surgeries A#_pB (blue) vs B#_pA (red) in dimension 1, drawn on axes A and B"},
+    {"page": 6, "bbox": [234, 608, 312, 670], "note": "self-surgery: immersed curve with a loop gamma at double point p"},
+    {"page": 6, "bbox": [335, 712, 403, 762], "note": "curves gamma and gamma_0 near a corner, enclosing a small area"},
+    {"page": 6, "bbox": [150, 740, 236, 781], "note": "arc over a line with blue swept region between two surgeries"}
+  ]}}

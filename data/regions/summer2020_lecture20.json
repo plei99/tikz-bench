@@ -1,0 +1,19 @@
+{"summer2020_lecture20": {"pdf": "sources/okounkov/summer2020/lecture20.pdf", "regions": [
+{"page": 3, "bbox": [75, 708, 390, 828], "note": "map of complexes [E_U^-1 -> E_U^0] down to tau L_U = [I/I^2 -> i*Omega_W], with vertical arrow and iso"},
+{"page": 6, "bbox": [45, 70, 242, 308], "note": "cartesian square E_U -> E_X over U --etale--> X, U -> affine scheme, circled in red"},
+{"page": 6, "bbox": [325, 100, 640, 238], "note": "map of complexes E = [E_U^-1 -> E_U^0] --phi--> tau L_U = [I_W/I_W^2 -> i*Omega_W]"},
+{"page": 6, "bbox": [195, 375, 700, 498], "note": "diagram C_{U/W} in N_{U/W} in (E1)_U over C_U in N_U in E_U with vertical projections pi"},
+{"page": 6, "bbox": [62, 656, 545, 810], "note": "diagram of Chow groups: A(E1_U) --0!--> A(U) and A_0(E_U) --0!--> A_d(U), connected by pi^* and ="},
+{"page": 9, "bbox": [35, 505, 245, 604], "note": "commutative triangle U --etale--> X over M, U affine scheme"},
+{"page": 9, "bbox": [340, 505, 431, 600], "note": "commutative triangle U --i--> W over M"},
+{"page": 10, "bbox": [308, 640, 560, 765], "note": "commutative triangle (C,x) --f--> X and (C',x') --f'--> X with iso phi"},
+{"page": 11, "bbox": [115, 330, 300, 440], "note": "cartesian square C_X -> C_M over X -> M with projections pi"},
+{"page": 12, "bbox": [70, 312, 650, 412], "note": "X = W//G = W^ss/G -> [W/G] and -> X_0 = W//_aff G, commutative triangle"},
+{"page": 13, "bbox": [88, 222, 585, 364], "note": "C --f--> X = W^ss/G -> BG  <->  P --f~--> W^ss over C"},
+{"page": 13, "bbox": [432, 530, 560, 668], "note": "fiber bundle P x_G W^ss -> C with section sigma"},
+{"page": 14, "bbox": [95, 143, 625, 311], "note": "C --f--> [W/G] -> [pt/G] = BG  <->  P --f~--> W, pi: P -> C"},
+{"page": 14, "bbox": [452, 498, 568, 630], "note": "fiber bundle P x_G W -> C with section sigma"},
+{"page": 16, "bbox": [205, 96, 540, 272], "note": "commutative diagram P x_G W --phi2--> phi1*(P' x_G W) over C with sections sigma and phi1*sigma'"},
+{"page": 19, "bbox": [200, 90, 442, 274], "note": "stacked cartesian squares P_X -> P_B, C_X -> C_B -> C_M over X -> B -> M"},
+{"page": 19, "bbox": [538, 146, 660, 290], "note": "P_X x_G W -> C_X with section sigma_X"}
+]}}

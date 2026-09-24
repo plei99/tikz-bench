@@ -1,0 +1,19 @@
+{"summer2020_basicnotions": {"pdf": "sources/okounkov/summer2020/basicnotions.pdf", "regions": [
+{"page": 1, "bbox": [42, 139, 192, 261], "note": "oscillating graph of f(x) with values f(a1), f(an) over points a1..an on a line"},
+{"page": 1, "bbox": [132, 274, 325, 378], "note": "axes x, a with lines x = a_i through the origin"},
+{"page": 2, "bbox": [284, 44, 375, 86], "note": "small curve degenerating to a nodal curve"},
+{"page": 2, "bbox": [118, 288, 567, 408], "note": "box around lines U{x=a_i} in (a,x) plane <- lines through a point, Prod(1-x/a_i)=0"},
+{"page": 2, "bbox": [110, 658, 266, 760], "note": "group g acting on fibres (orange diamonds) over x -> gx on X"},
+{"page": 3, "bbox": [400, 340, 510, 430], "note": "C^n minus 0: plane with a shaded wedge through the origin"},
+{"page": 4, "bbox": [485, 118, 578, 190], "note": "orange square with crossing diagonal lines"},
+{"page": 4, "bbox": [132, 266, 586, 384], "note": "column A with C* action ~> n x k matrix with GL(k) action, unstable locus rank<k"},
+{"page": 9, "bbox": [112, 400, 352, 592], "note": "spatial domain Omega with vertical tubes over it, time arrow"},
+{"page": 10, "bbox": [55, 28, 265, 198], "note": "genus-2 surface C = Omega with three vertical tubes attached"},
+{"page": 10, "bbox": [62, 390, 248, 470], "note": "plane C with point and q rotation, C = C containing C* containing q"},
+{"page": 11, "bbox": [62, 306, 600, 458], "note": "Maps(C -> X): plane with q + boundary cond at infinity = sphere with 0, infinity, f(0), f(inf) in X"},
+{"page": 12, "bbox": [44, 222, 281, 376], "note": "sphere with 0, infinity, q, crossing green lines, f^-1(unstable), arrows to X and X"},
+{"page": 12, "bbox": [340, 170, 612, 364], "note": "bubble chain of spheres with 0, infinity, OPE of V, f(0), f(inf) in X"},
+{"page": 13, "bbox": [362, 80, 478, 190], "note": "square with green and orange lines through a point"},
+{"page": 13, "bbox": [44, 234, 224, 404], "note": "bubble chain of spheres with 0 and infinity, labelled K(X) and beta"},
+{"page": 13, "bbox": [272, 564, 378, 680], "note": "rank 2-bundle over curve C: two diamond fibres over a curve"}
+]}}

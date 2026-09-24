@@ -1,0 +1,10 @@
+{"summer2020_lecture32": {"pdf": "sources/okounkov/summer2020/lecture32.pdf", "regions": [
+{"page": 1, "bbox": [28, 216, 362, 468], "note": "box pile n=4, stacked cubes x1..x4, strands crossing thick arrow to vacuum"},
+{"page": 1, "bbox": [250, 440, 382, 530], "note": "quiver V ~ W with crossed-out loops at V (vanish)"},
+{"page": 2, "bbox": [15, 130, 462, 312], "note": "spin chain strands: alpha={up/down spins} with arrow to vacuum={down spins}, T*Gr labels"},
+{"page": 2, "bbox": [460, 228, 588, 318], "note": "operator: strand with hatch marks"},
+{"page": 3, "bbox": [405, 146, 500, 208], "note": "quiver V' -> V with maps A and B"},
+{"page": 4, "bbox": [82, 446, 238, 532], "note": "vertex with descendants: K(stack) dot-edge-circle K(X) with q loop"},
+{"page": 5, "bbox": [118, 258, 562, 430], "note": "commutative square K_GAut(X) -> K_G~(Z) with ch(elliptic stab), Gamma arrows, analytic continuation"},
+{"page": 7, "bbox": [58, 377, 528, 567], "note": "3D box pile with ev_0, ev_inf arrows to two tableaux of weights t1,t2"}
+]}}

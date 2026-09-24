@@ -1,0 +1,18 @@
+{"barnatan_kt2020_week04": {"pdf": "sources/barnatan/20-1350-KnotTheoryWeek04.pdf",
+  "regions": [
+    {"page": 1, "bbox": [372, 112, 596, 172], "note": "green grid of arrows and ellipses (complex sketch)"},
+    {"page": 2, "bbox": [30, 3, 306, 170], "note": "associativity commutative square for m on V(x)V(x)V"},
+    {"page": 2, "bbox": [378, 3, 586, 170], "note": "commutativity triangle m o sigma = m"},
+    {"page": 2, "bbox": [85, 228, 280, 362], "note": "co-associativity commutative square for Delta on C"},
+    {"page": 2, "bbox": [335, 255, 522, 380], "note": "co-commutativity triangle for Delta with sigma"},
+    {"page": 3, "bbox": [48, 83, 250, 150], "note": "circle cobordism pictures: two circles merge, one splits"},
+    {"page": 3, "bbox": [48, 168, 300, 255], "note": "associativity square drawn with merging circles"},
+    {"page": 3, "bbox": [345, 165, 588, 265], "note": "associativity square V(x)V(x)V -> V(x)V -> V"},
+    {"page": 3, "bbox": [18, 262, 245, 330], "note": "co-associativity square drawn with splitting circles"},
+    {"page": 3, "bbox": [300, 262, 452, 330], "note": "co-associativity square V -> V(x)V -> V(x)V(x)V"},
+    {"page": 3, "bbox": [25, 348, 262, 440], "note": "Frobenius compatibility square drawn with circles"},
+    {"page": 7, "bbox": [432, 568, 565, 676], "note": "closed curve with a small loop"},
+    {"page": 7, "bbox": [95, 686, 560, 760], "note": "V(double point) = V(positive crossing) - V(negative crossing)"},
+    {"page": 8, "bbox": [187, 120, 298, 190], "note": "disc with +/- signs"},
+    {"page": 8, "bbox": [15, 193, 552, 322], "note": "V of three double points expanded into signed crossing resolutions"}
+  ]}}

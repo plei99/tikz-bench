@@ -1,0 +1,12 @@
+{"elias_sl3notes": {"pdf": "sources/elias/sl3notes.pdf",
+  "regions": [
+    {"page": 2, "bbox": [95, 146, 153, 202], "note": "rough sketch of weights of the standard rep of sl3 on axes"},
+    {"page": 3, "bbox": [357, 527, 468, 636], "note": "adjoint rep weights: axes with dots, circled origin and arrow"},
+    {"page": 3, "bbox": [142, 549, 230, 639], "note": "weights e1, e2, e3 of C^3 as vectors in the plane, with y1, y2, y3 labels"},
+    {"page": 4, "bbox": [241, 267, 376, 353], "note": "cones of positive (>=0) and negative (<=0) root combinations, hatched, with 'neither!'"},
+    {"page": 4, "bbox": [482, 544, 570, 608], "note": "small sketch of lattice lines with a marked maximal weight"},
+    {"page": 8, "bbox": [404, 452, 483, 519], "note": "gl3 standard rep weights projected onto a plane: triangle with axes, labelled x=0"},
+    {"page": 8, "bbox": [320, 716, 432, 788], "note": "sl3 root hexagon with roots (1,1), (-1,2), (2,-1), (-1,-1)"},
+    {"page": 9, "bbox": [46, 51, 342, 228], "note": "sl3 roots with alpha1=(2,-1), (-1,2), omega1=(1,0), omega2=(0,1), alpha1+alpha2=(1,1)"},
+    {"page": 9, "bbox": [46, 542, 310, 742], "note": "sl3 root system with Weyl reflection lines s, t, sts=tst"}
+  ]}}

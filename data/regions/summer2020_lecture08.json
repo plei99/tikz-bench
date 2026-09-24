@@ -1,0 +1,20 @@
+{"summer2020_lecture08": {"pdf": "sources/okounkov/summer2020/lecture08.pdf", "regions": [
+{"page": 1, "bbox": [62, 128, 272, 216], "note": "nested ovals: CW inside elliptic cohomology inside Chern classes"},
+{"page": 1, "bbox": [112, 650, 345, 739], "note": "f: X = orange circle --f--> figure-eight f(X) in yellow sheet Y"},
+{"page": 2, "bbox": [85, 44, 600, 188], "note": "Puppe sequence: X, mapping cylinder of f to Y, collapse X to Cone(f), collapse Y to Sigma X"},
+{"page": 2, "bbox": [248, 326, 432, 420], "note": "double cone -> wedge of double cones -> Z"},
+{"page": 2, "bbox": [330, 490, 520, 668], "note": "orange X mapped into green sheet Y via f(x), g(x); brace Z"},
+{"page": 3, "bbox": [340, 72, 590, 172], "note": "pushout square S^{n-1} -> D^n, f to W, glued W with cell"},
+{"page": 3, "bbox": [355, 262, 565, 378], "note": "equivariant pushout square S^{n-1} x G/H -> D^n x G/H, W -> W cup_f cell"},
+{"page": 4, "bbox": [488, 268, 605, 384], "note": "torus parallelogram with 16 points of order 4"},
+{"page": 4, "bbox": [98, 592, 430, 760], "note": "CP^1 as sphere with U(1) rotation, S^0 = {0, infinity}, cylinder U(1) x D^1"},
+{"page": 5, "bbox": [76, 274, 325, 348], "note": "nodal crossing lines <-normalization- two disjoint lines with points"},
+{"page": 5, "bbox": [200, 468, 498, 592], "note": "moment triangle for CP^2 with orbit-type labels"},
+{"page": 5, "bbox": [64, 577, 590, 764], "note": "Ell_A(CP^2): three E^2 glued, pullback to fixed points, glued along E, coker to free orbit"},
+{"page": 6, "bbox": [160, 108, 350, 196], "note": "disk with origin 0 and rotation a, U(1) maps to disk and to pt=infinity"},
+{"page": 6, "bbox": [385, 104, 535, 196], "note": "pushout square U(1)->B(a), pt->CP^2"},
+{"page": 6, "bbox": [60, 336, 610, 448], "note": "row of line pictures: line with vanishing at 0, crossing lines, line to infinity"},
+{"page": 6, "bbox": [30, 456, 192, 598], "note": "CP^n as simplex with orange CP face, weights a_i/a_0 at vertex 0"},
+{"page": 6, "bbox": [240, 540, 340, 624], "note": "hatched rhombus with green edge (ideal)"},
+{"page": 6, "bbox": [364, 506, 566, 626], "note": "orange 3D corner with hatched floor -> corner without floor"}
+]}}

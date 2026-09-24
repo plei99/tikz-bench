@@ -1,0 +1,14 @@
+{"summer2020_lecture06": {"pdf": "sources/okounkov/summer2020/lecture06.pdf", "regions": [
+{"page": 1, "bbox": [143, 530, 362, 652], "note": "staircase of monomial ideal I in C[x1,x2] with hatched region and colored boxes"},
+{"page": 2, "bbox": [75, 85, 500, 177], "note": "row of four 3D box-pile pictures with axes (dim V=3 Koszul terms)"},
+{"page": 2, "bbox": [292, 636, 415, 765], "note": "n=2: parallelogram a1,a2 with sheets s=a1^-1, s=a2^-1"},
+{"page": 3, "bbox": [120, 88, 275, 196], "note": "n=3 hyperplane arrangement: lines a1=a2, a2=a3, a1=a3"},
+{"page": 3, "bbox": [285, 90, 425, 188], "note": "3D picture of intersecting sheets"},
+{"page": 3, "bbox": [78, 245, 330, 349], "note": "commutative square Spec K_G(X) <- K(X^g), Spec K_G(pt)=G_ss/G <- {g}"},
+{"page": 3, "bbox": [272, 320, 420, 430], "note": "star of lines a1=1, a2=1, a2=a3 through a point"},
+{"page": 4, "bbox": [340, 252, 580, 342], "note": "torus parallelogram with tau, 1 and 3-torsion points, pairs of commuting elements"},
+{"page": 5, "bbox": [140, 60, 272, 158], "note": "square X x X with diagonal Delta"},
+{"page": 5, "bbox": [336, 484, 446, 582], "note": "Young diagram staircase with t1, t2 weights and S_z"},
+{"page": 6, "bbox": [55, 40, 200, 160], "note": "P(E) over X drawn as sheets inside orange circle"},
+{"page": 6, "bbox": [246, 72, 430, 196], "note": "fan of lines s=eps_i over K(X) axis, s axis, s=1"}
+]}}

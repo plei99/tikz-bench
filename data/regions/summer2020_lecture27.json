@@ -1,0 +1,17 @@
+{"summer2020_lecture27": {"pdf": "sources/okounkov/summer2020/lecture27.pdf", "regions": [
+{"page": 1, "bbox": [88, 556, 322, 592], "note": "line with marked points q^2 a, qa, a"},
+{"page": 1, "bbox": [28, 606, 216, 742], "note": "periodic hyperplane arrangement in Lie(A)"},
+{"page": 1, "bbox": [230, 578, 374, 670], "note": "commutative square Ell_A(X) <- H*(X^A), Ell_A(pt) <- a with log"},
+{"page": 2, "bbox": [400, 0, 480, 96], "note": "small hyperplane arrangement with xi"},
+{"page": 2, "bbox": [160, 110, 305, 190], "note": "hypersurface curve with normal weight w_i and 1/w_i arrow"},
+{"page": 2, "bbox": [345, 124, 556, 268], "note": "hyperplane arrangement with orange line, walls wq^n=1, whq^n=1"},
+{"page": 3, "bbox": [50, 86, 250, 204], "note": "hyperplane arrangement with orange line sigma(C*) through a vertex, wall w"},
+{"page": 3, "bbox": [32, 360, 205, 560], "note": "X = T*P^1 with fixed point, orbits and weights, and its contraction cone X_0"},
+{"page": 5, "bbox": [165, 84, 330, 214], "note": "resolution X-tilde: P^1 section line with O(-k), wavy sections, O(k)"},
+{"page": 5, "bbox": [118, 298, 610, 462], "note": "section pt--pt = brace of two pictures with wavy / doubled green sections, k>1, k=1"},
+{"page": 5, "bbox": [100, 526, 182, 588], "note": "axes b and b^-2"},
+{"page": 6, "bbox": [84, 414, 346, 524], "note": "commutative square K(X^sigma), K(X) with Stab_ and Stab^transpose"},
+{"page": 7, "bbox": [115, 42, 560, 188], "note": "commutative square K(X^sigma) --qKZ--> K(X^sigma), K(X) --S_sigma--> K(X) with Stab_+"},
+{"page": 7, "bbox": [128, 250, 330, 424], "note": "hyperplane arrangement with orange arrow, X^a and X^A labels"},
+{"page": 7, "bbox": [358, 334, 586, 432], "note": "line with fixed components X, X^sigma and arrows, R_sigma = Stab_-^-1 Stab_+"}
+]}}

@@ -1,0 +1,20 @@
+{"truoel_9": {"pdf": "sources/truoel/3-mfds_Lecture_9.pdf",
+  "regions": [
+    {"page": 1, "bbox": [20, 86, 145, 173], "note": "knot K with tubular neighbourhood, meridian mu_K and longitude lambda_K"},
+    {"page": 1, "bbox": [102, 322, 197, 400], "note": "figure-eight knot with surgery coefficient infinity = 1/0"},
+    {"page": 1, "bbox": [135, 603, 212, 653], "note": "positive Hopf link with surgery coefficients 0, 0"},
+    {"page": 1, "bbox": [312, 694, 406, 763], "note": "three-component link (Borromean rings) with surgery coefficients 0"},
+    {"page": 2, "bbox": [70, 606, 382, 669], "note": "genus g surface with the 3g-1 Lickorish twist curves"},
+    {"page": 2, "bbox": [130, 676, 246, 728], "note": "genus 2 surface with 5 Dehn twist curves"},
+    {"page": 3, "bbox": [33, 603, 266, 722], "note": "cross-shaped genus g surface with rotation phi of order g"},
+    {"page": 3, "bbox": [316, 606, 592, 686], "note": "chain-like genus g surface with 180 degree rotation of order 2"},
+    {"page": 4, "bbox": [102, 318, 395, 426], "note": "annulus nu c with arc beta mapped by Dehn twist T_c to T_c(beta)"},
+    {"page": 4, "bbox": [102, 605, 485, 806], "note": "Dehn twist on torus: curve beta, T_c(beta) and T_c^{-1}(beta)"},
+    {"page": 5, "bbox": [502, 219, 568, 268], "note": "small Heegaard diagram of genus 2 splitting of S^3"},
+    {"page": 5, "bbox": [5, 568, 552, 688], "note": "commutative diagram extending homeomorphism h over H_1 and H_2 minus solid tori"},
+    {"page": 6, "bbox": [0, 580, 366, 766], "note": "handlebody H drawn as box with annulus A = nu c_1 on boundary"},
+    {"page": 6, "bbox": [374, 529, 583, 673], "note": "box H with annulus A and curve beta crossing it"},
+    {"page": 6, "bbox": [365, 685, 583, 833], "note": "box H with twisted curve T_{c_1}(beta) across annulus A"},
+    {"page": 7, "bbox": [97, 78, 455, 271], "note": "box H with annulus A and tunnel V_1 excavated beneath it"},
+    {"page": 7, "bbox": [95, 327, 455, 548], "note": "box H with tunnel V_1 and region W_1 = A x [0,1] between"}
+  ]}}

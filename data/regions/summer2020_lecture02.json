@@ -1,0 +1,12 @@
+{"summer2020_lecture02": {"pdf": "sources/okounkov/summer2020/lecture02.pdf", "regions": [
+{"page": 1, "bbox": [68, 168, 368, 302], "note": "curve C = space with points p1, p2, pn --f, deg f = d--> X"},
+{"page": 1, "bbox": [150, 262, 536, 468], "note": "square C = R^2 --f--> hyperboloid X with Aut(X), and P^1 disk with q, infinity mapping to X"},
+{"page": 3, "bbox": [112, 226, 590, 297], "note": "Hopf algebra antipode axiom: string diagram Delta-S-m = Delta-m with S below = unit o counit"},
+{"page": 5, "bbox": [500, 44, 560, 112], "note": "braid crossing of two strands labelled R^vee"},
+{"page": 5, "bbox": [274, 312, 452, 434], "note": "R-matrix: lines M1(a1), M2(a2) crossing at a vertex R12(a1/a2)"},
+{"page": 5, "bbox": [76, 394, 406, 534], "note": "Yang-Baxter equation: three lines M1, M2, M3 with triangle of crossings = other side"},
+{"page": 6, "bbox": [148, 50, 378, 226], "note": "grid of black lines a1, a2 crossing blue lines b1, b2, ... (product of R-matrices)"},
+{"page": 6, "bbox": [212, 292, 445, 454], "note": "triple black auxiliary-space line crossing blue lines M(b_i)"},
+{"page": 6, "bbox": [96, 456, 272, 546], "note": "product and coproduct pictures with crossing black and blue lines"},
+{"page": 6, "bbox": [344, 516, 556, 604], "note": "tripod and quadrilateral containing an orange tripod"}
+]}}

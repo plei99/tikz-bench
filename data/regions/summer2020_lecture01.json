@@ -1,0 +1,9 @@
+{"summer2020_lecture01": {"pdf": "sources/okounkov/summer2020/lecture01.pdf", "regions": [
+{"page": 2, "bbox": [398, 359, 602, 497], "note": "complex vector bundle over sheet M: fibres V_m -> V_gm over m -> gm"},
+{"page": 2, "bbox": [64, 524, 490, 683], "note": "V_even, V_odd fibres with D over M with g action ==*==> local index over M, in K_G(M)"},
+{"page": 3, "bbox": [62, 347, 368, 487], "note": "yellow diamond 'space' with time arrow, = M' space of PDE solutions"},
+{"page": 4, "bbox": [52, 228, 612, 312], "note": "genus-2 surface with points p1..pn in nodal compactification = two glued spheres"},
+{"page": 4, "bbox": [136, 352, 345, 418], "note": "sphere with three marked points p1,p2,p3 in K_Aut(X)(X^3)"},
+{"page": 4, "bbox": [362, 348, 612, 418], "note": "sphere with points p1,p2 and rotation q in K_{C*_q x Aut(X)}(X^2)"},
+{"page": 5, "bbox": [62, 86, 152, 228], "note": "large orange region C containing a shaded disk (wall)"}
+]}}

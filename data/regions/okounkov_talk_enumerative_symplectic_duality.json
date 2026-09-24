@@ -1,0 +1,20 @@
+{"okounkov_talk_enumerative_symplectic_duality": {"pdf": "sources/okounkov/talks/enumerative_symplectic_duality.pdf",
+  "regions": [
+    {"page": 2, "bbox": [120, 95, 700, 220], "note": "Space B (genus-2 surface) x time S^1"},
+    {"page": 3, "bbox": [70, 22, 300, 145], "note": "two cones X and X^vee meeting at a point"},
+    {"page": 3, "bbox": [112, 170, 750, 290], "note": "holo maps from surface B to X = moduli of vacua of the theory"},
+    {"page": 4, "bbox": [180, 262, 684, 450], "note": "surface B with marked points, positions of insertions"},
+    {"page": 6, "bbox": [216, 135, 768, 225], "note": "K_crit(quasimaps from surface B with marked point to X)"},
+    {"page": 10, "bbox": [155, 252, 490, 420], "note": "diagram A_{n-1} x A_{r-1} into CY^11 mapping down to S^1 x B"},
+    {"page": 11, "bbox": [285, 280, 545, 400], "note": "surface B with a marked point"},
+    {"page": 12, "bbox": [210, 74, 805, 225], "note": "gluing: surface B_0 glued into surface B (arrow)"},
+    {"page": 12, "bbox": [25, 408, 372, 552], "note": "B = P^1 disk with q-rotation, relative point and nonsingular boundary condition (solutions)"},
+    {"page": 12, "bbox": [428, 330, 805, 556], "note": "B = P^1 disk with two relative points and twist (operators)"},
+    {"page": 16, "bbox": [145, 245, 540, 545], "note": "square in (z,a) plane with circled corner singularities a=0,infty, z=0,infty"},
+    {"page": 17, "bbox": [32, 186, 470, 540], "note": "(z,a) square with vertical poles of a-solutions and horizontal poles of z-solutions"},
+    {"page": 19, "bbox": [120, 228, 625, 494], "note": "commutative square of solutions F with monodromy and pole subtraction maps P"},
+    {"page": 21, "bbox": [36, 230, 325, 416], "note": "surface B with boundary dB x time circle, torus above brace"},
+    {"page": 22, "bbox": [55, 208, 805, 462], "note": "duality interface: surface split into X part and X^vee part with labels"},
+    {"page": 23, "bbox": [122, 228, 400, 512], "note": "grid of attracting sets with hatched region, fixed points p, p^vee on axes X, X^vee"},
+    {"page": 24, "bbox": [185, 80, 782, 426], "note": "diagram Ell_T(X) x Ell_T(X^vee) down to A/q^Z x Z/q^Z and Pic(Ell_T(X)) with annotation"}
+  ]}}

@@ -1,0 +1,20 @@
+{"okounkov_talk_bethe": {"pdf": "sources/okounkov/talks/Bethe.pdf",
+  "regions": [
+    {"page": 9, "bbox": [40, 175, 293, 425], "note": "R-matrix crossing: V1(a1) x V2(a2) mapped to V2(a2) x V1(a1) by crossing arrows"},
+    {"page": 9, "bbox": [625, 160, 812, 252], "note": "Yang-Baxter equation as braid pictures, labeled YB"},
+    {"page": 10, "bbox": [40, 105, 565, 525], "note": "cylinder with dashed auxiliary loop W(u) twisted by z, vertical physical line V, crossing R; labels physical/auxiliary space"},
+    {"page": 13, "bbox": [95, 290, 745, 405], "note": "spin-1/2 chain: row of red up and blue down arrows"},
+    {"page": 16, "bbox": [35, 258, 372, 575], "note": "cylinder with vertical strands V2..Vn and strand V1 winding around (qKZ transport)"},
+    {"page": 24, "bbox": [190, 418, 605, 545], "note": "M^3 = (Riemann surface C drawn as a disk) x S^1"},
+    {"page": 25, "bbox": [122, 298, 630, 382], "note": "spin chain state: row of red up and blue down arrows"},
+    {"page": 29, "bbox": [35, 432, 295, 540], "note": "example quiver: vertex with loop, arrow, multiple arrows between dots"},
+    {"page": 31, "bbox": [516, 12, 825, 100], "note": "M^3 = C (disk with marked points) x S^1 (red circle)"},
+    {"page": 32, "bbox": [188, 262, 580, 345], "note": "quasimap from disk --g--> M_Higgs"},
+    {"page": 33, "bbox": [175, 135, 555, 298], "note": "bracket of disk C with marked points times circle S^1"},
+    {"page": 33, "bbox": [163, 428, 640, 550], "note": "disk with rotation q and marked point, dashed map to M_Higgs"},
+    {"page": 37, "bbox": [60, 120, 824, 472], "note": "commutative square: Hilbert space of QIS -> off-shell Bethe function, K_eq(M_Higgs) <-> representations of gauge group"},
+    {"page": 39, "bbox": [45, 272, 635, 481], "note": "disk with q rotation, relative insertion at 0 and descendent insertion at infinity, map to M_Higgs"},
+    {"page": 40, "bbox": [25, 72, 820, 442], "note": "bubbling of relative insertions: nested bubbles with singularities x, maps to M_Higgs, labels"},
+    {"page": 42, "bbox": [150, 250, 780, 478], "note": "M^3 = C (disk with q-rotation) x S^1, boundary torus drawn as circles"},
+    {"page": 43, "bbox": [25, 100, 832, 490], "note": "R-matrix matrix element: crossing strands from alpha and vacuum to star and vacuum, with labels"}
+  ]}}
