@@ -5,3 +5,6 @@ sources/
 
 # Rendered crops (~180 MB); regenerate with scripts/build.py
 data/images/
+
+# Private benchmark runs and captured agent/judge output
+/runs/

@@ -1,0 +1,71 @@
+{
+  "branch": "experiment/typescript-runtime",
+  "selected_runtime": "bun",
+  "selection_workload": "mix",
+  "tests": {
+    "node": {
+      "passed": 65,
+      "failed": 0,
+      "log_sha256": "7a88e6fa05300d588d33a5bd67b54a6c8ad3a0c37e25e50ffcc7ce284047614b"
+    },
+    "bun": {
+      "passed": 65,
+      "failed": 0,
+      "log_sha256": "a70e63d0f6f492188380e1e169b3608cb099a98813de4fc405a11c8eea997b2b"
+    },
+    "deno": {
+      "passed": 65,
+      "failed": 0,
+      "log_sha256": "4d8f5da76caf549954ac988a3336a7d986ef1dfe1ea417b804ee5917ee59fb57"
+    },
+    "python": {
+      "passed": 162,
+      "failed": 0,
+      "log_sha256": "65315935ded4756214f36b44348038ef6c3e2477fa9df9f996c4ec1edfb276d2"
+    }
+  },
+  "typecheck": "passed",
+  "format_check": "passed",
+  "npm_audit_vulnerabilities": 0,
+  "model_calls": 0,
+  "docker_execution": "not tested: Docker is not installed",
+  "linux_isolation": "not tested on this macOS host",
+  "measured_runtime_sources_unchanged": true,
+  "fixtures": {
+    "alpha.png": "c047c023f9664c8ffcde23ea88cbef1843642d66afd01f7cf2e05688b91f6aeb",
+    "arrow.png": "aed6ef38fdab42026b22b80ef069a03b23560efb32f9c8cef3a4ff35cd427715",
+    "blank.png": "d1d7344c517840686a19f019ae6e723f1fa475ad0d76fea363d9baeb734a2512",
+    "color.png": "92bb65f6b4454dfb0d766aabd3911f4b452bb39e139b67aa94b7367c1b4629bc",
+    "documents.json": "f7ac0fec3784636591a07909e2043bbbdbdfb18d61825a253fb4a8ca8044a03f",
+    "drawing.tex": "a08c8d9de327ac418a2f5d9298e5c519046cc8d563c50a26401ad2fdf6c5e43f",
+    "extra.png": "025bd697c528d5081e85335697a2c9b38b72924d652b9da9723cde0fda85b992",
+    "fill.png": "a9767a0abba3ba62e3c294901928d4c7a7f97734073024ca403d00bd4f7dab1f",
+    "identity.png": "d5bcdda1fc6313ecb689b711c8b8b0014c9cd73c5b85f0516d796c9b41ad9f91",
+    "label.png": "c24477837789f7df251cd73ed11580fef828b84233666a807f5ab9ef670c634c",
+    "notes.tex": "3ad2b9e3fcd30dbf90d23d5364bfeba1956c8b0b0d40af15f98b04903b099b6f",
+    "original0_200.png": "1b8a3dd2e664e66f863e54ce0afbcf67ec7423f82bd9689efc95d371eba72de7",
+    "original0_300.png": "c73dfdb726846fd876721d8d841cdd805b119c60f34b7e8d268ea15a3893dfe6",
+    "original1_200.png": "f05c62689e2e11698159e77a6be740847bb6dfbd03bce7c74f82e7f4f18af5e1",
+    "original1_300.png": "8287fc1f7dbf2d0d269be992352df9bfba6b0b809f35de2e28e77777c201feff",
+    "original2_200.png": "cecf6acbc27009e784f50930279aaeea916734555d7e3734835a6a0566d5f23a",
+    "original2_300.png": "edfed74042d1a3742c4d5163458b65fe7054f6ed53f4d53550993a5b904d8755",
+    "original3_200.png": "b12701ebdea56b7fcf09bfbf78a5ca37453916549d2f73f41460619d9a7dec19",
+    "original3_300.png": "918cee340139143879a24b8dc52b0bab6de1341cdd44143ad16db876c4671e8a",
+    "original4_200.png": "191b30729fb2433f605a9b67f373b72cef515ce5193b0821c21f95fa165a6964",
+    "original4_300.png": "aff2b15b5552564d21fe3576672b7063ac7072794bd36b6c53306c39631fb8e6",
+    "padding.png": "19e18675d73c55ad54005fe85a188eb40ddeea3eee9ced03994285103ab248dd",
+    "reference.png": "d5bcdda1fc6313ecb689b711c8b8b0014c9cd73c5b85f0516d796c9b41ad9f91",
+    "reflection.png": "76c4673970ed02a12cc2c870177e6330d9e292f099bbb35352e4d232740890dc",
+    "report_expected.json": "695d8227234c8a014250a2e881055be34ea0dc1007a4fd21ac396dfcda8908f0",
+    "resized_large.png": "0b533253a798dcad49aec3c76f545436d39a73c7de53386c792f824d1f4850da",
+    "resized_small.png": "94715db8ee9687fb708d3010b26869a70eb3f45aa58d13bb4b87572477b1aba1",
+    "results_expected.json": "88295ccfd9e90c1937d780c7e94d627e2cd40c0e61b12408c6eaff8811a3fcfa",
+    "rotation.png": "7ff9f669cebccf392309cbea49de25d362b077d3f87ad913ddc567b2d297f443",
+    "scale.png": "ccc8bf2793844c83a4a439e60e7eb69d0e12c469a9bad1787c685cb6a6d83ba4",
+    "stretch.png": "28681fc0936fe40c7a78eddee2321967b1ef64f964cb3c5437a025e331d8bccf",
+    "telemetry.json": "165aa1fe563d6df93c0527097a1883b77e3ee38b8b65fa8bec782878cca2d443",
+    "visual.json": "16b95933ee58e05566a72edfa391c5cc7397b5dc979f4b8d64d3df4ee657ce6d",
+    "width.png": "28c5846837c89c9f371378749d7575421a3552d6c68a53f30849d9bf8dcd739a"
+  },
+  "package_lock_sha256": "3c09c0bb659683dab0dddc7bcf043d8dccba3b0f64b57155f9d780e12c9acd07"
+}
