@@ -1,0 +1,1334 @@
+{
+  "platform": "Darwin 25.6.0 (darwin)",
+  "machine": "arm64",
+  "cpu": "Apple M4 Pro",
+  "created_utc": "2026-10-03T06:07:37Z",
+  "seed": 20261002,
+  "prng": "mulberry32 seeded with `seed`; Fisher–Yates shuffle of the runtime order for every sample",
+  "method": "One warmup per workload/runtime; seven interleaved samples by default; persistent workers; real TeX/Poppler/OS sandbox; no model calls. Fresh help startup is measured separately.",
+  "mix": "Five sequential preparations/full-document compilations/extracted-figure renders; four deterministic panel replays and one exact visual comparison. Excludes model and Docker execution latency.",
+  "driver": {
+    "runtime": {
+      "node": "26.3.0",
+      "bun": "1.4.2",
+      "boringssl": "41bf9b59c2ebf277a7aa427e1ecad5cc80dd4d4f",
+      "openssl": "1.1.0",
+      "llhttp": "9.3.0",
+      "libarchive": "ded82291ab41d5e355831b96b0e1ff49e24d8939",
+      "mimalloc": "6a64e1ba7f5b2130d4efccb67ec87fd0003f0f6a",
+      "picohttpparser": "066d2b1e9ab820703db0837a7255d92d30f0c9f5",
+      "uwebsockets": "744846f844374847c902b5e7fd59b4342a51ef99",
+      "webkit": "2e2aa2290fac856d6f451ceacb58f7f5b44dd057",
+      "zig": "04e7f6ac1e009525bc00934f20199c68f04e0a24",
+      "zlib": "12731092979c6d07f42da27da673a9f6c7b13586",
+      "tinycc": "05f0fafaa3be31e31d7b4b5c17dc60f62c991171",
+      "lolhtml": "725ce499aa9b71e38b7a2d0a9fbb6d7294a4079e",
+      "ares": "c7a3138dcfe3bb0eaaf10c0c24c36dc66dc790ab",
+      "libdeflate": "c8c56a20f8f621e6a966b716b31f1dedab6a41e3",
+      "usockets": "744846f844374847c902b5e7fd59b4342a51ef99",
+      "lshpack": "8905c024b6d052f083a3d11d0a169b3c2735c8a1",
+      "zstd": "f8745da6ff1ad1e7bab384bd1f9d742439278e99",
+      "v8": "14.6.202.34-node.20",
+      "uv": "1.48.0",
+      "napi": "10",
+      "icu": "78.1",
+      "unicode": "17.0",
+      "sqlite": "3.51.0",
+      "modules": "147"
+    },
+    "argv": [
+      "--samples",
+      "7",
+      "--out",
+      "results/runtime-comparison-2026-10-03.json"
+    ]
+  },
+  "versions": {
+    "node": {
+      "ready": true,
+      "runtime": {
+        "node": "26.10.0",
+        "acorn": "8.18.0",
+        "ada": "4.0.0",
+        "amaro": "1.1.11",
+        "ares": "1.34.8",
+        "brotli": "1.2.0",
+        "cldr": "48.0",
+        "icu": "78.3",
+        "libffi": "3.8.0",
+        "llhttp": "9.4.3",
+        "merve": "1.2.2",
+        "modules": "147",
+        "napi": "10",
+        "nbytes": "0.1.4",
+        "ncrypto": "0.0.1",
+        "nghttp2": "1.70.0",
+        "nghttp3": "",
+        "ngtcp2": "",
+        "openssl": "3.6.4",
+        "simdjson": "4.6.11",
+        "simdutf": "9.2.1",
+        "sqlite": "3.53.4",
+        "tz": "2026a",
+        "undici": "8.10.2",
+        "unicode": "17.0",
+        "uv": "1.53.0",
+        "uvwasi": "0.0.23",
+        "v8": "14.6.202.34-node.35",
+        "zlib": "1.2.12",
+        "zstd": "1.5.7"
+      }
+    },
+    "bun": {
+      "ready": true,
+      "runtime": {
+        "node": "26.3.0",
+        "bun": "1.4.2",
+        "boringssl": "41bf9b59c2ebf277a7aa427e1ecad5cc80dd4d4f",
+        "openssl": "1.1.0",
+        "llhttp": "9.3.0",
+        "libarchive": "ded82291ab41d5e355831b96b0e1ff49e24d8939",
+        "mimalloc": "6a64e1ba7f5b2130d4efccb67ec87fd0003f0f6a",
+        "picohttpparser": "066d2b1e9ab820703db0837a7255d92d30f0c9f5",
+        "uwebsockets": "744846f844374847c902b5e7fd59b4342a51ef99",
+        "webkit": "2e2aa2290fac856d6f451ceacb58f7f5b44dd057",
+        "zig": "04e7f6ac1e009525bc00934f20199c68f04e0a24",
+        "zlib": "12731092979c6d07f42da27da673a9f6c7b13586",
+        "tinycc": "05f0fafaa3be31e31d7b4b5c17dc60f62c991171",
+        "lolhtml": "725ce499aa9b71e38b7a2d0a9fbb6d7294a4079e",
+        "ares": "c7a3138dcfe3bb0eaaf10c0c24c36dc66dc790ab",
+        "libdeflate": "c8c56a20f8f621e6a966b716b31f1dedab6a41e3",
+        "usockets": "744846f844374847c902b5e7fd59b4342a51ef99",
+        "lshpack": "8905c024b6d052f083a3d11d0a169b3c2735c8a1",
+        "zstd": "f8745da6ff1ad1e7bab384bd1f9d742439278e99",
+        "v8": "14.6.202.34-node.20",
+        "uv": "1.48.0",
+        "napi": "10",
+        "icu": "78.1",
+        "unicode": "17.0",
+        "sqlite": "3.51.0",
+        "modules": "147"
+      }
+    },
+    "deno": {
+      "ready": true,
+      "runtime": {
+        "node": "26.5.1",
+        "uv": "1.52.1",
+        "zlib": "1.3.1-e00f703",
+        "brotli": "1.2.0",
+        "ares": "1.34.6",
+        "modules": "147",
+        "nghttp2": "1.69.0",
+        "napi": "10",
+        "llhttp": "9.4.1",
+        "openssl": "3.0.7+quic",
+        "cldr": "48.0",
+        "icu": "78.3",
+        "tz": "2026b",
+        "unicode": "17.0",
+        "ngtcp2": "",
+        "nghttp3": "",
+        "sqlite": "3.53.1",
+        "deno": "2.9.7",
+        "v8": "15.0.245.2-rusty",
+        "typescript": "6.0.3"
+      }
+    }
+  },
+  "summary": {
+    "node": {
+      "accounting": {
+        "median_seconds": 0.02108120900000006,
+        "min_seconds": 0.02024204200000008,
+        "max_seconds": 0.021802375000000096,
+        "samples": 7
+      },
+      "report": {
+        "median_seconds": 0.017481624999999893,
+        "min_seconds": 0.01681266699999992,
+        "max_seconds": 0.017752500000000053,
+        "samples": 7
+      },
+      "prepare": {
+        "median_seconds": 0.21396837499999946,
+        "min_seconds": 0.19772916700000043,
+        "max_seconds": 0.2541941660000002,
+        "samples": 7
+      },
+      "compile": {
+        "median_seconds": 1.151939457999997,
+        "min_seconds": 1.141253875000002,
+        "max_seconds": 1.1811378750000003,
+        "samples": 7
+      },
+      "visual": {
+        "median_seconds": 2.650063209,
+        "min_seconds": 2.5742767499999974,
+        "max_seconds": 2.9915834170000015,
+        "samples": 7
+      },
+      "mix": {
+        "median_seconds": 8.86851662499999,
+        "min_seconds": 8.81187045800002,
+        "max_seconds": 9.038021208999998,
+        "samples": 7
+      },
+      "cli_startup": {
+        "median_seconds": 0.09082062499999302,
+        "min_seconds": 0.08933591600001091,
+        "max_seconds": 0.09950958299997728,
+        "samples": 7
+      }
+    },
+    "bun": {
+      "accounting": {
+        "median_seconds": 0.011441666999999938,
+        "min_seconds": 0.010978625000000079,
+        "max_seconds": 0.013381165999999951,
+        "samples": 7
+      },
+      "report": {
+        "median_seconds": 0.007026333999999906,
+        "min_seconds": 0.006632957999999917,
+        "max_seconds": 0.008385458000000085,
+        "samples": 7
+      },
+      "prepare": {
+        "median_seconds": 0.19841233399999963,
+        "min_seconds": 0.19078133400000025,
+        "max_seconds": 0.20579141700000037,
+        "samples": 7
+      },
+      "compile": {
+        "median_seconds": 1.058044167,
+        "min_seconds": 1.0325994580000006,
+        "max_seconds": 1.0814715419999994,
+        "samples": 7
+      },
+      "visual": {
+        "median_seconds": 1.5338729170000005,
+        "min_seconds": 1.4604117910000058,
+        "max_seconds": 1.574150542000003,
+        "samples": 7
+      },
+      "mix": {
+        "median_seconds": 7.438323708000011,
+        "min_seconds": 7.412855749999988,
+        "max_seconds": 7.490616750000001,
+        "samples": 7
+      },
+      "cli_startup": {
+        "median_seconds": 0.01403158299997449,
+        "min_seconds": 0.01361133400001563,
+        "max_seconds": 0.018758625000016765,
+        "samples": 7
+      }
+    },
+    "deno": {
+      "accounting": {
+        "median_seconds": 0.019912292000000036,
+        "min_seconds": 0.01899087499999996,
+        "max_seconds": 0.021075041999999995,
+        "samples": 7
+      },
+      "report": {
+        "median_seconds": 0.018968083999999975,
+        "min_seconds": 0.017959583000000067,
+        "max_seconds": 0.019617667000000096,
+        "samples": 7
+      },
+      "prepare": {
+        "median_seconds": 0.2296949999999997,
+        "min_seconds": 0.21668712499999992,
+        "max_seconds": 0.3951338329999999,
+        "samples": 7
+      },
+      "compile": {
+        "median_seconds": 1.2102384170000005,
+        "min_seconds": 1.1768904169999987,
+        "max_seconds": 1.2225175830000008,
+        "samples": 7
+      },
+      "visual": {
+        "median_seconds": 2.4611653749999967,
+        "min_seconds": 2.335650708999994,
+        "max_seconds": 2.7750347500000063,
+        "samples": 7
+      },
+      "mix": {
+        "median_seconds": 9.035433707999998,
+        "min_seconds": 8.983331624999991,
+        "max_seconds": 9.361305833000007,
+        "samples": 7
+      },
+      "cli_startup": {
+        "median_seconds": 0.031226916999963578,
+        "min_seconds": 0.029405665999976918,
+        "max_seconds": 0.04146654200000921,
+        "samples": 7
+      }
+    }
+  },
+  "raw": {
+    "node": {
+      "accounting": [
+        {
+          "seconds": 0.021671624999999948,
+          "driver_seconds": 0.022045333000000028,
+          "result": {
+            "count": 10000
+          }
+        },
+        {
+          "seconds": 0.02108120900000006,
+          "driver_seconds": 0.02129250000000002,
+          "result": {
+            "count": 10000
+          }
+        },
+        {
+          "seconds": 0.021802375000000096,
+          "driver_seconds": 0.022112750000000004,
+          "result": {
+            "count": 10000
+          }
+        },
+        {
+          "seconds": 0.02073733299999992,
+          "driver_seconds": 0.020894207999999935,
+          "result": {
+            "count": 10000
+          }
+        },
+        {
+          "seconds": 0.020869332999999983,
+          "driver_seconds": 0.021052458000000003,
+          "result": {
+            "count": 10000
+          }
+        },
+        {
+          "seconds": 0.021228542000000062,
+          "driver_seconds": 0.02155062500000008,
+          "result": {
+            "count": 10000
+          }
+        },
+        {
+          "seconds": 0.02024204200000008,
+          "driver_seconds": 0.02041233299999999,
+          "result": {
+            "count": 10000
+          }
+        }
+      ],
+      "report": [
+        {
+          "seconds": 0.017481624999999893,
+          "driver_seconds": 0.01769749999999999,
+          "result": {
+            "rows": 200
+          }
+        },
+        {
+          "seconds": 0.016848416999999928,
+          "driver_seconds": 0.016963750000000118,
+          "result": {
+            "rows": 200
+          }
+        },
+        {
+          "seconds": 0.01751850000000013,
+          "driver_seconds": 0.017720832999999856,
+          "result": {
+            "rows": 200
+          }
+        },
+        {
+          "seconds": 0.017666790999999876,
+          "driver_seconds": 0.01782854199999997,
+          "result": {
+            "rows": 200
+          }
+        },
+        {
+          "seconds": 0.01681266699999992,
+          "driver_seconds": 0.016916999999999915,
+          "result": {
+            "rows": 200
+          }
+        },
+        {
+          "seconds": 0.017752500000000053,
+          "driver_seconds": 0.01789300000000003,
+          "result": {
+            "rows": 200
+          }
+        },
+        {
+          "seconds": 0.016904457999999976,
+          "driver_seconds": 0.017015208000000028,
+          "result": {
+            "rows": 200
+          }
+        }
+      ],
+      "prepare": [
+        {
+          "seconds": 0.21435104199999977,
+          "driver_seconds": 0.21454895899999973,
+          "result": {
+            "tasks": 1
+          }
+        },
+        {
+          "seconds": 0.21618454200000042,
+          "driver_seconds": 0.216398416,
+          "result": {
+            "tasks": 1
+          }
+        },
+        {
+          "seconds": 0.21313362499999994,
+          "driver_seconds": 0.21335629199999995,
+          "result": {
+            "tasks": 1
+          }
+        },
+        {
+          "seconds": 0.2541941660000002,
+          "driver_seconds": 0.25439483300000026,
+          "result": {
+            "tasks": 1
+          }
+        },
+        {
+          "seconds": 0.19772916700000043,
+          "driver_seconds": 0.1979135840000008,
+          "result": {
+            "tasks": 1
+          }
+        },
+        {
+          "seconds": 0.20248808300000018,
+          "driver_seconds": 0.20268441699999948,
+          "result": {
+            "tasks": 1
+          }
+        },
+        {
+          "seconds": 0.21396837499999946,
+          "driver_seconds": 0.21415366599999924,
+          "result": {
+            "tasks": 1
+          }
+        }
+      ],
+      "compile": [
+        {
+          "seconds": 1.1811378750000003,
+          "driver_seconds": 1.1813572089999997,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 1.154403792000001,
+          "driver_seconds": 1.154607041000001,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 1.141253875000002,
+          "driver_seconds": 1.141510542,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 1.1620657500000016,
+          "driver_seconds": 1.1623120000000018,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 1.1467843749999993,
+          "driver_seconds": 1.146991750000001,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 1.1430980419999979,
+          "driver_seconds": 1.143305792000003,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 1.151939457999997,
+          "driver_seconds": 1.152142499999998,
+          "result": {
+            "ok": true
+          }
+        }
+      ],
+      "visual": [
+        {
+          "seconds": 2.9915834170000015,
+          "driver_seconds": 2.991819374999999,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 2.7113600000000004,
+          "driver_seconds": 2.711575582999998,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 2.7894338330000026,
+          "driver_seconds": 2.7896373749999985,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 2.5742767499999974,
+          "driver_seconds": 2.574482042000003,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 2.6171516249999986,
+          "driver_seconds": 2.6173602499999977,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 2.6069846249999973,
+          "driver_seconds": 2.607219082999989,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 2.650063209,
+          "driver_seconds": 2.650269666999986,
+          "result": {
+            "ok": true
+          }
+        }
+      ],
+      "mix": [
+        {
+          "seconds": 9.038021208999998,
+          "driver_seconds": 9.038454333,
+          "result": {
+            "tasks": 5,
+            "checklist": 4,
+            "digital": 1
+          }
+        },
+        {
+          "seconds": 8.993056374999986,
+          "driver_seconds": 8.993263833000004,
+          "result": {
+            "tasks": 5,
+            "checklist": 4,
+            "digital": 1
+          }
+        },
+        {
+          "seconds": 8.86851662499999,
+          "driver_seconds": 8.868730249999993,
+          "result": {
+            "tasks": 5,
+            "checklist": 4,
+            "digital": 1
+          }
+        },
+        {
+          "seconds": 8.81187045800002,
+          "driver_seconds": 8.812029165999993,
+          "result": {
+            "tasks": 5,
+            "checklist": 4,
+            "digital": 1
+          }
+        },
+        {
+          "seconds": 8.893300125000009,
+          "driver_seconds": 8.893506082999986,
+          "result": {
+            "tasks": 5,
+            "checklist": 4,
+            "digital": 1
+          }
+        },
+        {
+          "seconds": 8.828482083999988,
+          "driver_seconds": 8.828743958000006,
+          "result": {
+            "tasks": 5,
+            "checklist": 4,
+            "digital": 1
+          }
+        },
+        {
+          "seconds": 8.819419750000002,
+          "driver_seconds": 8.819621583,
+          "result": {
+            "tasks": 5,
+            "checklist": 4,
+            "digital": 1
+          }
+        }
+      ],
+      "cli_startup": [
+        {
+          "seconds": 0.09950958299997728
+        },
+        {
+          "seconds": 0.08933591600001091
+        },
+        {
+          "seconds": 0.09068950000003678
+        },
+        {
+          "seconds": 0.08974529200000689
+        },
+        {
+          "seconds": 0.09082062499999302
+        },
+        {
+          "seconds": 0.09086479199997848
+        },
+        {
+          "seconds": 0.09113233300001593
+        }
+      ]
+    },
+    "bun": {
+      "accounting": [
+        {
+          "seconds": 0.013381165999999951,
+          "driver_seconds": 0.013548250000000053,
+          "result": {
+            "count": 10000
+          }
+        },
+        {
+          "seconds": 0.011728500000000053,
+          "driver_seconds": 0.011895582999999987,
+          "result": {
+            "count": 10000
+          }
+        },
+        {
+          "seconds": 0.011441666999999938,
+          "driver_seconds": 0.011569375000000036,
+          "result": {
+            "count": 10000
+          }
+        },
+        {
+          "seconds": 0.011161542000000054,
+          "driver_seconds": 0.011329541999999946,
+          "result": {
+            "count": 10000
+          }
+        },
+        {
+          "seconds": 0.01135775000000001,
+          "driver_seconds": 0.011492500000000063,
+          "result": {
+            "count": 10000
+          }
+        },
+        {
+          "seconds": 0.011564750000000004,
+          "driver_seconds": 0.011704459000000042,
+          "result": {
+            "count": 10000
+          }
+        },
+        {
+          "seconds": 0.010978625000000079,
+          "driver_seconds": 0.011077541999999994,
+          "result": {
+            "count": 10000
+          }
+        }
+      ],
+      "report": [
+        {
+          "seconds": 0.008385458000000085,
+          "driver_seconds": 0.008513916999999992,
+          "result": {
+            "rows": 200
+          }
+        },
+        {
+          "seconds": 0.007894874999999956,
+          "driver_seconds": 0.008053709000000027,
+          "result": {
+            "rows": 200
+          }
+        },
+        {
+          "seconds": 0.007022334000000001,
+          "driver_seconds": 0.00715320799999995,
+          "result": {
+            "rows": 200
+          }
+        },
+        {
+          "seconds": 0.007003291999999874,
+          "driver_seconds": 0.007097166999999899,
+          "result": {
+            "rows": 200
+          }
+        },
+        {
+          "seconds": 0.007866625000000113,
+          "driver_seconds": 0.008003209000000197,
+          "result": {
+            "rows": 200
+          }
+        },
+        {
+          "seconds": 0.006632957999999917,
+          "driver_seconds": 0.006721125000000029,
+          "result": {
+            "rows": 200
+          }
+        },
+        {
+          "seconds": 0.007026333999999906,
+          "driver_seconds": 0.007194416000000046,
+          "result": {
+            "rows": 200
+          }
+        }
+      ],
+      "prepare": [
+        {
+          "seconds": 0.20471062500000017,
+          "driver_seconds": 0.20489079200000015,
+          "result": {
+            "tasks": 1
+          }
+        },
+        {
+          "seconds": 0.20579141700000037,
+          "driver_seconds": 0.2061097090000003,
+          "result": {
+            "tasks": 1
+          }
+        },
+        {
+          "seconds": 0.201558,
+          "driver_seconds": 0.20172662500000024,
+          "result": {
+            "tasks": 1
+          }
+        },
+        {
+          "seconds": 0.19374625000000015,
+          "driver_seconds": 0.19392533400000048,
+          "result": {
+            "tasks": 1
+          }
+        },
+        {
+          "seconds": 0.19078133400000025,
+          "driver_seconds": 0.1909440420000001,
+          "result": {
+            "tasks": 1
+          }
+        },
+        {
+          "seconds": 0.19841233399999963,
+          "driver_seconds": 0.1985887499999999,
+          "result": {
+            "tasks": 1
+          }
+        },
+        {
+          "seconds": 0.19272645899999952,
+          "driver_seconds": 0.19285970799999996,
+          "result": {
+            "tasks": 1
+          }
+        }
+      ],
+      "compile": [
+        {
+          "seconds": 1.058044167,
+          "driver_seconds": 1.0582559579999997,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 1.0814715419999994,
+          "driver_seconds": 1.081658625,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 1.0566609590000007,
+          "driver_seconds": 1.056799082999998,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 1.0325994580000006,
+          "driver_seconds": 1.0327847920000022,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 1.0601433749999996,
+          "driver_seconds": 1.0602937500000007,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 1.0482116659999992,
+          "driver_seconds": 1.0483943330000003,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 1.0596762920000038,
+          "driver_seconds": 1.0598583749999961,
+          "result": {
+            "ok": true
+          }
+        }
+      ],
+      "visual": [
+        {
+          "seconds": 1.574150542000003,
+          "driver_seconds": 1.574372374999999,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 1.5338996250000054,
+          "driver_seconds": 1.5340967090000048,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 1.4834937500000014,
+          "driver_seconds": 1.4844355830000058,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 1.542124416000006,
+          "driver_seconds": 1.5423058750000054,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 1.5338729170000005,
+          "driver_seconds": 1.5340507079999952,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 1.5268759169999975,
+          "driver_seconds": 1.5270728329999983,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 1.4604117910000058,
+          "driver_seconds": 1.4605801249999932,
+          "result": {
+            "ok": true
+          }
+        }
+      ],
+      "mix": [
+        {
+          "seconds": 7.490616750000001,
+          "driver_seconds": 7.4908075840000095,
+          "result": {
+            "tasks": 5,
+            "checklist": 4,
+            "digital": 1
+          }
+        },
+        {
+          "seconds": 7.456421499999997,
+          "driver_seconds": 7.45659729200002,
+          "result": {
+            "tasks": 5,
+            "checklist": 4,
+            "digital": 1
+          }
+        },
+        {
+          "seconds": 7.438323708000011,
+          "driver_seconds": 7.4384954579999905,
+          "result": {
+            "tasks": 5,
+            "checklist": 4,
+            "digital": 1
+          }
+        },
+        {
+          "seconds": 7.429270124999981,
+          "driver_seconds": 7.4294669170000125,
+          "result": {
+            "tasks": 5,
+            "checklist": 4,
+            "digital": 1
+          }
+        },
+        {
+          "seconds": 7.412855749999988,
+          "driver_seconds": 7.413025457999989,
+          "result": {
+            "tasks": 5,
+            "checklist": 4,
+            "digital": 1
+          }
+        },
+        {
+          "seconds": 7.426171208000015,
+          "driver_seconds": 7.426337041999999,
+          "result": {
+            "tasks": 5,
+            "checklist": 4,
+            "digital": 1
+          }
+        },
+        {
+          "seconds": 7.471082374999998,
+          "driver_seconds": 7.471243000000017,
+          "result": {
+            "tasks": 5,
+            "checklist": 4,
+            "digital": 1
+          }
+        }
+      ],
+      "cli_startup": [
+        {
+          "seconds": 0.018758625000016765
+        },
+        {
+          "seconds": 0.014571042000025045
+        },
+        {
+          "seconds": 0.014861959000001661
+        },
+        {
+          "seconds": 0.013750291000003927
+        },
+        {
+          "seconds": 0.01403158299997449
+        },
+        {
+          "seconds": 0.01361133400001563
+        },
+        {
+          "seconds": 0.013753542000020389
+        }
+      ]
+    },
+    "deno": {
+      "accounting": [
+        {
+          "seconds": 0.020578958,
+          "driver_seconds": 0.020910541999999963,
+          "result": {
+            "count": 10000
+          }
+        },
+        {
+          "seconds": 0.019912292000000036,
+          "driver_seconds": 0.02019550000000004,
+          "result": {
+            "count": 10000
+          }
+        },
+        {
+          "seconds": 0.021075041999999995,
+          "driver_seconds": 0.021437374999999974,
+          "result": {
+            "count": 10000
+          }
+        },
+        {
+          "seconds": 0.01979404199999999,
+          "driver_seconds": 0.020080084000000057,
+          "result": {
+            "count": 10000
+          }
+        },
+        {
+          "seconds": 0.020000249999999994,
+          "driver_seconds": 0.02029245800000001,
+          "result": {
+            "count": 10000
+          }
+        },
+        {
+          "seconds": 0.019810834,
+          "driver_seconds": 0.020021874999999908,
+          "result": {
+            "count": 10000
+          }
+        },
+        {
+          "seconds": 0.01899087499999996,
+          "driver_seconds": 0.019250999999999976,
+          "result": {
+            "count": 10000
+          }
+        }
+      ],
+      "report": [
+        {
+          "seconds": 0.019109333999999988,
+          "driver_seconds": 0.01931120800000008,
+          "result": {
+            "rows": 200
+          }
+        },
+        {
+          "seconds": 0.018968083999999975,
+          "driver_seconds": 0.019169624999999996,
+          "result": {
+            "rows": 200
+          }
+        },
+        {
+          "seconds": 0.019617667000000096,
+          "driver_seconds": 0.01980837500000007,
+          "result": {
+            "rows": 200
+          }
+        },
+        {
+          "seconds": 0.018842709000000013,
+          "driver_seconds": 0.01894724999999994,
+          "result": {
+            "rows": 200
+          }
+        },
+        {
+          "seconds": 0.018954166999999984,
+          "driver_seconds": 0.01912687499999993,
+          "result": {
+            "rows": 200
+          }
+        },
+        {
+          "seconds": 0.019045417000000044,
+          "driver_seconds": 0.019180791,
+          "result": {
+            "rows": 200
+          }
+        },
+        {
+          "seconds": 0.017959583000000067,
+          "driver_seconds": 0.018107874999999923,
+          "result": {
+            "rows": 200
+          }
+        }
+      ],
+      "prepare": [
+        {
+          "seconds": 0.23436979199999997,
+          "driver_seconds": 0.234641666,
+          "result": {
+            "tasks": 1
+          }
+        },
+        {
+          "seconds": 0.2296949999999997,
+          "driver_seconds": 0.2299989169999999,
+          "result": {
+            "tasks": 1
+          }
+        },
+        {
+          "seconds": 0.220137792,
+          "driver_seconds": 0.22041254200000002,
+          "result": {
+            "tasks": 1
+          }
+        },
+        {
+          "seconds": 0.21668712499999992,
+          "driver_seconds": 0.21696145799999977,
+          "result": {
+            "tasks": 1
+          }
+        },
+        {
+          "seconds": 0.2208946670000005,
+          "driver_seconds": 0.22119870900000024,
+          "result": {
+            "tasks": 1
+          }
+        },
+        {
+          "seconds": 0.23154175000000032,
+          "driver_seconds": 0.2317463340000004,
+          "result": {
+            "tasks": 1
+          }
+        },
+        {
+          "seconds": 0.3951338329999999,
+          "driver_seconds": 0.3954157920000007,
+          "result": {
+            "tasks": 1
+          }
+        }
+      ],
+      "compile": [
+        {
+          "seconds": 1.1768904169999987,
+          "driver_seconds": 1.177190042,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 1.21442475,
+          "driver_seconds": 1.2147147909999985,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 1.196853708999999,
+          "driver_seconds": 1.1972182919999979,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 1.2102384170000005,
+          "driver_seconds": 1.210581000000002,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 1.2225175830000008,
+          "driver_seconds": 1.222850042000002,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 1.2121194999999971,
+          "driver_seconds": 1.2123659169999992,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 1.1769006249999985,
+          "driver_seconds": 1.177189542,
+          "result": {
+            "ok": true
+          }
+        }
+      ],
+      "visual": [
+        {
+          "seconds": 2.7750347500000063,
+          "driver_seconds": 2.775279291999999,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 2.6318515840000036,
+          "driver_seconds": 2.632108874999998,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 2.4610982079999957,
+          "driver_seconds": 2.461289125000003,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 2.335650708999994,
+          "driver_seconds": 2.3359064579999975,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 2.4611653749999967,
+          "driver_seconds": 2.4615260830000043,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 2.3582347909999952,
+          "driver_seconds": 2.358518916000001,
+          "result": {
+            "ok": true
+          }
+        },
+        {
+          "seconds": 2.4860206250000045,
+          "driver_seconds": 2.486276457999993,
+          "result": {
+            "ok": true
+          }
+        }
+      ],
+      "mix": [
+        {
+          "seconds": 9.361305833000007,
+          "driver_seconds": 9.361526750000005,
+          "result": {
+            "tasks": 5,
+            "checklist": 4,
+            "digital": 1
+          }
+        },
+        {
+          "seconds": 8.991983624999994,
+          "driver_seconds": 8.992280958000018,
+          "result": {
+            "tasks": 5,
+            "checklist": 4,
+            "digital": 1
+          }
+        },
+        {
+          "seconds": 9.035433707999998,
+          "driver_seconds": 9.035700458000006,
+          "result": {
+            "tasks": 5,
+            "checklist": 4,
+            "digital": 1
+          }
+        },
+        {
+          "seconds": 9.142152624999987,
+          "driver_seconds": 9.142518708000019,
+          "result": {
+            "tasks": 5,
+            "checklist": 4,
+            "digital": 1
+          }
+        },
+        {
+          "seconds": 9.002716125000006,
+          "driver_seconds": 9.002993458000011,
+          "result": {
+            "tasks": 5,
+            "checklist": 4,
+            "digital": 1
+          }
+        },
+        {
+          "seconds": 8.983331624999991,
+          "driver_seconds": 8.983583833000012,
+          "result": {
+            "tasks": 5,
+            "checklist": 4,
+            "digital": 1
+          }
+        },
+        {
+          "seconds": 9.07958812500001,
+          "driver_seconds": 9.079846082999953,
+          "result": {
+            "tasks": 5,
+            "checklist": 4,
+            "digital": 1
+          }
+        }
+      ],
+      "cli_startup": [
+        {
+          "seconds": 0.04146654200000921
+        },
+        {
+          "seconds": 0.030535208000044806
+        },
+        {
+          "seconds": 0.031226916999963578
+        },
+        {
+          "seconds": 0.02996366599999601
+        },
+        {
+          "seconds": 0.031995916000043506
+        },
+        {
+          "seconds": 0.03128525000001537
+        },
+        {
+          "seconds": 0.029405665999976918
+        }
+      ]
+    }
+  },
+  "source_sha256": {
+    "typescript/src/agent_bench.ts": "fc8b4869c738c1320621ca30a16b0ce3efcaaf17847e619d94f581c94c5833b4",
+    "typescript/src/auth.ts": "bab0695687dc7ffbd96d06696a83aa3589843cbde9283329b8b6d8e3534e5d8a",
+    "typescript/src/cli.ts": "66a0d70825e35709db6d0af8ac4b464749569412d57d8ecc15c5b49f19fbe3a5",
+    "typescript/src/compile.ts": "d8462c102fab01f6d8a0283b714ab78d48c333b5ce0370a18cf9e1055da468cf",
+    "typescript/src/concurrency.ts": "cd3fcbdf9d7338b39c3b25722a293b654ec721a612f2d2dd442cbf0e65636c0e",
+    "typescript/src/dataset.ts": "1cdb12ef65240f771ee2e98dd4239fe7c6701621045408387a330a97e1ac8e67",
+    "typescript/src/images.ts": "49ce84e5615dd2e5c64763c819303acd104961229af0218a3ae97191f99474fe",
+    "typescript/src/inspect_pdf.ts": "aa455041b3080caacb971700963b8beab8f76a42f1dda64b13cbfe1070c79aa1",
+    "typescript/src/judge.ts": "2820994cc701202048c2e5e012382d1cd1d0a55165d48a3681baf7e73e01a485",
+    "typescript/src/process.ts": "6a5a63589b61f9ee5e711ed4f581e59cbdfda460b06585c6356cca4d4684c2e1",
+    "typescript/src/raster.ts": "eca6e8385a23854d36628c15c55cca815391d8431760edd9b8c101c8c762cbfa",
+    "typescript/src/report.ts": "39efded471edc8481c11b8e94ef0d010869e28a7bac7cc42231bf1b5557be0c6",
+    "typescript/src/runner.ts": "4fdfcd3abdb2a395944e4eae687057438190b9925954308787b16d175e719a84",
+    "typescript/src/sandbox.ts": "01908f36c17c98c0a83964a031b4c212223b6333a98a201ff78ad703ea4b8c5f",
+    "typescript/src/subscription_judge.ts": "41e11ac57cea5b9ba023695529a5f5be0486a67ca0091b824ffae9d5f9275b26",
+    "typescript/src/support.ts": "1e17e633a3937f0704c9ccf40015229e5ac5247368dcfcfbc2fd5146bcbc75b0",
+    "typescript/src/tasks.ts": "95bec1c16704e4388f7c61598a6b6319ce809fa498d4a0f4bbe67bdbf114c6bd",
+    "typescript/src/visual_compare.ts": "a4a7fa3f189d609219242baf055964fc090cf3c40e723a4954bf7d6728531dea",
+    "typescript/perf/compare_runtimes.ts": "e174840cb1bbea6e2f129eac3b0b334da15392c5a8ec37e117ee8cf224644d3e",
+    "typescript/perf/worker.ts": "515492241b36d7017af962b5a06da443c2870c5f09f7786495bbcc0fe78d2834",
+    "typescript/tests/helpers.ts": "3d81276df52d66765ea7d4dbb3d4fd416031e7e3a2bfd29f888b44f387a110d3"
+  },
+  "fastest_mix": "bun"
+}

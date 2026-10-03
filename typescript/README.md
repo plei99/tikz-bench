@@ -20,9 +20,9 @@ npm run build-inspector
 cd ..
 ```
 
-The root `./benchmark` launcher, `npm run bench`, inspector build and default tests
-use Bun. The runtime comparison selected Bun 1.4.2; Node and Deno remain available
-for comparison. From the checkout root, the unified CLI supports:
+Everything runs on Bun (tested with 1.4.2), which was fastest on every workload in
+[the runtime comparison](../docs/typescript_runtime_experiment.md). Node and Deno
+are not supported. From the checkout root, the unified CLI supports:
 
 ```sh
 ./benchmark run --run ts-pilot --agent codex --model YOUR_MODEL --limit 3
@@ -33,10 +33,6 @@ for comparison. From the checkout root, the unified CLI supports:
 ./benchmark prepare --run ts-external --agent codex --model YOUR_MODEL --out /private/tmp/tikz-tasks
 ./benchmark submit --run ts-external --workspace /private/tmp/tikz-tasks/TASK_DIRECTORY
 ```
-
-Invoke `node typescript/src/cli.ts` or `deno run -A typescript/src/cli.ts` to compare runtimes. The runtime
-selection and measurements are recorded in
-[the experiment report](../docs/typescript_runtime_experiment.md).
 
 Configuration fingerprints record `implementation: typescript-v1`; they cannot
 silently reuse a configuration from the retired Python implementation, so runs it
@@ -70,10 +66,7 @@ image comparisons with finite rendering tolerances.
 cd typescript
 npm run check
 npm test
-npm run test:node
-npm run test:deno
 npm run test:curation
-bun perf/compare_runtimes.ts --samples 7
 ```
 
 The tests compare against fixtures frozen in `tests/fixtures/`: outputs the retired
@@ -82,17 +75,9 @@ comparisons, standalone documents and a report run). The five visual cases built
 from locally recovered TikZ PDFs are rendered with `pdftoppm` at test time and
 skipped when those gitignored PDFs are absent.
 
-Performance results contain runtime versions, source hashes and every measured
-sample. The mixed workload performs five private repository preparations and
-complete document/figure compilations, then replays four panel aggregations and
-one digital comparison. The digital comparison uses a recovered original rendered
-at two resolutions. No test or timing run sends an inference request.
-
-Docker is not installed on the experiment machine. Docker options and CLI
-contracts are tested offline; actual container execution and Linux isolation
-still require validation on an appropriate worker. The measured speed difference
-applies to local benchmark processing. Remote agents and subscription judges have
-their own response times, which this experiment does not estimate.
+No test sends an inference request. Docker options and CLI contracts are tested
+offline with a fake `docker`; actual container execution and Linux isolation still
+require validation on an appropriate worker.
 
 ## Source layout
 

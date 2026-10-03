@@ -5,11 +5,28 @@ default on `main`. The mixed local
 workload took a median 8.42 seconds under Bun, compared with 9.63 seconds under
 Python: 12.6% less elapsed time. The `./benchmark` launcher uses Bun.
 
-**Update, 3 October 2026:** the Python implementation has since been retired. Its
-outputs for the differential cases are frozen in `typescript/tests/fixtures/`, and
-the driver is now [`compare_runtimes.ts`](../typescript/perf/compare_runtimes.ts),
-which compares Node, Bun and Deno only. The Python measurements below are a
-historical record and can no longer be reproduced from this repository.
+**Update, 3 October 2026:** the Python implementation has since been retired; its
+outputs for the differential cases are frozen in `typescript/tests/fixtures/`. A
+repeat comparison of the TypeScript runtime under Node 26.10.0, Bun 1.4.2 and Deno
+2.9.7 (seven interleaved samples per workload, after all three passed the 167-test
+suite; [raw results](../typescript/results/runtime-comparison-2026-10-03.json))
+again favored Bun on every workload, with no overlap between the runtimes'
+min–max ranges:
+
+| Workload | Node | Bun | Deno |
+|---|---:|---:|---:|
+| Mixed | 8.869 s | **7.438 s** | 9.035 s |
+| Digital comparison | 2.650 s | **1.534 s** | 2.461 s |
+| Compilation | 1.152 s | **1.058 s** | 1.210 s |
+| Task preparation | 0.214 s | **0.198 s** | 0.230 s |
+| Usage accounting | 21.1 ms | **11.4 ms** | 19.9 ms |
+| Report | 17.5 ms | **7.0 ms** | 19.0 ms |
+| CLI startup | 90.8 ms | **14.0 ms** | 31.2 ms |
+
+Bun used 16% less time than Node and 18% less than Deno on the mixed workload.
+Support for Node and Deno was then removed, along with the comparison driver
+(`typescript/perf/`); the results files remain as records. The Python measurements
+below are historical and can no longer be reproduced from this repository.
 
 The port covers the complete benchmark runtime: task preparation, all seven agent
 adapters, subscription authentication, compilation and extraction, PDF inspection,

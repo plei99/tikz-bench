@@ -77,12 +77,12 @@ export function runtimePaths() {
   })());
 }
 
-export function inspectorCommand(pdf: string, documentOnly = false) {
-  const runtime = path.basename(process.execPath).startsWith("deno")
-    ? [process.execPath, "run", "--allow-read", "--allow-env"]
-    : [process.execPath];
-  return [...runtime, INSPECTOR, pdf, ...(documentOnly ? ["--document"] : [])];
-}
+export const inspectorCommand = (pdf: string, documentOnly = false) => [
+  process.execPath,
+  INSPECTOR,
+  pdf,
+  ...(documentOnly ? ["--document"] : []),
+];
 
 /** Wrap `command` so it can read runtime paths and `cwd`, and write only OUTPUTS there. */
 export async function sandboxCommand(command: string[], cwd: string) {

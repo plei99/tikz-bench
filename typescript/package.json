@@ -6,8 +6,6 @@
     "check": "tsc --noEmit",
     "test": "bun test ./tests/",
     "test:curation": "bun test ./curation/tests/",
-    "test:node": "node --test tests/*.test.ts",
-    "test:deno": "deno test -A --no-check tests/",
     "bench": "bun src/cli.ts",
     "build-inspector": "bun build.ts"
   },

@@ -74,9 +74,9 @@ Links lead to personal homepages or institutional profiles.
 - Codex signed in with ChatGPT and Claude Code signed in with a Claude subscription, for judging
 - Docker, for automatic coding-agent runs
 
-The [runtime experiment](docs/typescript_runtime_experiment.md) compared the
-earlier Python implementation with Node, Bun and Deno; Bun was fastest on the tested
-mixed local workload. The repository no longer contains or needs Python.
+Everything runs on Bun. The [runtime experiment](docs/typescript_runtime_experiment.md)
+compared Node, Bun and Deno (and originally the retired Python implementation); Bun
+was fastest on every measured workload.
 
 The sandbox has been exercised on macOS. The Linux backend still needs validation.
 
@@ -116,8 +116,8 @@ npm run check
 npm test
 ```
 
-See [TypeScript setup and runtime comparison](typescript/README.md) for the
-external-agent workflow, Node/Deno commands and performance reproduction.
+See the [TypeScript guide](typescript/README.md) for the external-agent workflow
+and the test suites.
 
 ## What's in the repository
 

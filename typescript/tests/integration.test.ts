@@ -14,9 +14,6 @@ import { judgeTask, validJudgment } from "../src/judge.ts";
 import { fixture } from "./helpers.ts";
 
 const cli = path.join(ROOT, "typescript/src/cli.ts");
-const runtime = path.basename(process.execPath).startsWith("deno")
-  ? [process.execPath, "run", "-A"]
-  : [process.execPath];
 
 test("public CLI prepares, captures, automatically zeroes and reports a broken document without judges", async () => {
   const run = "ts-rewrite-test-" + crypto.randomUUID();
@@ -27,7 +24,9 @@ test("public CLI prepares, captures, automatically zeroes and reports a broken d
         (f) => f.kind !== "typeset",
       )!.id;
       const exec = async (...args: string[]) => {
-        const r = await capture([...runtime, cli, ...args], { timeout: 30 });
+        const r = await capture([process.execPath, cli, ...args], {
+          timeout: 30,
+        });
         assert.equal(r.returncode, 0, r.stderr + r.stdout);
         return r;
       };
