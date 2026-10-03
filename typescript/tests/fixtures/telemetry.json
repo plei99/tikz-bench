@@ -1,0 +1,252 @@
+[
+  {
+    "agent": "antigravity",
+    "stdout": "{\"event\": \"step_update\", \"step_update\": {\"state\": \"DONE\", \"step_index\": 0, \"step_type\": \"agent_response\", \"duration_seconds\": 4}}\n{\"event\": \"step_update\", \"step_update\": {\"state\": \"DONE\", \"step_index\": 1, \"step_type\": \"tool\", \"duration_seconds\": 20}}\n{\"event\": \"step_update\", \"step_update\": {\"state\": \"DONE\", \"step_index\": 2, \"step_type\": \"agent_response\", \"duration_seconds\": 3}}\n{\"event\": \"step_update\", \"step_update\": {\"state\": \"DONE\", \"step_index\": 0, \"step_type\": \"agent_response\", \"duration_seconds\": 4}}\n{\"event\": \"result\", \"result\": {\"status\": \"SUCCESS\", \"duration_seconds\": 30}}",
+    "rates": null,
+    "expected": {
+      "wall_seconds": 7,
+      "cost_usd": null,
+      "usage": {},
+      "speed_source": "cli_model_response_steps",
+      "cost_source": null,
+      "completed": true
+    }
+  },
+  {
+    "agent": "claude",
+    "stdout": "{\"type\": \"result\", \"subtype\": \"success\", \"is_error\": false, \"duration_ms\": 40000, \"duration_api_ms\": 7500, \"total_cost_usd\": 0.03}",
+    "rates": null,
+    "expected": {
+      "wall_seconds": 7.5,
+      "cost_usd": 0.03,
+      "usage": {},
+      "speed_source": "cli_api_duration",
+      "cost_source": "cli_estimate",
+      "completed": true
+    }
+  },
+  {
+    "agent": "codex",
+    "stdout": "{\"type\": \"turn.completed\", \"usage\": {\"input_tokens\": 1000, \"cached_input_tokens\": 200, \"output_tokens\": 100}}",
+    "rates": {
+      "input": 2,
+      "cached_input": 0.5,
+      "output": 10
+    },
+    "expected": {
+      "wall_seconds": null,
+      "cost_usd": 0.0027,
+      "usage": {
+        "prompt_tokens": 1000,
+        "completion_tokens": 100,
+        "cached_prompt_tokens": 200,
+        "completion_tokens_details": {
+          "reasoning_tokens": null
+        }
+      },
+      "speed_source": null,
+      "cost_source": "configured_token_rates",
+      "completed": true
+    }
+  },
+  {
+    "agent": "codex",
+    "stdout": "{\"type\": \"turn.completed\", \"usage\": {\"input_tokens\": 1000, \"cached_input_tokens\": 200, \"output_tokens\": 100}}",
+    "rates": null,
+    "expected": {
+      "wall_seconds": null,
+      "cost_usd": null,
+      "usage": {
+        "prompt_tokens": 1000,
+        "completion_tokens": 100,
+        "cached_prompt_tokens": 200,
+        "completion_tokens_details": {
+          "reasoning_tokens": null
+        }
+      },
+      "speed_source": null,
+      "cost_source": null,
+      "completed": true
+    }
+  },
+  {
+    "agent": "codex",
+    "stdout": "{\"type\":\"turn.completed\"}",
+    "rates": {
+      "input": 2,
+      "cached_input": 1,
+      "output": 10
+    },
+    "expected": {
+      "wall_seconds": null,
+      "cost_usd": null,
+      "usage": {
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "cached_prompt_tokens": null,
+        "completion_tokens_details": {
+          "reasoning_tokens": null
+        }
+      },
+      "speed_source": null,
+      "cost_source": null,
+      "completed": true
+    }
+  },
+  {
+    "agent": "cursor",
+    "stdout": "{\"type\": \"result\", \"subtype\": \"success\", \"is_error\": false, \"duration_ms\": 5000, \"duration_api_ms\": 5000, \"result\": \"{\\\"cost_usd\\\":0,\\\"wall_seconds\\\":0}\"}",
+    "rates": null,
+    "expected": {
+      "wall_seconds": null,
+      "cost_usd": null,
+      "usage": {},
+      "speed_source": null,
+      "cost_source": null,
+      "completed": true
+    }
+  },
+  {
+    "agent": "kimi",
+    "stdout": "{\"role\": \"meta\", \"type\": \"system.version\", \"version\": \"2.0.2\"}\n{\"role\": \"assistant\", \"tool_calls\": [{\"id\": \"tool-1\"}]}\n{\"role\": \"tool\", \"content\": \"{\\\"cost_usd\\\":0,\\\"wall_seconds\\\":0}\"}\n{\"role\": \"assistant\", \"content\": \"{\\\"cost_usd\\\":0,\\\"wall_seconds\\\":0}\"}\n{\"role\": \"meta\", \"type\": \"session.resume_hint\", \"session_id\": \"fixture\"}",
+    "rates": null,
+    "expected": {
+      "wall_seconds": null,
+      "cost_usd": null,
+      "usage": {},
+      "speed_source": null,
+      "cost_source": null,
+      "completed": true
+    }
+  },
+  {
+    "agent": "kimi",
+    "stdout": "{\"role\": \"meta\", \"type\": \"system.version\", \"version\": \"2.0.2\"}\n{\"role\": \"assistant\", \"tool_calls\": [{\"id\": \"tool-1\"}]}\n{\"role\": \"tool\", \"content\": \"{\\\"cost_usd\\\":0,\\\"wall_seconds\\\":0}\"}",
+    "rates": null,
+    "expected": {
+      "wall_seconds": null,
+      "cost_usd": null,
+      "usage": {},
+      "speed_source": null,
+      "cost_source": null,
+      "completed": false
+    }
+  },
+  {
+    "agent": "kimi",
+    "stdout": "{\"role\": \"assistant\", \"tool_calls\": [{\"id\": \"tool-1\"}]}",
+    "rates": null,
+    "expected": {
+      "wall_seconds": null,
+      "cost_usd": null,
+      "usage": {},
+      "speed_source": null,
+      "cost_source": null,
+      "completed": false
+    }
+  },
+  {
+    "agent": "opencode",
+    "stdout": "{\"type\": \"step_finish\", \"timestamp\": 9000, \"sessionID\": \"s\", \"part\": {\"id\": \"1\", \"reason\": \"tool-calls\", \"cost\": 0.01, \"tokens\": {\"input\": 100, \"output\": 20, \"reasoning\": 5, \"cache\": {\"read\": 30, \"write\": 10}}}}\n{\"type\": \"tool_use\", \"part\": {\"state\": {\"output\": \"{\\\"cost\\\":0,\\\"wall_seconds\\\":0}\"}}}\n{\"type\": \"step_finish\", \"timestamp\": 18000, \"sessionID\": \"s\", \"part\": {\"id\": \"2\", \"reason\": \"stop\", \"cost\": 0.02, \"tokens\": {\"input\": 100, \"output\": 20, \"reasoning\": 5, \"cache\": {\"read\": 30, \"write\": 10}}}}\n{\"type\": \"step_finish\", \"timestamp\": 18000, \"sessionID\": \"s\", \"part\": {\"id\": \"2\", \"reason\": \"stop\", \"cost\": 0.02, \"tokens\": {\"input\": 100, \"output\": 20, \"reasoning\": 5, \"cache\": {\"read\": 30, \"write\": 10}}}}",
+    "rates": null,
+    "expected": {
+      "wall_seconds": null,
+      "cost_usd": 0.03,
+      "usage": {
+        "prompt_tokens": 280,
+        "completion_tokens": 50,
+        "cached_prompt_tokens": 60,
+        "completion_tokens_details": {
+          "reasoning_tokens": 10
+        }
+      },
+      "speed_source": null,
+      "cost_source": "cli_estimate",
+      "completed": true
+    }
+  },
+  {
+    "agent": "opencode",
+    "stdout": "{\"type\": \"step_finish\", \"timestamp\": 9000, \"sessionID\": \"s\", \"part\": {\"id\": \"1\", \"reason\": \"tool-calls\", \"cost\": 0.01, \"tokens\": {\"input\": 100, \"output\": 20, \"reasoning\": 5, \"cache\": {\"read\": 30, \"write\": 10}}}}\n{\"type\": \"tool_use\", \"part\": {\"state\": {\"output\": \"{\\\"cost\\\":0,\\\"wall_seconds\\\":0}\"}}}\n{\"type\": \"step_finish\", \"timestamp\": 18000, \"sessionID\": \"s\", \"part\": {\"id\": \"2\", \"reason\": \"stop\", \"cost\": 0.02, \"tokens\": {\"input\": 100, \"output\": 20, \"reasoning\": 5, \"cache\": {\"read\": 30, \"write\": 10}}}}\n{\"type\": \"step_finish\", \"timestamp\": 18000, \"sessionID\": \"s\", \"part\": {\"id\": \"2\", \"reason\": \"stop\", \"cost\": 0.02, \"tokens\": {\"input\": 100, \"output\": 20, \"reasoning\": 5, \"cache\": {\"read\": 30, \"write\": 10}}}}\n{\"type\": \"error\", \"error\": {\"message\": \"API failed\"}}",
+    "rates": null,
+    "expected": {
+      "wall_seconds": null,
+      "cost_usd": 0.03,
+      "usage": {
+        "prompt_tokens": 280,
+        "completion_tokens": 50,
+        "cached_prompt_tokens": 60,
+        "completion_tokens_details": {
+          "reasoning_tokens": 10
+        }
+      },
+      "speed_source": null,
+      "cost_source": "cli_estimate",
+      "completed": false
+    }
+  },
+  {
+    "agent": "opencode",
+    "stdout": "{\"type\": \"step_finish\", \"timestamp\": 9000, \"sessionID\": \"s\", \"part\": {\"id\": \"1\", \"reason\": \"tool-calls\", \"cost\": 0.01, \"tokens\": {\"input\": 100, \"output\": 20, \"reasoning\": 5, \"cache\": {\"read\": 30, \"write\": 10}}}}",
+    "rates": null,
+    "expected": {
+      "wall_seconds": null,
+      "cost_usd": 0.01,
+      "usage": {
+        "prompt_tokens": 140,
+        "completion_tokens": 25,
+        "cached_prompt_tokens": 30,
+        "completion_tokens_details": {
+          "reasoning_tokens": 5
+        }
+      },
+      "speed_source": null,
+      "cost_source": "cli_estimate",
+      "completed": false
+    }
+  },
+  {
+    "agent": "opencode",
+    "stdout": "{\"type\": \"step_finish\", \"part\": {\"id\": \"p\", \"reason\": \"stop\", \"tokens\": {\"input\": 10}}}",
+    "rates": {
+      "input": 2,
+      "cached_input": 1,
+      "output": 10
+    },
+    "expected": {
+      "wall_seconds": null,
+      "cost_usd": null,
+      "usage": {
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "cached_prompt_tokens": null,
+        "completion_tokens_details": {
+          "reasoning_tokens": null
+        }
+      },
+      "speed_source": null,
+      "cost_source": null,
+      "completed": true
+    }
+  },
+  {
+    "agent": "pi",
+    "stdout": "{\"type\": \"message_end\", \"message\": {\"role\": \"assistant\", \"stopReason\": \"stop\", \"usage\": {\"input\": 10, \"output\": 5, \"cacheRead\": 1, \"cost\": {\"total\": 0.02}}}}\n{\"type\": \"turn_end\", \"message\": {\"role\": \"assistant\", \"stopReason\": \"stop\", \"usage\": {\"input\": 10, \"output\": 5, \"cacheRead\": 1, \"cost\": {\"total\": 0.02}}}}\n{\"type\": \"compaction_end\", \"result\": {\"usage\": {\"cost\": {\"total\": 0.01}}}}\n{\"type\": \"agent_end\", \"messages\": [{\"role\": \"assistant\", \"stopReason\": \"stop\", \"usage\": {\"input\": 10, \"output\": 5, \"cacheRead\": 1, \"cost\": {\"total\": 0.02}}}]}",
+    "rates": null,
+    "expected": {
+      "wall_seconds": null,
+      "cost_usd": 0.03,
+      "usage": {
+        "prompt_tokens": 11,
+        "completion_tokens": 5,
+        "cached_prompt_tokens": 1,
+        "completion_tokens_details": {
+          "reasoning_tokens": null
+        }
+      },
+      "speed_source": null,
+      "cost_source": "cli_estimate",
+      "completed": true
+    }
+  }
+]

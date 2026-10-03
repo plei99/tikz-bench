@@ -1,6 +1,11 @@
 // Separable Lanczos with the same 22-bit coefficient quantization as Pillow.
 // Decoding/encoding uses libvips; resampling does not substitute a different kernel.
 export type Raster = { width: number; height: number; data: Uint8Array };
+
+const PRECISION = 1 << 22,
+  HALF = 1 << 21;
+
+/** Pillow's quantized Lanczos-3 taps for each output pixel. */
 function coefficients(input: number, output: number) {
   const scale = input / output,
     filter = Math.max(1, scale),
@@ -22,11 +27,16 @@ function coefficients(input: number, output: number) {
     return {
       start,
       weights: weights.map((v) =>
-        Math.trunc((v / sum) * 4194304 + (v < 0 ? -0.5 : 0.5)),
+        Math.trunc((v / sum) * PRECISION + (v < 0 ? -0.5 : 0.5)),
       ),
     };
   });
 }
+
+const toByte = (sum: number) =>
+  Math.max(0, Math.min(255, Math.floor(sum / PRECISION)));
+
+/** Resize RGB pixels horizontally, then vertically, as Pillow does. */
 export function resizeRGB(img: Raster, width: number, height: number): Raster {
   let { data } = img,
     w = img.width,
@@ -35,17 +45,16 @@ export function resizeRGB(img: Raster, width: number, height: number): Raster {
     const out = new Uint8Array(width * h * 3),
       cs = coefficients(w, width);
     for (let y = 0; y < h; y++)
-      for (let x = 0; x < width; x++)
+      for (let x = 0; x < width; x++) {
+        const { start, weights } = cs[x],
+          base = (y * w + start) * 3;
         for (let c = 0; c < 3; c++) {
-          const { start, weights } = cs[x];
-          let sum = 2097152;
+          let sum = HALF;
           for (let k = 0; k < weights.length; k++)
-            sum += data[(y * w + start + k) * 3 + c] * weights[k];
-          out[(y * width + x) * 3 + c] = Math.max(
-            0,
-            Math.min(255, Math.floor(sum / 4194304)),
-          );
+            sum += data[base + k * 3 + c] * weights[k];
+          out[(y * width + x) * 3 + c] = toByte(sum);
         }
+      }
     data = out;
     w = width;
   }
@@ -56,13 +65,10 @@ export function resizeRGB(img: Raster, width: number, height: number): Raster {
       const { start, weights } = cs[y];
       for (let x = 0; x < w; x++)
         for (let c = 0; c < 3; c++) {
-          let sum = 2097152;
+          let sum = HALF;
           for (let k = 0; k < weights.length; k++)
             sum += data[((start + k) * w + x) * 3 + c] * weights[k];
-          out[(y * w + x) * 3 + c] = Math.max(
-            0,
-            Math.min(255, Math.floor(sum / 4194304)),
-          );
+          out[(y * w + x) * 3 + c] = toByte(sum);
         }
     }
     data = out;

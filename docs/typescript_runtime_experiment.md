@@ -4,8 +4,12 @@ Bun 1.4.2 was selected on `experiment/typescript-runtime` and then adopted as th
 default on `main`. The mixed local
 workload took a median 8.42 seconds under Bun, compared with 9.63 seconds under
 Python: 12.6% less elapsed time. The `./benchmark` launcher uses Bun.
-The Python implementation remains available for existing runs and regression
-comparisons.
+
+**Update, 3 October 2026:** the Python implementation has since been retired. Its
+outputs for the differential cases are frozen in `typescript/tests/fixtures/`, and
+the driver is now [`compare_runtimes.ts`](../typescript/perf/compare_runtimes.ts),
+which compares Node, Bun and Deno only. The Python measurements below are a
+historical record and can no longer be reproduced from this repository.
 
 The port covers the complete benchmark runtime: task preparation, all seven agent
 adapters, subscription authentication, compilation and extraction, PDF inspection,
@@ -50,9 +54,9 @@ could favor Python. The experiment does not establish how much faster a complete
 remote-agent benchmark run would be.
 
 The [raw results](../typescript/results/runtime-comparison.json) retain every sample,
-runtime versions and source hashes. The driver is
-[`compare_runtimes.py`](../typescript/perf/compare_runtimes.py); it invokes the
-unchanged Python implementation and the TypeScript port with equivalent inputs.
+runtime versions and source hashes. The driver was
+`typescript/perf/compare_runtimes.py`; it invoked the unchanged Python
+implementation and the TypeScript port with equivalent inputs.
 
 ## Correctness and isolation
 
@@ -91,5 +95,5 @@ without an unsandboxed fallback. Dependency audit reports no known vulnerabiliti
 in the installed lockfile.
 
 See the [TypeScript instructions](../typescript/README.md) for setup and reproduction.
-Use a fresh run name for TypeScript generation. Existing Python runs can continue
-with their original CLIs; this experiment leaves their files intact.
+Use a fresh run name for TypeScript generation. Runs created by Python remain on
+disk as records.

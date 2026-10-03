@@ -1,0 +1,8 @@
+{
+  "overrides": [
+    {
+      "files": "curation/mutool_render.js",
+      "options": { "trailingComma": "none" }
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+#!/bin/sh
+# Private overlay repository for evaluation data that must stay out of the public
+# repository: the paths in the "private" block of .gitignore (task selection,
+# checklists, grades, curation tooling and dated reports). It shares this
+# working tree, so files keep their usual paths.
+#
+#   ./private-git init             create .git-private and the public pre-commit guard
+#   ./private-git check            fail if the public repository tracks or stages a private path
+#   ./private-git sync [MESSAGE]   commit every change under the private paths
+#   ./private-git ARGS...          any other git command, e.g. log, status, push
+set -eu
+root=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+gitdir="$root/.git-private"
+
+pgit() { git --git-dir="$gitdir" --work-tree="$root" "$@"; }
+# One path per line, from the marked .gitignore block, without slashes at the ends.
+paths() {
+  sed -n '/^# >>> private/,/^# <<< private/{/^\//p;}' "$root/.gitignore" |
+    sed 's#^/##; s#/$##'
+}
+
+check() {
+  status=0
+  for p in $(paths); do
+    if ! git -C "$root" check-ignore -q "$p"; then
+      echo "private path is not ignored by the public repository: $p" >&2
+      status=1
+    fi
+    if [ -n "$(git -C "$root" ls-files --cached -- "$p" | head -1)" ]; then
+      echo "private path is tracked or staged in the public repository: $p" >&2
+      status=1
+    fi
+  done
+  return $status
+}
+
+case "${1:-}" in
+  init)
+    [ -d "$gitdir" ] || git init --quiet --bare --initial-branch=main "$gitdir"
+    git --git-dir="$gitdir" config core.bare false
+    # Only the private paths belong here; do not list the public files as untracked.
+    pgit config status.showUntrackedFiles no
+    hook="$(git -C "$root" rev-parse --git-path hooks)/pre-commit"
+    case "$hook" in /*) ;; *) hook="$root/$hook" ;; esac
+    if [ ! -e "$hook" ]; then
+      printf '#!/bin/sh\nexec "$(git rev-parse --show-toplevel)/private-git" check\n' >"$hook"
+      chmod +x "$hook"
+    fi
+    echo "private repository: $gitdir"
+    ;;
+  check)
+    check && echo "public repository tracks no private paths"
+    ;;
+  sync)
+    [ -d "$gitdir" ] || { echo "run ./private-git init first" >&2; exit 1; }
+    check
+    set --  "${2:-Update private benchmark data}"
+    # -f: these paths are ignored by the shared .gitignore. Deleted files are
+    # staged too, but only for paths that exist or were committed before.
+    for p in $(paths); do
+      if [ -e "$root/$p" ] || [ -n "$(pgit ls-files -- "$p" | head -1)" ]; then
+        pgit add -A -f -- "$p" ':(exclude,glob)**/.DS_Store'
+      fi
+    done
+    if pgit diff --cached --quiet; then
+      echo "private data unchanged"
+    else
+      pgit commit --quiet -m "$1"
+      pgit log --oneline -1
+    fi
+    ;;
+  *)
+    pgit "$@"
+    ;;
+esac

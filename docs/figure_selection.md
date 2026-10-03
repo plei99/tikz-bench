@@ -1,7 +1,7 @@
 # Selecting figures in handwritten notes
 
 Handwritten notes can't be parsed automatically, so crop boxes are picked by eye on
-grid renders (`scripts/render_grid.py`) and stored in `data/regions/<doc_id>.json`:
+grid renders (`typescript/curation/render_grid.ts`) and stored in `data/regions/<doc_id>.json`:
 
 ```json
 {"<doc_id>": {"pdf": "sources/...pdf",
@@ -45,7 +45,7 @@ Exclude:
 ## Verifying
 
 ```sh
-.venv/bin/python scripts/crop_regions.py data/regions/<doc_id>.json /tmp/verify --dpi 80
+bun typescript/curation/crop_regions.ts data/regions/<doc_id>.json /tmp/verify --dpi 80
 ```
 
 View every crop and fix boxes that cut off strokes or labels or include too much
