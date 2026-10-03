@@ -287,3 +287,114 @@ test("usage prints the cost recorded in a CLI's session logs", () =>
     assert.deepEqual(summary.unpriced_models, []);
     await assert.rejects(main(["usage", "--agent", "kimi"]), /--agent-log/);
   }));
+
+/** Run a listing command in the harness and parse its --json output. */
+async function listing(h: Harness, args: Partial<CliArgs>) {
+  const { value, lines: out } = await quiet(() => {
+    const a = {
+      force: false,
+      retry_errors: false,
+      json: true,
+      ...args,
+    } as CliArgs;
+    return a.cmd === "figures"
+      ? h.m.commands.cmdFigures(a)
+      : a.cmd === "runs"
+        ? h.m.commands.cmdRuns(a)
+        : h.m.commands.cmdTasks(a);
+  });
+  assert.equal(value, 0);
+  return JSON.parse(out.join("\n"));
+}
+
+test("figures, runs and tasks list what exists, with filters", SLOW, () =>
+  harness(async (h) => {
+    await h.digitalFigure("match");
+    h.setChecklist("figure_b");
+    h.args.figures = ["figure_a", "figure_b"];
+    await h.submitAnswers();
+    await h.judge(reply(PARTIAL));
+
+    const figures = await listing(h, { cmd: "figures", all: true });
+    assert.deepEqual(
+      figures.map((f: any) => [f.id, f.category]),
+      [
+        ["figure_a", "digital"],
+        ["figure_b", "hand_drawn"],
+      ],
+    );
+    assert.deepEqual(
+      (await listing(h, { cmd: "figures", category: "digital" })).map(
+        (f: any) => f.id,
+      ),
+      ["figure_a"],
+    );
+
+    const [run] = await listing(h, { cmd: "runs" });
+    assert.equal(run.run, "test");
+    assert.equal(run.agent, "claude");
+    assert.equal(run.config, "test__model@agent-claude-default");
+    assert.deepEqual(
+      [run.planned, run.generated, run.scored, run.complete],
+      [2, 2, 2, true],
+    );
+    assert.ok(Math.abs(run.cost_usd - 0.2) < 1e-9);
+    assert.deepEqual(await listing(h, { cmd: "runs", agent: "codex" }), []);
+    assert.equal((await listing(h, { cmd: "runs", complete: true })).length, 1);
+
+    const tasks = await listing(h, { cmd: "tasks", run: "test" });
+    assert.deepEqual(
+      tasks.map((t: any) => [t.figure, t.status]),
+      [
+        ["figure_a", "ok"],
+        ["figure_b", "ok"],
+      ],
+    );
+    assert.equal(tasks[0].score, 1); // digital match
+    assert.equal(
+      tasks[1].score,
+      readJSON(path.join(h.modelDir, "figure_b.judge.json")).score,
+    );
+    assert.deepEqual(
+      (
+        await listing(h, { cmd: "tasks", run: "test", figures: ["figure_b"] })
+      ).map((t: any) => t.figure),
+      ["figure_b"],
+    );
+    assert.deepEqual(
+      await listing(h, { cmd: "tasks", run: "test", status: ["agent_error"] }),
+      [],
+    );
+
+    // --ids prints one ID per line for use with --figures.
+    const { lines: ids } = await quiet(() =>
+      h.m.commands.cmdTasks({
+        cmd: "tasks",
+        run: "test",
+        ids: true,
+        force: false,
+        retry_errors: false,
+      }),
+    );
+    assert.deepEqual(ids, ["figure_a", "figure_b"]);
+    assert.throws(
+      () =>
+        h.m.commands.cmdTasks({
+          cmd: "tasks",
+          run: "missing",
+          force: false,
+          retry_errors: false,
+        }),
+      /no run named missing/,
+    );
+  }),
+);
+
+test("listing options are validated by the CLI", async () => {
+  await assert.rejects(main(["tasks"]), /--run is required/);
+  await assert.rejects(
+    main(["figures", "--json", "--ids"]),
+    /mutually exclusive/,
+  );
+  await assert.rejects(main(["figures", "--run", "x"]), /unknown option/);
+});
