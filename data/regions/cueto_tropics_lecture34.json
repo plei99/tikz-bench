@@ -1,0 +1,157 @@
+{
+  "cueto_tropics_lecture34": {
+    "pdf": "sources/candidates_2026_09_27/cueto_l34.pdf",
+    "regions": [
+      {
+        "page": 1,
+        "bbox": [
+          91.8,
+          274.0,
+          373.3,
+          355.6
+        ],
+        "note": "Nodal marked curve and corresponding dual graph."
+      },
+      {
+        "page": 1,
+        "bbox": [
+          183.6,
+          540.9,
+          422.3,
+          594.0
+        ],
+        "note": "Three four-marked boundary curves."
+      },
+      {
+        "page": 1,
+        "bbox": [
+          526.3,
+          616.2,
+          596.7,
+          651.8
+        ],
+        "note": "Codimension-one boundary graph."
+      },
+      {
+        "page": 1,
+        "bbox": [
+          514.1,
+          663.7,
+          593.6,
+          709.6
+        ],
+        "note": "Codimension-two boundary graph."
+      },
+      {
+        "page": 1,
+        "bbox": [
+          330.5,
+          704.9,
+          416.2,
+          784.1
+        ],
+        "note": "Forgetful map on a marked curve."
+      },
+      {
+        "page": 1,
+        "bbox": [
+          428.4,
+          704.9,
+          514.1,
+          784.1
+        ],
+        "note": "Forgetful map contracting an unstable component."
+      },
+      {
+        "page": 1,
+        "bbox": [
+          520.2,
+          708.8,
+          605.9,
+          792.0
+        ],
+        "note": "Forgetful map on a nodal marked curve."
+      },
+      {
+        "page": 2,
+        "bbox": [
+          452.9,
+          166.3,
+          599.8,
+          221.8
+        ],
+        "note": "Contraction at a node."
+      },
+      {
+        "page": 2,
+        "bbox": [
+          281.5,
+          174.2,
+          428.4,
+          221.8
+        ],
+        "note": "Stabilization by contracting an unstable component."
+      },
+      {
+        "page": 2,
+        "bbox": [
+          73.4,
+          182.2,
+          263.2,
+          221.8
+        ],
+        "note": "Contraction of a marked rational component."
+      },
+      {
+        "page": 2,
+        "bbox": [
+          299.9,
+          221.8,
+          446.8,
+          308.9
+        ],
+        "note": "Commutative triangle of moduli morphisms."
+      },
+      {
+        "page": 2,
+        "bbox": [
+          24.5,
+          456.2,
+          189.7,
+          570.2
+        ],
+        "note": "Family of marked curves over a valuation ring."
+      },
+      {
+        "page": 3,
+        "bbox": [
+          12.2,
+          75.2,
+          189.7,
+          158.4
+        ],
+        "note": "Family of genus-g curves over a base."
+      },
+      {
+        "page": 3,
+        "bbox": [
+          385.6,
+          451.4,
+          575.3,
+          529.1
+        ],
+        "note": "Metric graph with vertex weights, edge lengths and marked legs."
+      },
+      {
+        "page": 4,
+        "bbox": [
+          122.4,
+          148.9,
+          465.1,
+          246.3
+        ],
+        "note": "Genus-two tropical moduli degeneration diagram."
+      }
+    ]
+  }
+}

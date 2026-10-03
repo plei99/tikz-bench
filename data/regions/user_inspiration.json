@@ -1,0 +1,64 @@
+{
+ "user_inspiration": {
+  "regions": [
+   {
+    "id": "inspiration_tails_legs",
+    "page": 1,
+    "source_image": "sources/user_inspiration_2026_09/tails_legs.jpg",
+    "bbox_px": [
+     0,
+     0,
+     880,
+     623
+    ],
+    "keep_regions_px": [
+     [
+      0,
+      0,
+      880,
+      617
+     ],
+     [
+      0,
+      617,
+      50,
+      623
+     ]
+    ],
+    "note": "First motivating sketch: thick black component, red legs and blue tail above a projected curve. Explanatory prose excluded; source already meets the top and left frame."
+   },
+   {
+    "id": "inspiration_arms",
+    "page": 2,
+    "source_image": "sources/user_inspiration_2026_09/arms.jpg",
+    "bbox_px": [
+     0,
+     104,
+     909,
+     885
+    ],
+    "keep_regions_px": [
+     [
+      0,
+      116,
+      837,
+      398
+     ],
+     [
+      590,
+      104,
+      620,
+      116
+     ],
+     [
+      0,
+      398,
+      909,
+      885
+     ]
+    ],
+    "note": "Second motivating sketch: marked curve, red and blue arms with action arrows and labels, map f, and its image on a plane. Prose and its surrounding bracket excluded; the lower plane is already clipped at the left in the source."
+   }
+  ]
+ }
+}

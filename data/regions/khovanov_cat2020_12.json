@@ -8,7 +8,7 @@
     {"page": 3, "bbox": [200, 526, 530, 606], "note": "oriented trivalent vertices for Res with regions K,H,G"},
     {"page": 3, "bbox": [112, 616, 535, 720], "note": "relations: bubble K on strand = strand; trivalent split-merge = two strands, regions G,K,H"},
     {"page": 4, "bbox": [174, 604, 470, 697], "note": "Mackey formula: two opposite strands K|G|H = sum_i of diagram with L_i region and g_i labels"},
-    {"page": 5, "bbox": [160, 150, 490, 368], "note": "two 4-valent vertex pictures (K,H,G,L_i,g_i) with corresponding bimodule maps k[G] <- k[K](x)k[H] and projection"},
+    {"page": 5, "bbox": [160, 150, 250, 368], "note": "two 4-valent vertex pictures (K,H,G,L_i,g_i); bimodule-map text to the right cropped out"},
     {"page": 6, "bbox": [205, 166, 382, 234], "note": "RIII relation for strands i, i+1, i+2"},
     {"page": 6, "bbox": [248, 576, 380, 668], "note": "crossing of two upward I strands with regions n, n+1, n+2 (endomorphism s_{n+1})"},
     {"page": 7, "bbox": [130, 82, 512, 152], "note": "relations: double crossing = two upward strands; braid relation for three strands"},

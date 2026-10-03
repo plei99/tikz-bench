@@ -1,0 +1,219 @@
+{
+  "eth_gca25_ch6": {
+    "pdf": "sources/candidates_2026_09_27/eth_delaunay.pdf",
+    "regions": [
+      {
+        "page": 1,
+        "bbox": [
+          79.6,
+          574.5,
+          512.8,
+          685.0
+        ],
+        "caption": "Figure 6.1: Examples of (non-)triangulations.",
+        "figure_number": "6.1",
+        "note": "Vector drawing; crop reviewed against the PDF."
+      },
+      {
+        "page": 2,
+        "bbox": [
+          142.2,
+          402.7,
+          460.8,
+          492.3
+        ],
+        "caption": "Figure 6.2: Constructing the scan triangulation of P.",
+        "figure_number": "6.2",
+        "note": "Vector drawing; crop reviewed against the PDF."
+      },
+      {
+        "page": 3,
+        "bbox": [
+          80.6,
+          124.8,
+          522.4,
+          354.0
+        ],
+        "caption": "Figure 6.3: Two triangulations of the same set of 50 points.",
+        "figure_number": "6.3",
+        "note": "Vector drawing; crop reviewed against the PDF."
+      },
+      {
+        "page": 4,
+        "bbox": [
+          255.8,
+          516.2,
+          347.2,
+          608.3
+        ],
+        "caption": "Figure 6.4: Circumcircle of a triangle.",
+        "figure_number": "6.4",
+        "note": "Vector drawing; crop reviewed against the PDF."
+      },
+      {
+        "page": 5,
+        "bbox": [
+          199.1,
+          114.9,
+          403.9,
+          284.4
+        ],
+        "caption": "Figure 6.5: All triangles satisfy the empty circle property.",
+        "figure_number": "6.5",
+        "note": "Vector drawing; crop reviewed against the PDF."
+      },
+      {
+        "page": 5,
+        "bbox": [
+          82.4,
+          471.4,
+          520.6,
+          591.5
+        ],
+        "caption": "Figure 6.6: Triangulations of four points in convex position.",
+        "figure_number": "6.6",
+        "note": "Vector drawing; crop reviewed against the PDF."
+      },
+      {
+        "page": 6,
+        "bbox": [
+          123.9,
+          288.0,
+          472.9,
+          447.9
+        ],
+        "caption": "Figure 6.7: Circumcircles and containment for triangulations of four points.",
+        "figure_number": "6.7",
+        "note": "Vector drawing; crop reviewed against the PDF."
+      },
+      {
+        "page": 7,
+        "bbox": [
+          71.0,
+          448.9,
+          532.2,
+          610.8
+        ],
+        "caption": "Figure 6.8: The lifting map: circles map to planes.",
+        "figure_number": "6.8",
+        "note": "Vector drawing; crop reviewed against the PDF."
+      },
+      {
+        "page": 8,
+        "bbox": [
+          77.8,
+          397.8,
+          525.2,
+          567.5
+        ],
+        "caption": "Figure 6.9: Lawson \ufb02ip: the height of the surface of lifted triangles decreases.",
+        "figure_number": "6.9",
+        "note": "Vector drawing; crop reviewed against the PDF."
+      },
+      {
+        "page": 9,
+        "bbox": [
+          76.9,
+          291.7,
+          522.9,
+          470.0
+        ],
+        "caption": "Figure 6.10: Correctness of the Lawson \ufb02ip algorithm.",
+        "figure_number": "6.10",
+        "note": "Vector drawing; crop reviewed against the PDF."
+      },
+      {
+        "page": 11,
+        "bbox": [
+          140.8,
+          125.0,
+          461.1,
+          265.6
+        ],
+        "caption": "Figure 6.11: Characterization of edges in the Delaunay graph (I).",
+        "figure_number": "6.11",
+        "note": "Vector drawing; crop reviewed against the PDF."
+      },
+      {
+        "page": 12,
+        "bbox": [
+          124.8,
+          125.0,
+          479.1,
+          294.7
+        ],
+        "caption": "Figure 6.12: Characterization of edges in the Delaunay graph (II).",
+        "figure_number": "6.12",
+        "note": "Vector drawing; crop reviewed against the PDF."
+      },
+      {
+        "page": 13,
+        "bbox": [
+          120.0,
+          172.6,
+          482.1,
+          354.2
+        ],
+        "caption": "Figure 6.13: Angle-optimality of Delaunay triangulations.",
+        "figure_number": "6.13",
+        "note": "Vector drawing; crop reviewed against the PDF."
+      },
+      {
+        "page": 14,
+        "bbox": [
+          220.5,
+          337.8,
+          382.5,
+          511.6
+        ],
+        "caption": "Figure 6.14: The Inscribed Angle Theorem with \u03b8 := \\prq.",
+        "figure_number": "6.14",
+        "note": "Vector drawing; crop reviewed against the PDF."
+      },
+      {
+        "page": 14,
+        "bbox": [
+          370.9,
+          587.8,
+          534.4,
+          742.0
+        ],
+        "caption": null,
+        "figure_number": null,
+        "note": "Vector drawing; crop reviewed against the PDF."
+      },
+      {
+        "page": 15,
+        "bbox": [
+          369,
+          116,
+          535,
+          274
+        ],
+        "note": "Inscribed-angle proof: oriented circle and labeled angles."
+      },
+      {
+        "page": 15,
+        "bbox": [
+          408,
+          273,
+          534,
+          407
+        ],
+        "note": "Antipodal point and inscribed quadrilateral."
+      },
+      {
+        "page": 16,
+        "bbox": [
+          192.5,
+          341.5,
+          410.5,
+          557.7
+        ],
+        "caption": "Figure 6.15: Constrained Delaunay triangulation of a simple polygon.",
+        "figure_number": "6.15",
+        "note": "Vector drawing; crop reviewed against the PDF."
+      }
+    ]
+  }
+}
