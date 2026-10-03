@@ -8,7 +8,9 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { readJSON } from "../src/support.ts";
 import { temporary } from "../src/process.ts";
-import { collectLogsScript } from "../src/runner.ts";
+import { Database } from "bun:sqlite";
+import { collectLogsScript, opencodeUsageScript } from "../src/runner.ts";
+import { priceUsage, sessionUsage } from "../src/usage.ts";
 import { main } from "../src/cli.ts";
 import type { CliArgs } from "../src/cli.ts";
 import { quiet, withEnv, withFakeDocker, SLOW } from "./helpers.ts";
@@ -59,6 +61,49 @@ test("session logs are read from the worker without following links", () =>
     );
     assert.equal(all.truncated, false);
     assert.deepEqual(run(3), { files: {}, truncated: true });
+  }));
+
+test("OpenCode usage includes subagents and leaves its credentials behind", () =>
+  temporary("tikz-opencode-usage-", async (dir) => {
+    const file = path.join(dir, "opencode.db"),
+      out = path.join(dir, "home/.local/share/opencode/usage.json"),
+      run = () =>
+        JSON.parse(
+          spawnSync("node", ["-e", opencodeUsageScript(file, out), "[]"], {
+            encoding: "utf8",
+          }).stdout,
+        );
+    assert.deepEqual(run(), { files: {}, truncated: false });
+    const db = new Database(file);
+    db.run("create table session (id text primary key, parent_id text)");
+    db.run(
+      "create table message (id text primary key, session_id text, time_created integer, data text)",
+    );
+    db.run("create table credential (value text)");
+    db.run("insert into credential values ('sk-secret')");
+    db.run("insert into session values ('root', null), ('child', 'root')");
+    const assistant = (cost: number) =>
+      JSON.stringify({
+        role: "assistant",
+        modelID: "glm-5.2",
+        cost,
+        tokens: { input: 10, output: 5, reasoning: 0, cache: { read: 0 } },
+        path: { cwd: "/workspace" },
+      });
+    db.run(
+      "insert into message values ('1', 'root', 1, ?), ('2', 'child', 2, ?), ('3', 'root', 3, ?)",
+      [assistant(0.1), assistant(0.2), JSON.stringify({ role: "user" })],
+    );
+    db.close();
+    const saved = run(),
+      text = Buffer.from(saved.files[out], "base64").toString();
+    assert.deepEqual(Object.keys(saved.files), [out]);
+    assert.ok(!text.includes("sk-secret") && !text.includes("/workspace"));
+    fs.mkdirSync(path.dirname(out), { recursive: true });
+    fs.writeFileSync(out, text);
+    const usage = priceUsage(sessionUsage("opencode", [out], "root"), null);
+    assert.equal(usage.models["glm-5.2"]!.requests, 2);
+    assert.ok(Math.abs(usage.cost_usd! - 0.3) < 1e-9);
   }));
 
 const automatic = (h: Harness, extra: Partial<CliArgs> = {}): CliArgs => ({

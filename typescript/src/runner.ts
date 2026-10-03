@@ -225,8 +225,9 @@ capabilities = ["image_in", "thinking", "tool_use"]
 /**
  * Session-log directories each CLI writes under the worker's home. They are
  * collected after every run so usage and cost can be computed from them
- * (Kimi Code prints no usage at all). pi and OpenCode print their full usage
- * and cost; OpenCode's database also stores account tokens and is not copied.
+ * (Kimi Code prints no usage at all). pi prints its full usage and cost.
+ * OpenCode prints only the main session's; its database, which also stores
+ * account tokens, is not copied (see `opencodeUsageScript`).
  */
 export const SESSION_LOGS: Record<string, string[]> = {
   codex: ["/agent-home/.codex/sessions"],
@@ -269,6 +270,43 @@ for (const root of JSON.parse(process.argv[1])) walk(root);
 console.log(JSON.stringify({ files, truncated }));
 `;
 const COLLECT_LOGS = collectLogsScript();
+
+/**
+ * Export OpenCode's assistant-message usage, including subagent sessions that
+ * `opencode run` leaves out of its JSON events, from the worker's database.
+ * Only usage fields leave the worker, as one file in `opencode export` format;
+ * prints the same {files, truncated} object as `collectLogsScript`.
+ */
+export const opencodeUsageScript = (
+  db = "/agent-home/.local/share/opencode/opencode.db",
+  out = "/agent-home/.local/share/opencode/usage.json",
+) => String.raw`
+const fs = require('node:fs');
+const DB = ${JSON.stringify(db)}, OUT = ${JSON.stringify(out)};
+const files = {};
+let s;
+try { s = fs.lstatSync(DB); } catch {}
+if (s && s.isFile()) {
+  const { DatabaseSync } = require('node:sqlite');
+  const db = new DatabaseSync(DB);
+  try {
+    const roots = db.prepare('select id from session where parent_id is null').all();
+    const messages = [];
+    for (const r of db.prepare('select session_id, data from message order by time_created, id').all()) {
+      const m = JSON.parse(r.data);
+      if (m.role !== 'assistant') continue;
+      const { providerID, modelID, tokens, cost, time } = m;
+      messages.push({ info: { sessionID: r.session_id, role: m.role, providerID, modelID, tokens, cost, time } });
+    }
+    const doc = { info: { id: roots.length === 1 ? roots[0].id : null }, messages };
+    files[OUT] = Buffer.from(JSON.stringify(doc)).toString('base64');
+  } finally {
+    db.close();
+  }
+}
+console.log(JSON.stringify({ files, truncated: false }));
+`;
+const OPENCODE_USAGE = opencodeUsageScript();
 
 /** Start the agent with a fixed environment plus only the selected variables. */
 export const CLEAN_EXEC = String.raw`
@@ -553,8 +591,9 @@ export class DockerRunner {
 
   /** Copy the CLI's session logs out of the stopped worker; never fatal. */
   private async collectLogs(name: string, result: AgentResult) {
-    const roots = SESSION_LOGS[this.agent];
-    if (!roots) return;
+    const roots = SESSION_LOGS[this.agent],
+      script = this.agent === "opencode" ? OPENCODE_USAGE : roots && COLLECT_LOGS;
+    if (!script) return;
     try {
       const r = await capture(
         [
@@ -563,8 +602,8 @@ export class DockerRunner {
           name,
           "node",
           "-e",
-          COLLECT_LOGS,
-          JSON.stringify(roots),
+          script,
+          JSON.stringify(roots ?? []),
         ],
         { timeout: 60, maxLog: Math.ceil((MAX_LOGS * 4) / 3) + MiB },
       );

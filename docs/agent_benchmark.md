@@ -265,9 +265,10 @@ does not enforce a provider-side spending cap.
 
 Claude exposes API duration and a cost estimate. OpenCode exposes per-step costs
 and token counts; repeated step events are counted once, and output counts
-include reasoning tokens. Its cost estimate covers the emitted main-session
-steps, so auxiliary model requests can be absent. Its event timestamps include
-client work and cannot establish model-only response time.
+include reasoning tokens. Those events cover only the main session, so automatic
+runs take usage and cost from the worker's database instead (see below), which
+also records subagent sessions. Its event timestamps include client work and
+cannot establish model-only response time.
 
 Kimi's JSON transcript exposes neither token/cost totals nor model timing. Its
 usage comes from the wire logs Kimi Code writes for the main agent and each
@@ -291,7 +292,10 @@ Every automatic run also collects the session logs the CLI wrote in its worker,
 and usage is computed from them when present: they cover subagents, attribute
 tokens to each model, and are the only usage record Kimi Code keeps. The logs are
 read without following links, capped at 64 MiB, redacted like stdout, and saved
-in `<figure>.agent-logs/`. The supported formats, which are also where each CLI
+in `<figure>.agent-logs/`. OpenCode's database also holds credentials, so it is
+never copied: the worker exports only the model, token counts and cost of each
+assistant message, from every session, to `.local/share/opencode/usage.json` in
+`opencode export` format. The supported formats, which are also where each CLI
 keeps them on a workstation:
 
 | CLI | Session logs | Usage | Cost |
