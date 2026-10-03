@@ -204,6 +204,8 @@ export type FakeOutput = { stdout?: string; stderr?: string; code?: number };
 export type FakeDocker = {
   agent?: FakeOutput;
   snapshot?: FakeOutput;
+  /** Session logs the worker returns: path -> text. */
+  logs?: Record<string, string>;
   version?: string;
 };
 const FAKE_DOCKER = String.raw`#!/usr/bin/env node
@@ -230,6 +232,12 @@ process.stdin.on("end", () => {
   if (args[0] !== "exec" || !args.includes("-e")) return reply();
   const script = args[args.indexOf("-e") + 1];
   if (script.includes("spawnSync")) return reply(config.agent);
+  if (script.includes("truncated")) {
+    const files = Object.fromEntries(
+      Object.entries(config.logs ?? {}).map(([p, t]) => [p, Buffer.from(t).toString("base64")]),
+    );
+    return reply({ stdout: JSON.stringify({ files, truncated: false }) });
+  }
   if (script.includes("quiesce"))
     return reply(config.snapshot ?? { stdout: JSON.stringify({ submission: "", credentials: {} }) });
   reply();

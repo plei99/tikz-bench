@@ -1,0 +1,178 @@
+{
+  "description": "API list prices in USD per million tokens (standard tier), used to estimate the cost of CLI runs whose logs report tokens but no cost (Codex, Kimi Code, and Claude Code transcripts without a session cost). cache_write is the default cache write (OpenAI 30 minutes, Kimi and Claude 5 minutes); cache_write_1h is the one-hour write. long_context applies to a request whose prompt exceeds threshold_tokens. Subscription runs record these as API-equivalent estimates, not charges.",
+  "checked": "2026-10-03",
+  "currency": "USD",
+  "models": {
+    "gpt-6.1-sol": {
+      "provider": "openai",
+      "input": 2.0,
+      "cached_input": 0.1,
+      "cache_write": 2.5,
+      "cache_write_1h": null,
+      "output": 10.0,
+      "long_context": {
+        "threshold_tokens": 272000,
+        "input": 4.0,
+        "cached_input": 0.2,
+        "cache_write": 5.0,
+        "cache_write_1h": null,
+        "output": 15.0
+      },
+      "source": "https://developers.openai.com/api/docs/pricing",
+      "notes": "Long context applies to requests with >272K input tokens. OpenAI now lists a cache-write price for GPT-5.6 and later (1.25x uncached input; 30-minute TTL per https://developers.openai.com/api/docs/guides/prompt-caching). It is not an extra fee: each input token is billed as uncached input, cached input or cache write. Output includes reasoning tokens. Other tiers: Batch and Flex $1.00/$0.05/$1.25 write/$5.00 (long context $2.00/$0.10/$2.50/$7.50). Fast, formerly Priority, $4.00/$0.20/$5.00/$20.00 (long context $8.00/$0.40/$10.00/$30.00). Data-residency and FedRAMP endpoints add 10%."
+    },
+    "gpt-6-sol": {
+      "provider": "openai",
+      "input": 2.0,
+      "cached_input": 0.2,
+      "cache_write": 2.5,
+      "cache_write_1h": null,
+      "output": 10.0,
+      "long_context": {
+        "threshold_tokens": 272000,
+        "input": 4.0,
+        "cached_input": 0.4,
+        "cache_write": 5.0,
+        "cache_write_1h": null,
+        "output": 15.0
+      },
+      "source": "https://developers.openai.com/api/docs/pricing",
+      "notes": "Appears in the expanded 'All models' table, not in the three-row collapsed view. Long-context values come from the page's pricing data (the pricing.*.js long-context table). Output includes reasoning tokens. Batch and Flex: $1.00/$0.10/$1.25/$5.00. Fast: $4.00/$0.40/$5.00/$20.00. Data residency adds 10%."
+    },
+    "gpt-6-astra": {
+      "provider": "openai",
+      "input": 10.0,
+      "cached_input": 1.0,
+      "cache_write": 12.5,
+      "cache_write_1h": null,
+      "output": 50.0,
+      "long_context": {
+        "threshold_tokens": 272000,
+        "input": 20.0,
+        "cached_input": 2.0,
+        "cache_write": 25.0,
+        "cache_write_1h": null,
+        "output": 75.0
+      },
+      "source": "https://developers.openai.com/api/docs/pricing",
+      "notes": "Output includes reasoning tokens. Batch and Flex: $5.00/$0.50/$6.25/$25.00 (long context $10/$1/$12.50/$37.50). Fast: $20/$2/$25/$100 (long context $40/$4/$50/$150). Ultrafast (Astra only): $60/$6/$75/$300 (long context $120/$12/$150/$450). Data residency adds 10%."
+    },
+    "gpt-6-luna": {
+      "provider": "openai",
+      "input": 0.1,
+      "cached_input": 0.01,
+      "cache_write": 0.125,
+      "cache_write_1h": null,
+      "output": 0.5,
+      "long_context": {
+        "threshold_tokens": 272000,
+        "input": 0.2,
+        "cached_input": 0.02,
+        "cache_write": 0.25,
+        "cache_write_1h": null,
+        "output": 0.75
+      },
+      "source": "https://developers.openai.com/api/docs/pricing",
+      "notes": "Output includes reasoning tokens. Batch and Flex: $0.05/$0.005/$0.0625/$0.25 (long context $0.10/$0.01/$0.125/$0.375). Fast: $0.20/$0.02/$0.25/$1.00 (long context $0.40/$0.04/$0.50/$1.50). Data residency adds 10%."
+    },
+    "gpt-5.3-codex": {
+      "provider": "openai",
+      "input": 1.75,
+      "cached_input": 0.175,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "output": 14.0,
+      "source": "https://developers.openai.com/api/docs/pricing",
+      "notes": "This is the only '-codex' model on the pricing page, listed under Specialized models > Codex. No cache-write or long-context column is listed for it. Fast: $3.50/$0.35/$28.00."
+    },
+    "kimi-k3": {
+      "provider": "moonshot",
+      "input": 3.0,
+      "cached_input": 0.3,
+      "cache_write": 3.0,
+      "cache_write_1h": 6.0,
+      "output": 15.0,
+      "source": "https://platform.kimi.ai/docs/pricing/chat",
+      "notes": "Kimi now bills cache writes separately for the K3 series by TTL: 5min $3.00 and 1h $6.00. The default is 5min. A cache hit is billed only at the cached-input price. Flat pricing across the 1,048,576-token context ('no tiering by context length', per https://platform.kimi.ai/docs/guide/kimi-k3-quickstart). Thinking is always on; reasoning_effort can be low, high or max. Prices exclude taxes. The platform.moonshot.ai pricing URL redirects to platform.kimi.ai."
+    },
+    "kimi-k2.7-code": {
+      "provider": "moonshot",
+      "input": 0.95,
+      "cached_input": 0.19,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "output": 4.0,
+      "source": "https://platform.kimi.ai/docs/pricing/chat",
+      "notes": "Context window 262,144 tokens. The K2 series has no separate cache-write price. Prices exclude taxes."
+    },
+    "kimi-k2.7-code-highspeed": {
+      "provider": "moonshot",
+      "input": 1.9,
+      "cached_input": 0.38,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "output": 8.0,
+      "source": "https://platform.kimi.ai/docs/pricing/chat",
+      "notes": "Context window 262,144 tokens. Kimi Code's 'kimi-for-coding-highspeed' is K2.7 Code HighSpeed, per https://www.kimi.com/code/docs/en/kimi-code/models.html. Prices exclude taxes."
+    },
+    "kimi-k2.6": {
+      "provider": "moonshot",
+      "input": 0.95,
+      "cached_input": 0.16,
+      "cache_write": null,
+      "cache_write_1h": null,
+      "output": 4.0,
+      "source": "https://platform.kimi.ai/docs/pricing/chat",
+      "notes": "Context window 262,144 tokens. Prices exclude taxes."
+    },
+    "claude-opus-5-5": {
+      "provider": "anthropic",
+      "input": 4.0,
+      "cached_input": 0.2,
+      "cache_write": 5.0,
+      "cache_write_1h": 8.0,
+      "output": 20.0,
+      "source": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "notes": "Cache hits are 0.05x base input. The 1M context window is billed at standard rates with no long-context premium (Claude 4.6 and later). Fast mode (research preview, first-party API only): $8 input / $40 output, with cache multipliers applied on top. Batch: $2/$10. inference_geo 'us' applies 1.1x to all categories."
+    },
+    "claude-sonnet-5-5": {
+      "provider": "anthropic",
+      "input": 2.0,
+      "cached_input": 0.2,
+      "cache_write": 2.5,
+      "cache_write_1h": 4.0,
+      "output": 10.0,
+      "source": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "notes": "1M context at standard rates with no premium. Batch: $1/$5. inference_geo 'us' applies 1.1x."
+    },
+    "claude-haiku-4-5": {
+      "provider": "anthropic",
+      "input": 1.0,
+      "cached_input": 0.1,
+      "cache_write": 1.25,
+      "cache_write_1h": 2.0,
+      "output": 5.0,
+      "source": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "notes": "200K context window (no 1M option). Pinned snapshot ID: claude-haiku-4-5-20251001. Batch: $0.50/$2.50. Retirement not sooner than October 15, 2026."
+    },
+    "claude-fable-5-1": {
+      "provider": "anthropic",
+      "input": 10.0,
+      "cached_input": 0.25,
+      "cache_write": 12.5,
+      "cache_write_1h": 20.0,
+      "output": 50.0,
+      "source": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "notes": "Cache hits are 0.025x base input. 1M context at standard rates with no premium. Batch: $5/$25. inference_geo 'us' applies 1.1x."
+    }
+  },
+  "aliases": {
+    "k3": "kimi-k3",
+    "k3-256k": "kimi-k3",
+    "kimi-for-coding-highspeed": "kimi-k2.7-code-highspeed",
+    "claude-haiku-4-5-20251001": "claude-haiku-4-5",
+    "claude-opus-5-5[1m]": "claude-opus-5-5",
+    "claude-sonnet-5-5[1m]": "claude-sonnet-5-5",
+    "claude-fable-5-1[1m]": "claude-fable-5-1"
+  }
+}

@@ -10,7 +10,7 @@ import { writeJSON } from "../src/support.ts";
 import { temporary, which } from "../src/process.ts";
 import { authMode, loadSubscription, SubscriptionAuth } from "../src/auth.ts";
 import { command, CLEAN_EXEC, DockerRunner } from "../src/runner.ts";
-import { captureResult } from "../src/agent_bench.ts";
+import { captureResult } from "../src/task.ts";
 import { taskMetrics } from "../src/report.ts";
 import { script, withEnv, withFakeDocker, withPath } from "./helpers.ts";
 

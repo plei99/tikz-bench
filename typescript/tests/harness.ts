@@ -21,7 +21,9 @@ export type Modules = {
   compile: typeof import("../src/compile.ts");
   judge: typeof import("../src/judge.ts");
   report: typeof import("../src/report.ts");
-  agentBench: typeof import("../src/agent_bench.ts");
+  plan: typeof import("../src/plan.ts");
+  task: typeof import("../src/task.ts");
+  commands: typeof import("../src/commands.ts");
   panel: typeof import("../src/subscription_judge.ts");
   visual: typeof import("../src/visual_compare.ts");
   sandbox: typeof import("../src/sandbox.ts");
@@ -147,7 +149,8 @@ export class Harness {
       fs.mkdirSync(path.join(root, d), { recursive: true });
     fs.mkdirSync(path.join(root, "prompts"));
     fs.mkdirSync(path.join(root, "typescript"));
-    // Shared, read-only runtime pieces: dependencies and the PDF inspector.
+    // Shared, read-only runtime pieces: dependencies, the PDF inspector and
+    // the price table.
     fs.symlinkSync(
       path.join(ROOT, "typescript/node_modules"),
       path.join(root, "node_modules"),
@@ -159,6 +162,10 @@ export class Harness {
     fs.copyFileSync(
       path.join(ROOT, "typescript/package.json"),
       path.join(root, "package.json"),
+    );
+    fs.copyFileSync(
+      path.join(ROOT, "typescript/pricing.json"),
+      path.join(root, "typescript/pricing.json"),
     );
     for (const f of h.figures) {
       await whitePNG(path.join(root, f.image));
@@ -192,7 +199,9 @@ export class Harness {
       compile: await load("compile"),
       judge: await load("judge"),
       report: await load("report"),
-      agentBench: await load("agent_bench"),
+      plan: await load("plan"),
+      task: await load("task"),
+      commands: await load("commands"),
       panel: await load("subscription_judge"),
       visual: await load("visual_compare"),
       sandbox: await load("sandbox"),
@@ -263,12 +272,12 @@ export class Harness {
     cost = 0.1 as number | null,
     seconds = 2.0,
   } = {}) {
-    const jobs = this.m.agentBench.plan(this.args, {
+    const jobs = this.m.plan.plan(this.args, {
       isolation: "external_unverified",
     });
     await Promise.all(
       jobs.map(({ record, stem }) => {
-        const rec = this.m.agentBench.captureResult(
+        const rec = this.m.task.captureResult(
           record,
           stem,
           { submission: text, returncode: 0, agent_seconds: 5.0 },
@@ -302,7 +311,7 @@ export class Harness {
     this.calls = [];
     try {
       const { value, lines } = await quiet(() =>
-        this.m.judge.cmdJudge(this.jargs),
+        this.m.commands.cmdJudge(this.jargs),
       );
       return { code: value, calls: this.calls, lines };
     } finally {
