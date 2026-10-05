@@ -2,6 +2,7 @@ import {
   color,
   configName,
   duration,
+  effortName,
   escape,
   formatMetric,
   linearAxis,
@@ -17,6 +18,15 @@ import {
   shape,
   tokens,
 } from "./model.js";
+import { text } from "./i18n.js";
+
+// Approximate width of an 11px monospace label; CJK characters are double width.
+const labelWidth = (s) =>
+  [...s].reduce(
+    (w, ch) =>
+      w + (/[\u2E80-\u9FFF\uF900-\uFAFF\uFF00-\uFFEF]/.test(ch) ? 11 : 6.6),
+    0,
+  );
 
 // Plot area inside the SVG viewBox.
 const left = 52, right = 900, top = 36, bottom = 420;
@@ -62,7 +72,7 @@ function placeLabels(items, segments) {
       sx > a[0] && sx < a[2] && sy > a[1] && sy < a[3]
     );
   return items.map(({ x, y, text }) => {
-    const w = text.length * 6.6, h = 11;
+    const w = labelWidth(text), h = 11;
     // [box left, baseline, anchor], tried in order: above, below, right, left.
     const spots = [
       [x - w / 2, y - 10, "middle"],
@@ -92,6 +102,7 @@ function placeLabels(items, segments) {
 }
 
 export function chart(data, state) {
+  const t = text(state.lang);
   const rows = ranked(data, { ...state, sort: "score", ascending: false });
   const points = rows.filter((c) =>
     Number.isFinite(metricValue(c, state.metric)) &&
@@ -101,15 +112,12 @@ export function chart(data, state) {
   const values = points.map((c) => metricValue(c, state.metric));
   const log = state.scale !== "linear";
   const axis = log ? logAxis(values) : linearAxis(values, metric.unit);
-  const scaleNote = log ? " (log scale)" : "";
+  const scaleNote = log ? t.logScaleNote : "";
   const yAxis = scoreAxis(points.map((c) => scoreValue(c, state.category)));
   const x = (v) => left + axis.position(v) * (right - left);
   const y = (v) => bottom - yAxis.position(v) * (bottom - top);
-  const title = {
-    overall: "Score",
-    handwritten: "Hand-drawn score",
-    digital: "Digital score",
-  }[state.category];
+  const title = t.scoreTitles[state.category];
+  const axisTitle = t.metrics[state.metric].axis + scaleNote;
   const grid = yAxis.ticks.map((v) => {
     const py = y(v);
     return `<line class="grid" x1="${left}" y1="${py}" x2="${right}" y2="${py}"/>
@@ -120,7 +128,7 @@ export function chart(data, state) {
     const px = x(v);
     return `<line class="grid" x1="${px}" y1="${top}" x2="${px}" y2="${bottom}"/>
       <text class="tick" x="${px}" y="${bottom + 20}" text-anchor="middle">${
-      escape(formatMetric(v, state.metric))
+      escape(formatMetric(v, state.metric, state.lang))
     }</text>`;
   }).join("");
   // Effort levels of one model and agent are joined, as in a cost/score frontier.
@@ -158,19 +166,21 @@ export function chart(data, state) {
   const xy = points.map((c) => ({
     x: x(metricValue(c, state.metric)),
     y: y(scoreValue(c, state.category)),
-    text: c.effort ?? "default",
+    text: effortName(c, state.lang),
   }));
   const labels = placeLabels(xy, segments);
   const plotted = points.map((c, index) => {
     const value = `${percent(scoreValue(c, state.category))}, ${
-      escape(formatMetric(metricValue(c, state.metric), state.metric))
+      escape(
+        formatMetric(metricValue(c, state.metric), state.metric, state.lang),
+      )
     }`;
     return `<g class="point" tabindex="0" role="button" data-config="${
       escape(c.id)
     }" aria-label="${
-      escape(configName(c))
-    }: ${value}. Open details." style="color:${color(c)}">
-      <title>${escape(configName(c))}: ${value}</title>
+      escape(configName(c, state.lang))
+    }: ${value}. ${t.openDetails}" style="color:${color(c)}">
+      <title>${escape(configName(c, state.lang))}: ${value}</title>
       ${marker(shape(c), xy[index].x, xy[index].y)}
     </g>`;
   }).join("");
@@ -184,12 +194,14 @@ export function chart(data, state) {
         escape(c.agent)
       }</span></li>`
     ).join("") + (pareto
-      ? `<li><svg viewBox="0 0 24 14" aria-hidden="true"><line class="pareto" x1="0" y1="7" x2="24" y2="7"/></svg>Pareto frontier</li>`
+      ? `<li><svg viewBox="0 0 24 14" aria-hidden="true"><line class="pareto" x1="0" y1="7" x2="24" y2="7"/></svg>${t.paretoFrontier}</li>`
       : "");
   const missing = rows.length - points.length;
   return `${
     points.length ? `<ul class="legend">${legend}</ul>` : ""
-  }<svg viewBox="0 0 920 464" role="img" aria-label="${title} against ${metric.axis}${scaleNote}">
+  }<svg viewBox="0 0 920 464" role="img" aria-label="${
+    t.chartLabel(title, axisTitle)
+  }">
     <text class="axis-title" x="${left}" y="16">${title}</text>
     ${grid}${lines}${pareto}${plotted}${labels.join("")}
     ${
@@ -197,23 +209,22 @@ export function chart(data, state) {
       ? ""
       : `<text class="empty" x="${(left + right) / 2}" y="${
         (top + bottom) / 2
-      }" text-anchor="middle">No configurations to plot</text>`
+      }" text-anchor="middle">${t.noPoints}</text>`
   }
     <text class="axis-title" x="${(left + right) / 2}" y="${
     bottom + 40
-  }" text-anchor="middle">${metric.axis}${scaleNote}</text>
+  }" text-anchor="middle">${axisTitle}</text>
   </svg>${
     missing
-      ? `<p class="chart-note">${missing} run${
-        missing > 1 ? "s" : ""
-      } without positive recorded ${
-        metrics[state.metric].label.toLowerCase()
-      } appear only in the table.</p>`
+      ? `<p class="chart-note">${
+        t.notPlotted(missing, t.metrics[state.metric].label)
+      }</p>`
       : ""
   }`;
 }
 
 export function table(data, state) {
+  const t = text(state.lang);
   const rows = ranked(data, state);
   return rows.length
     ? rows.map((c) => {
@@ -222,7 +233,7 @@ export function table(data, state) {
     <td><button class="model" data-config="${escape(c.id)}"><span>${
         escape(c.model)
       }</span> <span class="effort">[${
-        escape(c.effort ?? "default")
+        escape(effortName(c, state.lang))
       }]</span> <span class="agent">${escape(c.agent)}</span></button></td>
     <td class="bar-cell"><span class="bar"><span style="width:${
         score * 100
@@ -230,8 +241,8 @@ export function table(data, state) {
     <td class="num score">${percent(score)}</td>
     <td class="num">${money(c.cost)}</td><td class="num">${
         tokens(c.output_tokens)
-      }</td><td class="num">${duration(c.agent_seconds)}</td>
+      }</td><td class="num">${duration(c.agent_seconds, state.lang)}</td>
   </tr>`;
     }).join("")
-    : '<tr><td colspan="6" class="empty">No completed configurations selected.</td></tr>';
+    : `<tr><td colspan="6" class="empty">${t.noRows}</td></tr>`;
 }

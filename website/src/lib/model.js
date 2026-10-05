@@ -1,13 +1,10 @@
+import { text } from "./i18n.js";
+
+// Display labels for each metric are in i18n.js.
 export const metrics = {
-  cost: { label: "Cost", axis: "Average cost per task (USD)", key: "cost" },
-  output_tokens: {
-    label: "Output tokens",
-    axis: "Average output tokens per task",
-    key: "output_tokens",
-  },
+  cost: { key: "cost" },
+  output_tokens: { key: "output_tokens" },
   agent_seconds: {
-    label: "Agent time",
-    axis: "Average agent runtime per task",
     key: "agent_seconds",
     // Linear ticks fall on whole minutes.
     unit: 60,
@@ -26,17 +23,22 @@ export const percent = (n) => n == null ? "—" : `${(n * 100).toFixed(1)}%`;
 export const money = (n) => n == null ? "—" : `$${n.toFixed(2)}`;
 export const tokens = (n) =>
   n == null ? "—" : n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n);
-export const duration = (n) =>
+export const duration = (n, lang = "en") =>
   n == null
     ? "—"
     : n >= 60
-    ? `${(n / 60).toFixed(1)} min`
-    : `${Math.round(n)} s`;
+    ? text(lang).minutes((n / 60).toFixed(1))
+    : text(lang).seconds(Math.round(n));
 export const metricValue = (config, metric) => config[metrics[metric].key];
-export const formatMetric = (n, metric) =>
-  ({ cost: money, output_tokens: tokens, agent_seconds: duration })[metric](n);
-export const configName = (c) =>
-  `${c.model} [${c.effort ?? "default"}] · ${c.agent}`;
+export const formatMetric = (n, metric, lang = "en") =>
+  ({ cost: money, output_tokens: tokens, agent_seconds: duration })[metric](
+    n,
+    lang,
+  );
+export const effortName = (c, lang = "en") =>
+  c.effort ?? text(lang).defaultEffort;
+export const configName = (c, lang = "en") =>
+  `${c.model} [${effortName(c, lang)}] · ${c.agent}`;
 
 // Categorical slots (--series-N in styles.css) in fixed order. The first three
 // stay distinguishable for every pair, as a scatter plot needs; known models are
@@ -62,7 +64,7 @@ const shapes = {
 };
 export const shape = (config) => shapes[config.agent] ?? "circle";
 
-export function initialState(data) {
+export function initialState(data, lang = "en") {
   const cohort =
     data.cohorts.find((c) =>
       data.configurations.some((r) =>
@@ -71,6 +73,7 @@ export function initialState(data) {
       )
     ) ?? data.cohorts[0];
   return {
+    lang,
     cohort: cohort?.id,
     metric: "cost",
     category: "overall",

@@ -6,21 +6,18 @@ const data = JSON.parse(
   await Deno.readTextFile(new URL("data/results.json", root)),
 );
 validateSnapshot(data);
-const html = await Deno.readTextFile(new URL("index.html", root));
+// One page per language; every check below runs on each.
+const pages = ["index.html", "zh/index.html"];
 const state = initialState(data);
-for (const row of ranked(data, state)) {
-  if (!html.includes(`data-config="${row.id}"`)) {
-    throw new Error(`Run missing from initial HTML: ${row.id}`);
-  }
-}
 const allowed = new Set([
-  "index.html",
+  ...pages,
   "styles.css",
   "app.js",
   "favicon.svg",
   ".nojekyll",
   "lib/model.js",
   "lib/render.js",
+  "lib/i18n.js",
   "data/results.json",
 ]);
 async function walk(dir: URL, prefix = "") {
@@ -50,26 +47,34 @@ function checkLink(link: string) {
     throw new Error(`Unknown local link: ${url}`);
   }
 }
-for (const match of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
-  checkLink(match[1]);
-}
-const importMap = html.match(/<script type="importmap">([^<]*)<\/script>/);
-for (
-  const [from, to] of Object.entries(
-    JSON.parse(importMap?.[1] ?? '{"imports":{}}').imports as Record<
-      string,
-      string
-    >,
-  )
-) {
-  checkLink(from);
-  checkLink(to);
-}
-if (!html.includes('id="benchmark-data"') || !html.includes('id="chart"')) {
-  throw new Error("Missing static results");
+for (const page of pages) {
+  const html = await Deno.readTextFile(new URL(page, root));
+  for (const row of ranked(data, state)) {
+    if (!html.includes(`data-config="${row.id}"`)) {
+      throw new Error(`Run missing from ${page}: ${row.id}`);
+    }
+  }
+  for (const match of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
+    checkLink(match[1]);
+  }
+  const importMap = html.match(/<script type="importmap">([^<]*)<\/script>/);
+  for (
+    const [from, to] of Object.entries(
+      JSON.parse(importMap?.[1] ?? '{"imports":{}}').imports as Record<
+        string,
+        string
+      >,
+    )
+  ) {
+    checkLink(from);
+    checkLink(to);
+  }
+  if (!html.includes('id="benchmark-data"') || !html.includes('id="chart"')) {
+    throw new Error(`Missing static results in ${page}`);
+  }
 }
 console.log(
-  `Verified ${allowed.size} public files and ${
+  `Verified ${allowed.size} public files, ${pages.length} languages and ${
     ranked(data, state).length
   } initial chart configurations. No private evaluation files included.`,
 );

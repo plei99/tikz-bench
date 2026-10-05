@@ -1,6 +1,7 @@
 import {
   configName,
   duration,
+  effortName,
   escape,
   initialState,
   money,
@@ -8,9 +9,12 @@ import {
   tokens,
 } from "./lib/model.js";
 import { chart, table } from "./lib/render.js";
+import { text } from "./lib/i18n.js";
 
+const lang = document.documentElement.lang.startsWith("zh") ? "zh" : "en";
+const t = text(lang);
 const data = JSON.parse(document.querySelector("#benchmark-data").textContent);
-const state = initialState(data);
+const state = initialState(data, lang);
 const $ = (selector) => document.querySelector(selector);
 const available = () =>
   data.configurations.filter((c) =>
@@ -50,43 +54,44 @@ function render() {
 function renderPicker() {
   const query = $("#config-search").value.toLowerCase().trim();
   const rows = available().filter((c) =>
-    configName(c).toLowerCase().includes(query)
+    configName(c, lang).toLowerCase().includes(query)
   );
   $("#config-options").innerHTML =
     rows.map((c) =>
       `<label><input type="checkbox" value="${escape(c.id)}" ${
         state.selected.includes(c.id) ? "checked" : ""
-      }> ${escape(c.model)} (${escape(c.effort ?? "default")}), ${
+      }> ${escape(c.model)} (${escape(effortName(c, lang))}), ${
         escape(c.agent)
       }</label>`
-    ).join("") || "<p>No runs match.</p>";
+    ).join("") || `<p>${t.noRunsMatch}</p>`;
 }
 
 function detail(id) {
   const c = data.configurations.find((c) => c.id === id);
   if (!c) return;
   const cohort = data.cohorts.find((cohort) => cohort.id === c.cohort_id);
-  $("#detail-title").textContent = `${c.model} (${c.effort ?? "default"})`;
-  $("#detail-content").innerHTML = `<p>Run with ${escape(c.agent)}. Score ${
-    percent(c.score)
-  }.</p>
+  $("#detail-title").textContent = `${c.model} (${effortName(c, lang)})`;
+  $("#detail-content").innerHTML = `<p>${
+    t.runWith(escape(c.agent), percent(c.score))
+  }</p>
     <table><tbody>${
     [
       [
-        `Hand-drawn (${cohort.handwritten})`,
-        `${percent(c.handwritten_score)}, ${
-          c.handwritten_perfect ?? "—"
-        } with full credit`,
+        t.handwrittenCount(cohort.handwritten),
+        t.fullCredit(
+          percent(c.handwritten_score),
+          c.handwritten_perfect ?? "—",
+        ),
       ],
       [
-        `Digital (${cohort.digital})`,
-        `${percent(c.digital_score)}, ${c.digital_perfect ?? "—"} exact`,
+        t.digitalCount(cohort.digital),
+        t.exact(percent(c.digital_score), c.digital_perfect ?? "—"),
       ],
-      ["Cost per task", money(c.cost)],
-      ["Output tokens per task", tokens(c.output_tokens)],
-      ["Agent time per task", duration(c.agent_seconds)],
-      ["Model response time per task", duration(c.api_seconds)],
-      ["Compile rate", percent(c.compile_rate)],
+      [t.costPerTask, money(c.cost)],
+      [t.tokensPerTask, tokens(c.output_tokens)],
+      [t.agentTimePerTask, duration(c.agent_seconds, lang)],
+      [t.responseTimePerTask, duration(c.api_seconds, lang)],
+      [t.compileRate, percent(c.compile_rate)],
     ].map(([label, value]) =>
       `<tr><th scope="row">${label}</th><td>${value}</td></tr>`
     ).join("")
@@ -177,7 +182,7 @@ function themeLabel() {
   const next = document.documentElement.dataset.theme === "dark"
     ? "light"
     : "dark";
-  $("#theme-toggle").setAttribute("aria-label", `Switch to ${next} theme`);
+  $("#theme-toggle").setAttribute("aria-label", t.themeLabel(next));
 }
 $("#theme-toggle").addEventListener("click", () => {
   const theme = document.documentElement.dataset.theme === "dark"
@@ -190,4 +195,12 @@ $("#theme-toggle").addEventListener("click", () => {
   themeLabel();
 });
 themeLabel();
+// The other language keeps the current section, and the choice outlasts the
+// browser-language redirect on the English page.
+$("#lang-switch").addEventListener("click", (event) => {
+  try {
+    localStorage.setItem("tikz-lang", event.currentTarget.hreflang.slice(0, 2));
+  } catch { /* Storage may be unavailable in private browsing. */ }
+  event.currentTarget.hash = location.hash;
+});
 render();

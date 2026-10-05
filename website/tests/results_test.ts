@@ -1,5 +1,7 @@
 import results from "../src/data/results.json" with { type: "json" };
 import {
+  duration,
+  effortName,
   initialState,
   linearAxis,
   logAxis,
@@ -10,6 +12,7 @@ import {
   scoreValue,
 } from "../src/lib/model.js";
 import { chart, table } from "../src/lib/render.js";
+import { strings } from "../src/lib/i18n.js";
 import { validateSnapshot } from "../scripts/validate.ts";
 
 type Configuration = typeof results.configurations[number];
@@ -165,4 +168,62 @@ Deno.test("Pareto frontier keeps exactly the undominated configurations", () => 
   assert(!chart(results, state).includes('class="pareto"'));
   const shown = chart(results, { ...state, frontier: true });
   assert(shown.includes('class="pareto"') && shown.includes("Pareto frontier"));
+});
+
+// Every key path in a dictionary, marking which entries are functions.
+function shape(value: unknown, prefix = ""): string[] {
+  if (typeof value === "function") return [`${prefix}()`];
+  if (value && typeof value === "object") {
+    return Object.entries(value).flatMap(([k, v]) =>
+      shape(v, prefix ? `${prefix}.${k}` : k)
+    ).sort();
+  }
+  return [prefix];
+}
+
+// Every fixed English string, e.g. "Pareto frontier".
+function leaves(value: unknown): string[] {
+  if (typeof value === "string") return [value];
+  if (value && typeof value === "object") {
+    return Object.values(value).flatMap(leaves);
+  }
+  return [];
+}
+
+Deno.test("English and Chinese dictionaries have the same keys", () => {
+  const en = shape(strings.en), zh = shape(strings.zh);
+  assert(
+    JSON.stringify(en) === JSON.stringify(zh),
+    `Keys differ: ${[
+      ...en.filter((k) => !zh.includes(k)),
+      ...zh.filter((k) => !en.includes(k)),
+    ]}`,
+  );
+});
+
+Deno.test("Chinese chart and table contain no English interface text", () => {
+  const state = initialState(results, "zh");
+  const html = [
+    chart(results, { ...state, frontier: true }),
+    chart(results, { ...state, scale: "linear", metric: "agent_seconds" }),
+    chart(results, { ...state, category: "digital" }),
+    table(results, state),
+    table(results, { ...state, selected: [] }),
+    chart(results, { ...state, selected: [] }),
+  ].join("\n");
+  for (const english of leaves(strings.en)) {
+    // Short words such as "Run" or "Log" are too likely to occur in data.
+    if (english.length < 4 || leaves(strings.zh).includes(english)) continue;
+    assert(!html.includes(english), `English text in Chinese page: ${english}`);
+  }
+  assert(html.includes("（对数刻度）") && html.includes("帕累托前沿"));
+  assert(html.includes("分钟") && !html.includes(" min<"));
+});
+
+Deno.test("Chinese formatting uses Chinese units and effort names", () => {
+  assert(duration(90, "zh") === "1.5 分钟" && duration(45, "zh") === "45 秒");
+  assert(duration(90) === "1.5 min" && duration(45) === "45 s");
+  assert(effortName({ effort: null }, "zh") === "默认");
+  assert(effortName({ effort: "xhigh" }, "zh") === "xhigh");
+  assert(strings.zh.date("2026-10-05T01:00:00Z") === "2026年10月5日");
 });

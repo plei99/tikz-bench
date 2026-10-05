@@ -4,6 +4,14 @@ This Lume site uses a public snapshot of aggregate results. All prose on the
 page (introduction, "Why this exists," "How it works," runner instructions and
 author credits) is extracted from the repository's README at build time.
 
+The site is built in English (`/`) and Chinese (`/zh/`) from one template.
+Chinese prose comes from `README.zh.md`, whose section headings must match the
+`sections` strings in `src/lib/i18n.js`; the build fails otherwise. Interface
+text for both languages is in `src/lib/i18n.js`, and tests check that the two
+dictionaries have the same keys. A first visit from a Chinese-language browser
+is redirected to `/zh/` unless the visitor has chosen a language with the header
+switch.
+
 ```sh
 cd website
 deno task serve                 # http://localhost:3000

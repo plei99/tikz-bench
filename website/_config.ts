@@ -1,5 +1,6 @@
 import lume from "lume/mod.ts";
 import { validateSnapshot } from "./scripts/validate.ts";
+import { strings } from "./src/lib/i18n.js";
 
 validateSnapshot(
   JSON.parse(
@@ -21,27 +22,37 @@ site.copy("data");
 site.copy("favicon.svg");
 site.copy(".nojekyll");
 
-// Extract selected public README sections so the website keeps the author's voice.
-const readme = Deno.readTextFileSync(new URL("../README.md", import.meta.url));
-const section = (heading: string) => {
-  const start = readme.indexOf(`## ${heading}\n`);
-  if (start < 0) throw new Error(`README section missing: ${heading}`);
-  const content = readme.slice(start + heading.length + 4);
-  const end = content.search(/^## /m);
-  return (end < 0 ? content : content.slice(0, end)).trim();
-};
-const running = section("Running it");
+// Extract selected public README sections so the website keeps the author's
+// voice. README.zh.md mirrors README.md; section headings are the same strings
+// the page uses for its <h2>s, so a missing section fails the build.
+function readme(file: string, lang: "en" | "zh") {
+  const text = Deno.readTextFileSync(new URL(`../${file}`, import.meta.url));
+  const section = (heading: string) => {
+    const start = text.indexOf(`## ${heading}\n`);
+    if (start < 0) throw new Error(`${file} section missing: ${heading}`);
+    const content = text.slice(start + heading.length + 4);
+    const end = content.search(/^## /m);
+    return (end < 0 ? content : content.slice(0, end)).trim();
+  };
+  const paragraphs = (s: string) =>
+    s.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+  const headings = strings[lang].sections;
+  const running = section(headings.running);
+  // The intro is the first paragraph after the canary blockquote.
+  const afterCanary = text.slice(text.indexOf("canary GUID"));
+  return {
+    intro: paragraphs(afterCanary)[1]?.replace(/\s+/g, " "),
+    why: section(headings.why).split("###")[0].trim(),
+    how: section(headings.how),
+    authors: section(headings.authors),
+    runningCode: running.match(/```sh\n([\s\S]*?)```/)?.[1],
+    // The note about results directly follows the first code block.
+    running: paragraphs(running.split("```\n")[1] ?? "")[0],
+  };
+}
 site.data("readme", {
-  // Only the opening sentence; the paragraph may continue with details.
-  intro: readme.match(/This benchmark[\s\S]*?\.(?=\s)/)?.[0].replace(
-    /\s+/g,
-    " ",
-  ).trim(),
-  why: section("Why this exists").split("###")[0].trim(),
-  how: section("How it works"),
-  authors: section("People who made the original images"),
-  runningCode: running.match(/```sh\n([\s\S]*?)```/)?.[1],
-  running: running.split("```\n")[1]?.split("\n\nRuns created")[0].trim(),
+  en: readme("README.md", "en"),
+  zh: readme("README.zh.md", "zh"),
 });
 
 export default site;
