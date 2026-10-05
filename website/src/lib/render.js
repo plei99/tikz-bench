@@ -235,22 +235,3 @@ export function table(data, state) {
     }).join("")
     : '<tr><td colspan="6" class="empty">No completed configurations selected.</td></tr>';
 }
-
-export function progress(data, state) {
-  const rows = data.configurations.filter((c) =>
-    c.cohort_id === state.cohort && !c.complete
-  );
-  return rows.length
-    ? `<table class="progress"><tbody>${
-      rows.map((c) =>
-        `<tr><td>${escape(c.model)} <span class="effort">[${
-          escape(c.effort ?? "default")
-        }]</span> <span class="agent">${
-          escape(c.agent)
-        }</span></td><td class="num">${c.scored}/${c.planned} graded${
-          c.pilot ? " (pilot)" : ""
-        }</td></tr>`
-      ).join("")
-    }</tbody></table>`
-    : "<p>Every run is complete.</p>";
-}

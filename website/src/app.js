@@ -7,7 +7,7 @@ import {
   percent,
   tokens,
 } from "./lib/model.js";
-import { chart, progress, table } from "./lib/render.js";
+import { chart, table } from "./lib/render.js";
 
 const data = JSON.parse(document.querySelector("#benchmark-data").textContent);
 const state = initialState(data);
@@ -20,16 +20,10 @@ const available = () =>
 function render() {
   $("#chart").innerHTML = chart(data, state);
   $("#leaderboard-body").innerHTML = table(data, state);
-  $("#progress-list").innerHTML = progress(data, state);
   const configs = available();
   $("#config-count").textContent = `(${
     configs.filter((c) => state.selected.includes(c.id)).length
   }/${configs.length})`;
-  $("#pending-count").textContent = String(
-    data.configurations.filter((c) =>
-      !c.complete && c.cohort_id === state.cohort
-    ).length,
-  );
   const cohort = data.cohorts.find((c) => c.id === state.cohort);
   $("#task-stat").textContent = cohort.tasks;
   $("#handwritten-stat").textContent = cohort.handwritten;

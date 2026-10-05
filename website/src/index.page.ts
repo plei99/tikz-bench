@@ -1,6 +1,6 @@
 import results from "./data/results.json" with { type: "json" };
 import { escape, initialState } from "./lib/model.js";
-import { chart, progress, table } from "./lib/render.js";
+import { chart, table } from "./lib/render.js";
 
 export const url = "/";
 
@@ -131,11 +131,6 @@ export default function (data: Lume.Data, helpers: Lume.Helpers) {
     table(results, state)
   }</tbody></table></div>
       <p class="footnote">Averages per task. Cost is the API-equivalent price.</p>
-      <details class="unfinished"><summary>Unfinished runs (<span id="pending-count">${
-    inCohort.filter((c) => !c.complete).length
-  }</span>)</summary><div id="progress-list">${
-    progress(results, state)
-  }</div></details>
     </section>
 
     <section class="prose" aria-labelledby="why-title"><h2 id="why-title">Why this exists</h2>${

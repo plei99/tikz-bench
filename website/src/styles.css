@@ -516,25 +516,6 @@ th button span {
   font-size: 13px;
   color: var(--muted);
 }
-.unfinished {
-  margin-top: 8px;
-  font-size: 13px;
-}
-.unfinished summary {
-  cursor: pointer;
-  color: var(--muted);
-}
-.unfinished summary:hover {
-  color: var(--text);
-}
-.progress {
-  margin-top: 8px;
-  max-width: 560px;
-}
-.progress td {
-  padding: 4px 0;
-  border-bottom: 1px solid var(--border);
-}
 
 /* README sections */
 .prose {

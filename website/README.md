@@ -20,7 +20,7 @@ installation, model credentials, or private benchmark data.
 The chart and leaderboard are rendered into the HTML at build time. JavaScript
 adds the score category and chart metric switches, sorting, best/every effort
 views, run selection, run details, and a saved light/dark theme. Unfinished runs
-and pilots are listed separately and never enter the rankings.
+and pilots are not shown.
 
 ## Refreshing real results
 
