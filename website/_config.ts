@@ -32,7 +32,8 @@ const section = (heading: string) => {
 };
 const running = section("Running it");
 site.data("readme", {
-  intro: readme.match(/This benchmark[\s\S]*?(?=\n\n)/)?.[0].replace(
+  // Only the opening sentence; the paragraph may continue with details.
+  intro: readme.match(/This benchmark[\s\S]*?\.(?=\s)/)?.[0].replace(
     /\s+/g,
     " ",
   ).trim(),
