@@ -1,5 +1,5 @@
 import results from "./data/results.json" with { type: "json" };
-import { escape, initialState } from "./lib/model.js";
+import { escape, facetValues, initialState } from "./lib/model.js";
 import { chart, table } from "./lib/render.js";
 import { languages, locales, text } from "./lib/i18n.js";
 
@@ -66,6 +66,28 @@ function page(lang: Lang, data: Lume.Data, helpers: Lume.Helpers) {
         }">${name}</button>`
       ).join("")
     }</div>`;
+  // Multi-select filters: "All" is pressed while a facet selects nothing.
+  const values = facetValues(results, state.cohort);
+  const facet = (name: string, label: string, options: string[][]) =>
+    `<div class="facet"><span class="facet-label" id="facet-${name}">${label}</span><div class="segmented" role="group" aria-labelledby="facet-${name}"><button data-filter="${name}" data-value="" aria-pressed="true">${t.allValues}</button>${
+      options.map(([value, display]) =>
+        `<button data-filter="${name}" data-value="${
+          escape(value)
+        }" aria-pressed="false">${escape(display)}</button>`
+      ).join("")
+    }</div></div>`;
+  const filters =
+    `<div class="filters" role="group" aria-label="${t.filters}">${
+      facet("agent", t.harness, values.agent.map((v: string) => [v, v]))
+    }${
+      facet(
+        "provider",
+        t.provider,
+        values.provider.map((
+          v: string,
+        ) => [v, t.providers[v as keyof typeof t.providers]]),
+      )
+    }${facet("model", t.model, values.model.map((v: string) => [v, v]))}</div>`;
   const cohorts = results.cohorts.length > 1
     ? `<label class="sr-only" for="cohort-select">${t.figureSubset}</label><select id="cohort-select">${
       results.cohorts.map((c) =>
@@ -137,6 +159,7 @@ function page(lang: Lang, data: Lume.Data, helpers: Lume.Helpers) {
     escape(results.generated_at)
   }">${date}</time></span><button id="config-picker" class="picker" aria-haspopup="dialog">${t.runs} <span id="config-count"></span></button></div>
       </div>
+      ${filters}
       <figure class="panel chart"><div class="chart-controls">${
     segmented("metric", t.chartMetric, [
       ["cost", t.metrics.cost.label],

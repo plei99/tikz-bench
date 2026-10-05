@@ -64,6 +64,47 @@ const shapes = {
 };
 export const shape = (config) => shapes[config.agent] ?? "circle";
 
+// The company behind each model, from its name. Display names are in i18n.js;
+// tests fail if a recorded model matches none of these.
+/** @type {[RegExp, string][]} */
+const providers = [
+  [/^(gpt|o\d)/, "openai"],
+  [/^claude/, "anthropic"],
+  [/^(k\d|kimi)/, "moonshot"],
+  [/^glm/, "zai"],
+  [/^mimo/, "xiaomi"],
+  [/^(muse|llama)/, "meta"],
+  [/^gemini/, "google"],
+  [/^deepseek/, "deepseek"],
+  [/^qwen/, "alibaba"],
+];
+export const provider = (config) =>
+  providers.find(([pattern]) => pattern.test(config.model))?.[1] ?? "other";
+
+// Filterable properties of a run. Selected values in one facet are
+// alternatives; facets combine, and an empty facet does not filter.
+export const facets = {
+  agent: (c) => c.agent,
+  provider,
+  model: (c) => c.model,
+};
+export const matchesFilters = (config, filters = {}) =>
+  Object.entries(filters).every(([facet, values]) =>
+    !values.length || values.includes(facets[facet](config))
+  );
+
+// The values each facet takes among a subset's completed runs.
+export function facetValues(data, cohort) {
+  const runs = data.configurations.filter((c) =>
+    c.complete && !c.pilot && c.cohort_id === cohort
+  );
+  return Object.fromEntries(
+    Object.entries(facets).map((
+      [facet, value],
+    ) => [facet, [...new Set(runs.map(value))].sort()]),
+  );
+}
+
 export function initialState(data, lang = "en") {
   const cohort =
     data.cohorts.find((c) =>
@@ -80,6 +121,7 @@ export function initialState(data, lang = "en") {
     efforts: "all",
     scale: "log",
     frontier: false,
+    filters: { agent: [], provider: [], model: [] },
     sort: "score",
     ascending: false,
     selected: data.configurations.filter((c) => c.complete).map((c) => c.id),
@@ -94,6 +136,7 @@ export function ranked(data, state) {
   let rows = data.configurations.filter((c) =>
     c.complete && !c.pilot &&
     c.cohort_id === state.cohort && state.selected.includes(c.id) &&
+    matchesFilters(c, state.filters) &&
     scoreValue(c, state.category) !== null
   );
   if (state.efforts === "best") {

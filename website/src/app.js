@@ -29,6 +29,17 @@ function render() {
     configs.filter((c) => state.selected.includes(c.id)).length
   }/${configs.length})`;
   $("[data-frontier]").setAttribute("aria-pressed", String(state.frontier));
+  for (const button of document.querySelectorAll("[data-filter]")) {
+    const selected = state.filters[button.dataset.filter];
+    button.setAttribute(
+      "aria-pressed",
+      String(
+        button.dataset.value
+          ? selected.includes(button.dataset.value)
+          : !selected.length,
+      ),
+    );
+  }
   for (const group of ["metric", "category", "efforts", "scale"]) {
     for (const button of document.querySelectorAll(`[data-${group}]`)) {
       button.setAttribute(
@@ -101,9 +112,21 @@ function detail(id) {
 
 document.addEventListener("click", (event) => {
   const button = event.target.closest(
-    "[data-metric], [data-category], [data-efforts], [data-scale], [data-frontier], [data-sort], [data-config], [data-close]",
+    "[data-metric], [data-category], [data-efforts], [data-scale], [data-frontier], [data-filter], [data-sort], [data-config], [data-close]",
   );
   if (!button) return;
+  if (button.dataset.filter) {
+    // "All" clears the facet; any other value toggles in or out of it.
+    const { filter, value } = button.dataset;
+    const selected = state.filters[filter];
+    state.filters[filter] = !value
+      ? []
+      : selected.includes(value)
+      ? selected.filter((v) => v !== value)
+      : [...selected, value];
+    render();
+    return;
+  }
   if (button.hasAttribute("data-frontier")) {
     state.frontier = !state.frontier;
     render();

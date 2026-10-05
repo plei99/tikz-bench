@@ -2,12 +2,14 @@ import results from "../src/data/results.json" with { type: "json" };
 import {
   duration,
   effortName,
+  facetValues,
   initialState,
   linearAxis,
   logAxis,
   metrics,
   metricValue,
   paretoFrontier,
+  provider,
   ranked,
   scoreValue,
 } from "../src/lib/model.js";
@@ -226,4 +228,67 @@ Deno.test("Chinese formatting uses Chinese units and effort names", () => {
   assert(effortName({ effort: null }, "zh") === "默认");
   assert(effortName({ effort: "xhigh" }, "zh") === "xhigh");
   assert(strings.zh.date("2026-10-05T01:00:00Z") === "2026年10月5日");
+});
+
+Deno.test("every recorded model belongs to a known provider", () => {
+  for (const c of results.configurations) {
+    assert(provider(c) !== "other", `No provider for model ${c.model}`);
+    assert(provider(c) in strings.en.providers);
+  }
+});
+
+Deno.test("filters combine alternatives within a facet and facets together", () => {
+  const state = initialState(results);
+  const all = ranked(results, state);
+  const by = (filters: Record<string, string[]>) =>
+    ranked(results, {
+      ...state,
+      filters: { agent: [], provider: [], model: [], ...filters },
+    });
+  assert(by({}).length === all.length);
+  const codex = by({ agent: ["codex"] });
+  assert(
+    codex.length && codex.every((c: Configuration) => c.agent === "codex"),
+  );
+  const either = by({ agent: ["codex", "pi"] });
+  assert(
+    either.length ===
+      all.filter((c: Configuration) => ["codex", "pi"].includes(c.agent))
+        .length,
+  );
+  const openaiPi = by({ provider: ["openai"], agent: ["pi"] });
+  assert(
+    openaiPi.length &&
+      openaiPi.every((c: Configuration) =>
+        c.agent === "pi" && provider(c) === "openai"
+      ),
+  );
+  assert(by({ provider: ["anthropic"], agent: ["codex"] }).length === 0);
+  // The chart, table and "Best" view all show only filtered runs.
+  const filters = { agent: [], provider: [], model: ["gpt-6.1-sol"] };
+  for (const efforts of ["all", "best"]) {
+    const view = { ...state, efforts, filters };
+    const html = chart(results, view) + table(results, view);
+    for (const c of all) {
+      assert(
+        html.includes(`data-config="${c.id}"`) ===
+          ranked(results, view).includes(c),
+        `${efforts}: ${c.id}`,
+      );
+    }
+  }
+});
+
+Deno.test("filter options come only from completed runs", () => {
+  const state = initialState(results);
+  const values = facetValues(results, state.cohort);
+  const completed = ranked(results, state);
+  assert(
+    JSON.stringify(values.agent) ===
+      JSON.stringify(
+        [...new Set(completed.map((c: Configuration) => c.agent))].sort(),
+      ),
+  );
+  assert(!values.model.includes("mimo-v2.6-pro"));
+  assert(values.provider.every((p: string) => p in strings.zh.providers));
 });

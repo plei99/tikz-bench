@@ -260,6 +260,22 @@ h2 {
   align-items: center;
   gap: 12px;
 }
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 24px;
+  margin-bottom: 12px;
+}
+.facet {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.facet-label {
+  font-size: 12px;
+  color: var(--muted);
+}
 .segmented {
   display: inline-flex;
   border: 1px solid var(--border);
