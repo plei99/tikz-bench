@@ -1,0 +1,67 @@
+name: Website
+
+on:
+  push:
+    branches: [main]
+    paths: ["website/**", "README.md", ".github/workflows/website.yml"]
+  pull_request:
+    paths: ["website/**", "README.md", ".github/workflows/website.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: website-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - name: Check and test
+        working-directory: website
+        run: |
+          deno task check
+          deno task test
+      - name: Build public site
+        working-directory: website
+        # All assets use Lume's URL helper; this works for project Pages and custom domains.
+        run: deno task build --location="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
+      - name: Validate generated site
+        working-directory: website
+        run: deno task verify
+      - uses: actions/upload-artifact@v4
+        with:
+          name: website
+          path: website/_site
+          include-hidden-files: true
+
+  deploy:
+    needs: build
+    # Publishing is enabled when the repository becomes public. PRs only build.
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.event.repository.private == false
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: website
+          path: _site
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4

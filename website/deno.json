@@ -1,0 +1,17 @@
+{
+  "imports": {
+    "lume/": "https://cdn.jsdelivr.net/gh/lumeland/lume@3.3.2/"
+  },
+  "compilerOptions": { "types": ["lume/types.ts"] },
+  "tasks": {
+    "lume": "deno run -A lume/cli.ts",
+    "build": "deno task lume",
+    "serve": "deno task lume -s",
+    "refresh": "deno run --allow-read --allow-write scripts/refresh.ts",
+    "test": "deno test --allow-read tests/",
+    "verify": "deno run --allow-read scripts/verify.ts",
+    "check": "deno check _config.ts src/index.page.ts scripts/refresh.ts && deno lint && deno fmt --check"
+  },
+  "fmt": { "exclude": ["_site/", "src/data/results.json"] },
+  "lint": { "exclude": ["_site/"] }
+}
