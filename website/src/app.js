@@ -24,11 +24,6 @@ function render() {
   $("#config-count").textContent = `(${
     configs.filter((c) => state.selected.includes(c.id)).length
   }/${configs.length})`;
-  const cohort = data.cohorts.find((c) => c.id === state.cohort);
-  $("#task-stat").textContent = cohort.tasks;
-  $("#handwritten-stat").textContent = cohort.handwritten;
-  $("#digital-stat").textContent = cohort.digital;
-  $("#model-stat").textContent = new Set(configs.map((c) => c.model)).size;
   $("[data-frontier]").setAttribute("aria-pressed", String(state.frontier));
   for (const group of ["metric", "category", "efforts", "scale"]) {
     for (const button of document.querySelectorAll(`[data-${group}]`)) {

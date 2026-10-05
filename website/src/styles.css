@@ -193,23 +193,6 @@ h1 {
   letter-spacing: -1.6px;
   line-height: 1;
 }
-.stats {
-  margin: 0;
-  font-family: var(--mono);
-  font-size: 13px;
-  line-height: 1.7;
-}
-.stats div {
-  display: flex;
-  justify-content: space-between;
-  gap: 48px;
-}
-.stats dt {
-  color: var(--muted);
-}
-.stats dd {
-  margin: 0;
-}
 .hero-bottom {
   display: flex;
   align-items: center;
@@ -690,9 +673,6 @@ dialog input[type=search] {
   h1 {
     font-size: 44px;
     letter-spacing: -1px;
-  }
-  .stats {
-    width: 100%;
   }
   #leaderboard {
     margin-top: 64px;
