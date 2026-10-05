@@ -1,7 +1,7 @@
 FROM node:22-bookworm-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    ca-certificates curl unzip git python3 ripgrep poppler-utils \
+    ca-certificates curl unzip git python3 python3-venv ripgrep poppler-utils \
     texlive-latex-extra texlive-pictures texlive-science texlive-fonts-recommended \
     && rm -rf /var/lib/apt/lists/*
 

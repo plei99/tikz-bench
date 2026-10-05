@@ -510,7 +510,7 @@ const LOG_FILES: Record<string, (name: string) => boolean> = {
   codex: (f) => f.endsWith(".jsonl"),
   claude: (f) => f.endsWith(".jsonl"),
   pi: (f) => f.endsWith(".jsonl"),
-  kimi: (f) => path.basename(f) === "wire.jsonl",
+  kimi: (f) => ["wire.jsonl", "kimi-code.log"].includes(path.basename(f)),
   opencode: (f) => /\.(db|json)$/.test(f),
 };
 export const LOG_AGENTS = Object.keys(LOG_FILES);
@@ -549,6 +549,34 @@ export function sessionUsage(
     usage = { codex: codexLog, claude: claudeLog, pi: piLog, kimi: kimiLog }[
       agent
     ]!(read());
+  if (agent === "kimi") {
+    // Kimi 2.1 logs explicit request latency and streaming duration separately
+    // from tool execution. Require a timing record for every usage record;
+    // older clients and incomplete logs must not produce partial totals.
+    const timings: number[] = [];
+    for (const file of files.filter(
+      (f) => path.basename(f) === "kimi-code.log",
+    ))
+      for (const line of fs.readFileSync(file, "utf8").split("\n")) {
+        const m =
+          /^\S+ INFO\s+llm response\s+.*?\bttftMs=(\d+)\s+streamDurationMs=(\d+)\b/.exec(
+            line,
+          );
+        if (m) timings.push((Number(m[1]) + Number(m[2])) / 1000);
+      }
+    const started = read()
+      .flat()
+      .filter((e) => e.type === "llm.request").length;
+    if (
+      timings.length &&
+      timings.length === usage.requests.length &&
+      (!started || started === usage.requests.length)
+    )
+      usage.seconds = {
+        value: timings.reduce((s, n) => s + n, 0),
+        source: "cli_request_timing_logs",
+      };
+  }
   return { ...usage, files };
 }
 

@@ -390,6 +390,43 @@ test("kimi wire logs: every agent's requests are priced from the table", () =>
     assert.deepEqual(p.unpriced, []);
   }));
 
+test("Kimi request timing excludes tools and requires complete coverage", () =>
+  temporary("tikz-kimi-timing-", async (dir) => {
+    const wire = path.join(dir, "agents/main/wire.jsonl");
+    const log = path.join(dir, "logs/kimi-code.log");
+    const usage = {
+      type: "usage.record",
+      model: "kimi-code/k3",
+      usage: { inputOther: 10, output: 20 },
+    };
+    write(wire, lines([usage, usage]));
+    write(
+      log,
+      [
+        "2026-10-03T08:00:00.000Z INFO  llm response  turnStep=0.1 ttftMs=100 streamDurationMs=200 outputTokens=20",
+        "2026-10-03T08:01:00.000Z INFO  tool done durationMs=59000",
+        "2026-10-03T08:01:01.000Z INFO  llm response  agentId=agent-0 ttftMs=300 streamDurationMs=400 outputTokens=20",
+      ].join("\n"),
+    );
+    const measured = measure({ agent: "kimi", logs: [dir] });
+    near(measured.wall_seconds!, 1);
+    assert.equal(measured.speed_source, "cli_request_timing_logs");
+    assert.equal(measured.usage.completion_tokens, 40);
+    write(wire, lines([usage, usage, { type: "llm.request" }]));
+    assert.equal(measure({ agent: "kimi", logs: [dir] }).wall_seconds, null);
+    write(wire, lines([usage, usage]));
+    write(
+      log,
+      "2026-10-03T08:00:00.000Z INFO  llm response  ttftMs=100 streamDurationMs=200 outputTokens=20",
+    );
+    assert.equal(measure({ agent: "kimi", logs: [dir] }).wall_seconds, null);
+    write(
+      log,
+      "2026-10-03T08:00:00.000Z INFO  llm response  ttftMs=-1 streamDurationMs=200",
+    );
+    assert.equal(measure({ agent: "kimi", logs: [dir] }).wall_seconds, null);
+  }));
+
 test("measure: CLI totals outrank logs; logs supply usage the CLI does not print", () =>
   temporary("tikz-measure-", async (dir) => {
     // Kimi prints no usage; its wire log is the only record.

@@ -8,7 +8,20 @@ import { ROOT } from "./support.ts";
 import { checked, which, temporary } from "./process.ts";
 
 /** The only files a sandboxed process may write, inside its scratch directory. */
-const OUTPUTS = ["doc.aux", "doc.log", "doc.pdf", "doc.out", "render.png"];
+const OUTPUTS = [
+  "doc.aux",
+  "doc.log",
+  "doc.pdf",
+  "doc.out",
+  "render.png",
+  "doc.xdv",
+  "doc.bcf",
+  "doc.run.xml",
+  "doc.nav",
+  "doc.snm",
+  "doc.toc",
+  "doc.vrb",
+];
 const INSPECTOR = path.join(ROOT, "typescript/dist/inspect_pdf.mjs");
 const WASM = path.join(ROOT, "typescript/dist/mupdf-wasm.wasm");
 /** Bytes of combined stdout/stderr returned to the caller. */
@@ -49,6 +62,7 @@ export function runtimePaths() {
             "/System/Cryptexes",
             "/System/Volumes/Preboot/Cryptexes",
             "/Library/Fonts",
+            path.join(os.homedir(), "Library/Fonts"),
             "/private/var/db/dyld",
             "/private/var/db/timezone",
             "/opt/homebrew/Cellar",
@@ -90,7 +104,9 @@ export async function sandboxCommand(command: string[], cwd: string) {
     exe = which(command[0]);
   cwd = fs.realpathSync(cwd);
   const reads = [...(await runtimePaths()), cwd],
-    writes = OUTPUTS.map((n) => path.join(cwd, n));
+    writes = OUTPUTS.map((n) => path.join(cwd, n)),
+    caches = [path.join(cwd, "texmf-var")];
+  for (const cache of caches) fs.mkdirSync(cache, { recursive: true });
   if (platform === "macos") {
     const literal = (p: string) => "(literal " + JSON.stringify(p) + ")",
       subpath = (p: string) => "(subpath " + JSON.stringify(p) + ")";
@@ -98,11 +114,14 @@ export async function sandboxCommand(command: string[], cwd: string) {
       "(version 1)",
       "(deny default)",
       "(allow sysctl-read)",
+      '(allow mach-lookup (global-name "com.apple.fonts"))',
       "(allow file-read-metadata)",
       '(allow file-read* (literal "/") (literal "/dev/null") (literal "/dev/urandom"))',
       "(allow file-read* " + reads.map(subpath).join(" ") + ")",
       "(allow file-read* " + [INSPECTOR, WASM].map(literal).join(" ") + ")",
-      "(allow file-write* " + writes.map(literal).join(" ") + ")",
+      "(allow file-write* " +
+        [...writes.map(literal), ...caches.map(subpath)].join(" ") +
+        ")",
       "(allow process-exec " + literal(fs.realpathSync(exe)) + ")",
     ].join("\n");
     return ["/usr/bin/sandbox-exec", "-p", profile, exe, ...command.slice(1)];
@@ -119,7 +138,7 @@ export async function sandboxCommand(command: string[], cwd: string) {
     "--dev",
     "/dev",
     ...[...reads, INSPECTOR, WASM].flatMap((p) => ["--ro-bind", p, p]),
-    ...writes.flatMap((p) => ["--bind", p, p]),
+    ...[...writes, ...caches].flatMap((p) => ["--bind", p, p]),
     "--chdir",
     cwd,
     "--",
