@@ -590,7 +590,13 @@ pre {
 .site-footer nav {
   display: flex;
   flex-shrink: 0;
+  align-items: baseline;
   gap: 16px;
+  font-family: var(--sans);
+  font-size: 12px;
+}
+.site-footer .credit {
+  font-size: 11px;
 }
 
 /* Dialogs */
