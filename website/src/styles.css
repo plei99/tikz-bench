@@ -587,6 +587,11 @@ pre {
 .site-footer p {
   margin: 0;
 }
+.site-footer nav {
+  display: flex;
+  flex-shrink: 0;
+  gap: 16px;
+}
 
 /* Dialogs */
 dialog {
