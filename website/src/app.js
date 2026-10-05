@@ -4,6 +4,7 @@ import {
   effortName,
   escape,
   initialState,
+  matchesFilters,
   money,
   percent,
   tokens,
@@ -20,13 +21,23 @@ const available = () =>
   data.configurations.filter((c) =>
     c.complete && !c.pilot && c.cohort_id === state.cohort
   );
+// Runs the filter dialog lists: those matching its facets and search text.
+const listed = () => {
+  const query = $("#config-search").value.toLowerCase().trim();
+  return available().filter((c) =>
+    matchesFilters(c, state.filters) &&
+    configName(c, lang).toLowerCase().includes(query)
+  );
+};
 
 function render() {
   $("#chart").innerHTML = chart(data, state);
   $("#leaderboard-body").innerHTML = table(data, state);
   const configs = available();
   $("#config-count").textContent = `(${
-    configs.filter((c) => state.selected.includes(c.id)).length
+    configs.filter((c) =>
+      state.selected.includes(c.id) && matchesFilters(c, state.filters)
+    ).length
   }/${configs.length})`;
   $("[data-frontier]").setAttribute("aria-pressed", String(state.frontier));
   for (const button of document.querySelectorAll("[data-filter]")) {
@@ -63,10 +74,7 @@ function render() {
 }
 
 function renderPicker() {
-  const query = $("#config-search").value.toLowerCase().trim();
-  const rows = available().filter((c) =>
-    configName(c, lang).toLowerCase().includes(query)
-  );
+  const rows = listed();
   $("#config-options").innerHTML =
     rows.map((c) =>
       `<label><input type="checkbox" value="${escape(c.id)}" ${
@@ -125,6 +133,7 @@ document.addEventListener("click", (event) => {
       ? selected.filter((v) => v !== value)
       : [...selected, value];
     render();
+    renderPicker();
     return;
   }
   if (button.hasAttribute("data-frontier")) {
@@ -178,13 +187,13 @@ $("#config-options").addEventListener("change", (event) => {
 });
 $("#select-all").addEventListener("click", () => {
   state.selected = [
-    ...new Set([...state.selected, ...available().map((c) => c.id)]),
+    ...new Set([...state.selected, ...listed().map((c) => c.id)]),
   ];
   renderPicker();
   render();
 });
 $("#select-none").addEventListener("click", () => {
-  const ids = available().map((c) => c.id);
+  const ids = listed().map((c) => c.id);
   state.selected = state.selected.filter((id) => !ids.includes(id));
   renderPicker();
   render();

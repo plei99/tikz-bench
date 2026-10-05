@@ -260,17 +260,21 @@ h2 {
   align-items: center;
   gap: 12px;
 }
+/* Facets in the filter dialog, above its search box and run list. */
 .filters {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px 24px;
-  margin-bottom: 12px;
+  flex-direction: column;
+  gap: 12px;
+  margin: 4px 0 16px;
 }
 .facet {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+.facet .segmented {
+  flex-wrap: wrap;
 }
 .facet-label {
   font-size: 12px;

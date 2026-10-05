@@ -157,9 +157,8 @@ function page(lang: Lang, data: Lume.Data, helpers: Lume.Helpers) {
   }</div>
         <div class="toolbar-group"><span class="updated">${t.updated} <time datetime="${
     escape(results.generated_at)
-  }">${date}</time></span><button id="config-picker" class="picker" aria-haspopup="dialog">${t.runs} <span id="config-count"></span></button></div>
+  }">${date}</time></span><button id="config-picker" class="picker" aria-haspopup="dialog">${t.filterButton} <span id="config-count"></span></button></div>
       </div>
-      ${filters}
       <figure class="panel chart"><div class="chart-controls">${
     segmented("metric", t.chartMetric, [
       ["cost", t.metrics.cost.label],
@@ -218,7 +217,7 @@ function page(lang: Lang, data: Lume.Data, helpers: Lume.Helpers) {
       }">Patrick Lei</a>`,
     )
   }</span><a href="${repo}">GitHub</a></nav></div></footer>
-  <dialog id="config-dialog" aria-labelledby="config-dialog-title"><div class="dialog-heading"><h2 id="config-dialog-title">${t.runs}</h2><button class="icon-button" data-close aria-label="${t.close}">×</button></div><label class="sr-only" for="config-search">${t.searchRuns}</label><input type="search" id="config-search" placeholder="${t.search}"><div class="picker-actions"><button id="select-all">${t.selectAll}</button><button id="select-none">${t.clear}</button></div><div id="config-options"></div></dialog>
+  <dialog id="config-dialog" aria-labelledby="config-dialog-title"><div class="dialog-heading"><h2 id="config-dialog-title">${t.filterTitle}</h2><button class="icon-button" data-close aria-label="${t.close}">×</button></div>${filters}<label class="sr-only" for="config-search">${t.searchRuns}</label><input type="search" id="config-search" placeholder="${t.search}"><div class="picker-actions"><button id="select-all">${t.selectAll}</button><button id="select-none">${t.clear}</button></div><div id="config-options"></div></dialog>
   <dialog id="detail-dialog" aria-labelledby="detail-title"><div class="dialog-heading"><h2 id="detail-title">${t.run}</h2><button class="icon-button" data-close aria-label="${t.close}">×</button></div><div id="detail-content"></div></dialog>
   <script id="benchmark-data" type="application/json">${safeJSON}</script>
   <script type="module" src="${asset("/app.js")}"></script>
