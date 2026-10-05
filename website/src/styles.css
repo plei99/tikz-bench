@@ -666,6 +666,23 @@ dialog input[type=search] {
 .picker-actions button:hover {
   color: var(--text);
 }
+/* The filter dialog keeps one height however many runs match; only the run
+   list scrolls, so the facets and search stay in view. */
+#config-dialog[open] {
+  display: flex;
+  flex-direction: column;
+  height: min(640px, calc(100vh - 64px));
+  overflow: hidden;
+}
+#config-dialog > :not(#config-options) {
+  flex-shrink: 0;
+}
+#config-options {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  border-top: 1px solid var(--border);
+}
 #config-options label {
   display: flex;
   gap: 8px;
