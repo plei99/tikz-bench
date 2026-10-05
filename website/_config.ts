@@ -42,8 +42,6 @@ site.data("readme", {
   authors: section("People who made the original images"),
   runningCode: running.match(/```sh\n([\s\S]*?)```/)?.[1],
   running: running.split("```\n")[1]?.split("\n\nRuns created")[0].trim(),
-  disclosure: section("AI disclosure"),
-  license: section("License"),
 });
 
 export default site;

@@ -1,9 +1,8 @@
 # Benchmark website
 
 This Lume site uses a public snapshot of aggregate results. All prose on the
-page (introduction, "Why this exists," "How it works," runner instructions,
-author credits, AI disclosure, and license) is extracted from the repository's
-README at build time.
+page (introduction, "Why this exists," "How it works," runner instructions and
+author credits) is extracted from the repository's README at build time.
 
 ```sh
 cd website
