@@ -4,11 +4,30 @@ import { chart, table } from "./lib/render.js";
 
 export const url = "/";
 
+// GitHub Pages caches assets for ten minutes, so a deploy could pair new HTML
+// with stale CSS or scripts. Each asset URL carries a hash of its contents.
+function version(name: string) {
+  let hash = 0x811c9dc5;
+  for (const byte of Deno.readFileSync(new URL(`.${name}`, import.meta.url))) {
+    hash = Math.imul(hash ^ byte, 0x01000193);
+  }
+  return (hash >>> 0).toString(16).padStart(8, "0");
+}
+
 export default function (data: Lume.Data, helpers: Lume.Helpers) {
   const state = initialState(results);
   const cohort = results.cohorts.find((c) => c.id === state.cohort)!;
   const repo = "https://github.com/plei99/tikz-bench";
   const path = (name: string) => escape(helpers.url(name));
+  const asset = (name: string) => `${path(name)}?v=${version(name)}`;
+  // Modules imported by app.js resolve through this map to versioned URLs.
+  const importMap = JSON.stringify({
+    imports: Object.fromEntries(
+      ["/lib/model.js", "/lib/render.js"].map((
+        name,
+      ) => [helpers.url(name), `${helpers.url(name)}?v=${version(name)}`]),
+    ),
+  });
   const readme = data.readme;
   const md = (value: string) => helpers.md(value ?? "");
   const safeJSON = JSON.stringify(results).replace(/</g, "\\u003c");
@@ -52,7 +71,8 @@ export default function (data: Lume.Data, helpers: Lume.Helpers) {
   <meta name="description" content="${escape(readme.intro)}">
   <meta name="color-scheme" content="light dark">
   <link rel="icon" href="${path("/favicon.svg")}" type="image/svg+xml">
-  <link rel="stylesheet" href="${path("/styles.css")}">
+  <link rel="stylesheet" href="${asset("/styles.css")}">
+  <script type="importmap">${importMap}</script>
   <script>try { document.documentElement.dataset.theme = localStorage.getItem('tikz-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); } catch {}</script>
 </head>
 <body>
@@ -152,6 +172,6 @@ export default function (data: Lume.Data, helpers: Lume.Helpers) {
   <dialog id="config-dialog" aria-labelledby="config-dialog-title"><div class="dialog-heading"><h2 id="config-dialog-title">Runs</h2><button class="icon-button" data-close aria-label="Close">×</button></div><label class="sr-only" for="config-search">Search runs</label><input type="search" id="config-search" placeholder="Search"><div class="picker-actions"><button id="select-all">Select all</button><button id="select-none">Clear</button></div><div id="config-options"></div></dialog>
   <dialog id="detail-dialog" aria-labelledby="detail-title"><div class="dialog-heading"><h2 id="detail-title">Run</h2><button class="icon-button" data-close aria-label="Close">×</button></div><div id="detail-content"></div></dialog>
   <script id="benchmark-data" type="application/json">${safeJSON}</script>
-  <script type="module" src="${path("/app.js")}"></script>
+  <script type="module" src="${asset("/app.js")}"></script>
 </body></html>`;
 }

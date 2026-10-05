@@ -35,9 +35,10 @@ async function walk(dir: URL, prefix = "") {
 }
 await walk(root);
 for (const name of allowed) await Deno.stat(new URL(name, root));
-for (const match of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
-  const url = match[1];
-  if (/^https?:|^#/.test(url)) continue;
+function checkLink(link: string) {
+  // Cache-busting versions (?v=...) do not change which file is served.
+  const url = link.split("?")[0];
+  if (/^https?:|^#/.test(url)) return;
   if (!url.startsWith("/")) {
     throw new Error(`Unexpected relative asset URL: ${url}`);
   }
@@ -48,6 +49,21 @@ for (const match of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
   if (!asset && !url.endsWith("/")) {
     throw new Error(`Unknown local link: ${url}`);
   }
+}
+for (const match of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
+  checkLink(match[1]);
+}
+const importMap = html.match(/<script type="importmap">([^<]*)<\/script>/);
+for (
+  const [from, to] of Object.entries(
+    JSON.parse(importMap?.[1] ?? '{"imports":{}}').imports as Record<
+      string,
+      string
+    >,
+  )
+) {
+  checkLink(from);
+  checkLink(to);
 }
 if (!html.includes('id="benchmark-data"') || !html.includes('id="chart"')) {
   throw new Error("Missing static results");
