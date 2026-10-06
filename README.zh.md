@@ -41,7 +41,7 @@
 
 - [Denis Auroux](https://people.math.harvard.edu/~auroux/)
 - [Nickolas A. Castro](https://nickcastromath.com/)
-- [You-Cheng Chou](https://ycchou81.github.io/)
+- [周祐正](https://ycchou81.github.io/)
 - [Maria Angelica Cueto](https://people.math.osu.edu/cueto.5/)
 - [Nathan Dunfield](https://nmd.web.illinois.edu/)
 - [Davide Gaiotto](https://perimeterinstitute.ca/people/davide-gaiotto)
