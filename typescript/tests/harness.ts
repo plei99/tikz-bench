@@ -11,6 +11,7 @@ import { ROOT, writeJSON, readJSON } from "../src/support.ts";
 import type { RecordData } from "../src/support.ts";
 import { STARTER, PLACEHOLDER, standaloneFigure } from "../src/tasks.ts";
 import { compileAndRender } from "../src/compile.ts";
+import { CRAFT } from "../src/subscription_judge.ts";
 import { temporary } from "../src/process.ts";
 import type { CliArgs } from "../src/cli.ts";
 import { quiet } from "./helpers.ts";
@@ -62,6 +63,21 @@ export function reply(text: string, cost: number | null = 0.1): Reply {
   };
 }
 
+/** A taste review with a given 1-10 score; free and instant, so totals are unchanged. */
+export function tasteReply(score: number, defects: string[] = []): Reply {
+  return {
+    text: JSON.stringify({
+      integrity: { instruction_attempt: false, non_drawing_substitute: false },
+      defects,
+      craft: Object.fromEntries(CRAFT.map((k) => [k, "pass"])),
+      score,
+    }),
+    cost_usd: 0,
+    wall_seconds: 0,
+    usage: {},
+  };
+}
+
 export type PanelCall = [
   agent: string,
   systemPrompt: string,
@@ -105,6 +121,9 @@ export class Harness {
   jargs: CliArgs;
   /** Panel requests in the latest judge() call, and panels created overall. */
   calls: PanelCall[] = [];
+  /** Taste requests (recognised by their output schema), answered by `taste`. */
+  tasteCalls: PanelCall[] = [];
+  taste: (call: PanelCall) => Reply = () => tasteReply(7);
   panelsCreated = 0;
   private next: (call: PanelCall) => Reply = () => {
     throw Error("CLI judging must be mocked");
@@ -190,6 +209,10 @@ export class Harness {
       path.join(root, "prompts/judge_v1.md"),
       "judge the claims",
     );
+    fs.writeFileSync(
+      path.join(root, "prompts/judge_taste_v1.md"),
+      "rate the craft",
+    );
     h.writeManifest();
     await h.load();
     return h;
@@ -223,6 +246,10 @@ export class Harness {
       this.panelsCreated++;
       return {
         call: async (...call: PanelCall) => {
+          if ((call[5] as { schema?: object })?.schema) {
+            this.tasteCalls.push(call);
+            return this.taste(call);
+          }
           this.calls.push(call);
           return this.next(call);
         },
@@ -320,6 +347,7 @@ export class Harness {
             }
           : () => replies as Reply;
     this.calls = [];
+    this.tasteCalls = [];
     try {
       const { value, lines } = await quiet(() =>
         this.m.commands.cmdJudge(this.jargs),

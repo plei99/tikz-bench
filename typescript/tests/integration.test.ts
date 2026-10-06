@@ -106,6 +106,7 @@ test("digital grading never calls a panel and records artifacts bound to the gra
       limiter: new RateLimiter(60),
       promptName: "judge_v2",
       systemPrompt: "",
+      tastePrompt: "",
       effort: "medium",
       timeout: 10,
       force: false,

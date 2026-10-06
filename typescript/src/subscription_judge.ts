@@ -63,6 +63,45 @@ export function schema(ids: number[]) {
   };
 }
 
+/** Craft checks of the taste judge (`prompts/judge_taste_v1.md`). */
+export const CRAFT = [
+  "straight",
+  "shapes",
+  "congruent",
+  "aligned",
+  "symmetric",
+  "spaced",
+  "curves",
+  "fills",
+  "labels",
+] as const;
+
+/** Structured-output schema for a taste review: defects, craft checks, 1-10 score. */
+export function tasteSchema() {
+  const { integrity } = schema([]).properties;
+  return {
+    type: "object",
+    additionalProperties: false,
+    required: ["integrity", "defects", "craft", "score"],
+    properties: {
+      integrity,
+      defects: { type: "array", items: { type: "string" } },
+      craft: {
+        type: "object",
+        additionalProperties: false,
+        required: [...CRAFT],
+        properties: Object.fromEntries(
+          CRAFT.map((k) => [
+            k,
+            { type: "string", enum: ["pass", "fail", "na"] },
+          ]),
+        ),
+      },
+      score: { type: "integer", minimum: 1, maximum: 10 },
+    },
+  };
+}
+
 /** Minimal environment with a private home: no API keys or Node injection. */
 export function cleanEnv(home: string): NodeJS.ProcessEnv {
   const env: NodeJS.ProcessEnv = {};
@@ -91,6 +130,8 @@ export type PanelOptions = {
   limiter: RateLimiter;
   timeout: number;
   effort: string;
+  /** Output schema; defaults to the checklist verdict schema. */
+  schema?: object;
 };
 type Invocation = { argv: string[]; stdin: string };
 type Request = {
@@ -99,6 +140,7 @@ type Request = {
   images: string[];
   ids: number[];
   effort: string;
+  schema?: object;
 };
 type CallContext = {
   model: string;
@@ -149,7 +191,7 @@ export class SubscriptionPanel {
 
   private async codexInvocation(
     c: CallContext,
-    { systemPrompt, prompt, images, ids, effort }: Request,
+    { systemPrompt, prompt, images, ids, effort, schema: output }: Request,
   ): Promise<Invocation> {
     for (const [file, raw] of Object.entries(c.auth.files)) {
       const target = hostPath(c.home, file);
@@ -158,7 +200,7 @@ export class SubscriptionPanel {
     }
     const schemaPath = path.join(c.root, "schema.json"),
       instructions = path.join(c.root, "instructions.txt");
-    fs.writeFileSync(schemaPath, JSON.stringify(schema(ids)));
+    fs.writeFileSync(schemaPath, JSON.stringify(output ?? schema(ids)));
     fs.writeFileSync(instructions, systemPrompt);
     const argv = [
       this.executables.codex,
@@ -203,7 +245,7 @@ export class SubscriptionPanel {
 
   private async claudeInvocation(
     c: CallContext,
-    { systemPrompt, prompt, images, ids, effort }: Request,
+    { systemPrompt, prompt, images, ids, effort, schema: output }: Request,
   ): Promise<Invocation> {
     const token =
       c.auth.env.CLAUDE_CODE_OAUTH_TOKEN ??
@@ -244,7 +286,7 @@ export class SubscriptionPanel {
       "stream-json",
       "--verbose",
       "--json-schema",
-      JSON.stringify(schema(ids)),
+      JSON.stringify(output ?? schema(ids)),
     ];
     // Images are message attachments, never files Claude could read with tools.
     const content: RecordData[] = [{ type: "text", text: prompt }];
@@ -319,6 +361,7 @@ export class SubscriptionPanel {
             images,
             ids,
             effort: options.effort,
+            schema: options.schema,
           },
           { argv, stdin } =
             agent === "codex"
