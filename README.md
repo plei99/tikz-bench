@@ -15,7 +15,7 @@ skill, so historically I would just brute force TikZ until it looked right. Now 
 have these tools called LLMs which can generate TikZ code for us, except there are 
 some problems:
 
-1. Some of these models are still terrible at this (you may ask [You-Cheng Chou](https://ycchou81.github.io/) for permission to share our chat logs).
+1. Some of these models are still terrible at this (if you are curious enough, I have conversations I can share).
 1. AI subscriptions cost money, so we need to figure out which models are good at this task and which ones are cost-efficient.
 
 
