@@ -180,6 +180,19 @@ nav a:hover {
 .hero {
   padding-top: 96px;
 }
+.notice {
+  margin-top: 32px;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  background: var(--wash);
+  font-size: 14px;
+}
+.notice p {
+  margin: 0;
+}
+.notice + .hero {
+  padding-top: 64px;
+}
 .hero-top {
   display: flex;
   align-items: flex-end;

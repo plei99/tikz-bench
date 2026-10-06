@@ -40,7 +40,12 @@ function readme(file: string, lang: "en" | "zh") {
   const running = section(headings.running);
   // The intro is the first paragraph after the canary blockquote.
   const afterCanary = text.slice(text.indexOf("canary GUID"));
+  // An optional announcement: a blockquote between the title and the canary.
+  const notice = paragraphs(text.slice(0, text.indexOf("> BENCHMARK DATA")))
+    .find((p) => p.startsWith("> "))
+    ?.replace(/^> ?/gm, "");
   return {
+    notice,
     intro: paragraphs(afterCanary)[1]?.replace(/\s+/g, " "),
     why: section(headings.why).split("###")[0].trim(),
     how: section(headings.how),

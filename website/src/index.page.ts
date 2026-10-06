@@ -128,7 +128,11 @@ function page(lang: Lang, data: Lume.Data, helpers: Lume.Helpers) {
   }"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z"/></svg></button></nav>
   </div></header>
   <main class="wrap">
-    <section class="hero" aria-labelledby="title">
+    ${
+    readme.notice
+      ? `<aside class="notice" role="note">${md(readme.notice)}</aside>`
+      : ""
+  }<section class="hero" aria-labelledby="title">
       <div class="hero-top">
         <h1 id="title">tikz-bench</h1>
       </div>
