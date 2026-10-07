@@ -228,7 +228,8 @@ export class SubscriptionPanel {
       approval_policy: '"never"',
       web_search: '"disabled"',
       model_reasoning_effort: JSON.stringify(effort),
-      project_doc_max_bytes: "0",
+      // Codex CLI 0.160.x requires an integer here; "0" now fails config loading.
+      project_doc_max_bytes: 0,
       mcp_servers: "{}",
     };
     for (const [k, v] of Object.entries(settings)) argv.push("-c", k + "=" + v);
