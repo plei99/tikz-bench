@@ -109,7 +109,7 @@ function page(lang: Lang, data: Lume.Data, helpers: Lume.Helpers) {
   ${alternates}
   <link rel="stylesheet" href="${asset("/styles.css")}">
   <script type="importmap">${importMap}</script>
-  ${redirect}<script>try { document.documentElement.dataset.theme = localStorage.getItem('tikz-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); } catch {}</script>
+  ${redirect}<script>document.documentElement.dataset.theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; try { if ((localStorage.getItem('tikz-theme-system') || document.documentElement.dataset.theme) === document.documentElement.dataset.theme) document.documentElement.dataset.theme = localStorage.getItem('tikz-theme') || document.documentElement.dataset.theme; else { localStorage.removeItem('tikz-theme'); localStorage.removeItem('tikz-theme-system'); } } catch {}</script>
 </head>
 <body>
   <a class="skip-link" href="#leaderboard">${t.skip}</a>

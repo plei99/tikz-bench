@@ -216,6 +216,11 @@ function themeLabel() {
     : "dark";
   $("#theme-toggle").setAttribute("aria-label", t.themeLabel(next));
 }
+// A choice is saved with the system setting it was made under. The inline
+// script in <head> applies it only while that setting holds; a change of the
+// system setting, here or between visits, puts the system's theme back.
+const system = matchMedia("(prefers-color-scheme: dark)");
+const systemTheme = () => system.matches ? "dark" : "light";
 $("#theme-toggle").addEventListener("click", () => {
   const theme = document.documentElement.dataset.theme === "dark"
     ? "light"
@@ -223,6 +228,15 @@ $("#theme-toggle").addEventListener("click", () => {
   document.documentElement.dataset.theme = theme;
   try {
     localStorage.setItem("tikz-theme", theme);
+    localStorage.setItem("tikz-theme-system", systemTheme());
+  } catch { /* Storage may be unavailable in private browsing. */ }
+  themeLabel();
+});
+system.addEventListener("change", () => {
+  document.documentElement.dataset.theme = systemTheme();
+  try {
+    localStorage.removeItem("tikz-theme");
+    localStorage.removeItem("tikz-theme-system");
   } catch { /* Storage may be unavailable in private browsing. */ }
   themeLabel();
 });
