@@ -2,9 +2,8 @@
 // subscription logins, no tools and a pinned model, from a scratch directory.
 import fs from "node:fs";
 import path from "node:path";
-import { loadSubscription, readPrivate } from "./auth.ts";
-import type { SubscriptionAuth } from "./auth.ts";
-import { elapsed, nonNegative, redact } from "./support.ts";
+import { loadSubscription, readPrivate, SubscriptionAuth } from "./auth.ts";
+import { elapsed, nonNegative, redact, same } from "./support.ts";
 import type { RecordData } from "./support.ts";
 import { capture, which, temporary } from "./process.ts";
 import { Semaphore } from "./concurrency.ts";
@@ -149,6 +148,7 @@ type CallContext = {
   work: string;
   env: NodeJS.ProcessEnv;
   auth: SubscriptionAuth;
+  authFiles: Record<string, string>;
 };
 
 /** Images are normalized (RGB, no metadata) but not downscaled for judges. */
@@ -174,10 +174,10 @@ const CODEX_DISABLED = [
 export class SubscriptionPanel {
   executables: Record<string, string> = {};
   auth: Record<string, SubscriptionAuth> = {};
-  /** One request at a time per subscription account. */
+  /** Bound parallel reviews independently for each subscription account. */
   private locks: Record<string, Semaphore> = {
-    codex: new Semaphore(1),
-    claude: new Semaphore(1),
+    codex: new Semaphore(4),
+    claude: new Semaphore(4),
   };
 
   static async create() {
@@ -193,7 +193,7 @@ export class SubscriptionPanel {
     c: CallContext,
     { systemPrompt, prompt, images, ids, effort, schema: output }: Request,
   ): Promise<Invocation> {
-    for (const [file, raw] of Object.entries(c.auth.files)) {
+    for (const [file, raw] of Object.entries(c.authFiles)) {
       const target = hostPath(c.home, file);
       fs.mkdirSync(path.dirname(target), { recursive: true });
       fs.writeFileSync(target, raw, { mode: 0o600 });
@@ -315,14 +315,30 @@ export class SubscriptionPanel {
   /** Keep a refreshed Codex login in memory; never write it back to the host. */
   private acceptCodexRefresh(c: CallContext) {
     try {
-      c.auth.acceptRefresh(
+      const refreshed = new SubscriptionAuth(c.auth.source, c.authFiles);
+      refreshed.acceptRefresh(
         Object.fromEntries(
-          Object.keys(c.auth.files).map((file) => [
+          Object.keys(c.authFiles).map((file) => [
             file,
             readPrivate(hostPath(c.home, file)),
           ]),
         ),
       );
+      c.auth.secrets.push(...refreshed.secrets);
+      for (const [file, raw] of Object.entries(refreshed.files)) {
+        const returned = JSON.parse(raw),
+          initial = JSON.parse(c.authFiles[file]),
+          current = JSON.parse(c.auth.files[file]);
+        // A late unchanged worker must not restore an older token cache.
+        if (same(returned, initial)) continue;
+        if (!same(current, initial)) {
+          // Concurrent refreshes are accepted only when demonstrably newer.
+          const returnedAt = Date.parse(returned.last_refresh),
+            currentAt = Date.parse(current.last_refresh);
+          if (!(returnedAt > currentAt)) continue;
+        }
+        c.auth.acceptRefresh(refreshed.files);
+      }
     } catch {
       c.auth.error = "subscription credential refresh failed; sign in again";
       throw new PanelError("Codex credential refresh failed");
@@ -351,6 +367,7 @@ export class SubscriptionPanel {
             work: path.join(root, "work"),
             env: cleanEnv(home),
             auth: this.auth[agent],
+            authFiles: { ...this.auth[agent].files },
           };
         fs.mkdirSync(c.work);
         fs.mkdirSync(path.join(home, "tmp"), { recursive: true });
@@ -402,10 +419,16 @@ export class SubscriptionPanel {
             );
           }
           if (agent === "codex") this.acceptCodexRefresh(c);
-          if (proc.returncode)
+          if (proc.returncode) {
+            try {
+              fs.mkdirSync("/tmp/judge-debug", { recursive: true });
+              fs.writeFileSync(path.join("/tmp/judge-debug", Date.now() + "-" + agent + ".json"),
+                JSON.stringify({ argv, stdin: stdin.slice(0, 4000), returncode: proc.returncode, stdout: proc.stdout.slice(-3000), stderr: proc.stderr.slice(-3000), work: c.work }, null, 1));
+            } catch {}
             throw new PanelError(
-              "CLI failed: check native subscription login, quota and model availability",
+              `CLI failed: check native subscription login, quota and model availability (returncode ${proc.returncode}; stderr: ${proc.stderr.slice(-600).trim() || "<empty>"})`,
             );
+          }
           const events = proc.stdout
             .split("\n")
             .filter((s) => s.trim())
