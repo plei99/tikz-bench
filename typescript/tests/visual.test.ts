@@ -6,7 +6,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import path from "node:path";
 import { temporary } from "../src/process.ts";
-import { compare } from "../src/visual_compare.ts";
+import { compare, gateScores, partialScore } from "../src/visual_compare.ts";
 import { fixture } from "./helpers.ts";
 
 test("matching renderings save reference, candidate and difference artifacts", () =>
@@ -18,6 +18,7 @@ test("matching renderings save reference, candidate and difference artifacts", (
         path.join(dir, name),
       );
       assert.equal(r.exact_match, true, name);
+      assert.equal(r.score, 1, name);
       assert.deepEqual(Object.keys(r.artifacts).sort(), [
         "candidate",
         "difference",
@@ -44,4 +45,36 @@ test("output is repeatable and an empty reference is a data error", () =>
       compare(blank, fixture("reference.png"), grade),
       /reference image/,
     );
+  }));
+
+test("each gate earns tiered credit by its multiple of the limit", () => {
+  const m = {
+    bad_fraction: 0.001, // at the limit: 0.2
+    largest_bad_component: 12, // 2x: 0.15
+    worst_patch_mass_error: 0.9, // 3.6x: 0.1
+    worst_patch_color_error: 1.32, // 6x: 0.05
+    blurred_error: 1.21, // over 6x: 0
+  };
+  assert.deepEqual(gateScores(m), {
+    bad_fraction: 0.2,
+    largest_bad_component: 0.15,
+    worst_patch_mass_error: 0.1,
+    worst_patch_color_error: 0.05,
+    blurred_error: 0,
+  });
+  assert.equal(partialScore(m), 0.5);
+  assert.equal(partialScore({}), 0);
+});
+
+test("a blank candidate scores 0 and a failed comparison scores below 1", () =>
+  temporary("tikz-visual-score-", async (dir) => {
+    const blank = await compare(fixture("reference.png"), fixture("blank.png"));
+    assert.equal(blank.score, 0);
+    const label = await compare(
+      fixture("reference.png"),
+      fixture("label.png"),
+      path.join(dir, "label"),
+    );
+    assert.equal(label.exact_match, false);
+    assert.ok(label.score < 1 && label.score > 0, String(label.score));
   }));
