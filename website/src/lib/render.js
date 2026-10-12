@@ -5,13 +5,13 @@ import {
   effortName,
   escape,
   formatMetric,
+  formatScore,
   linearAxis,
   logAxis,
   metrics,
   metricValue,
   money,
   paretoFrontier,
-  percent,
   provider,
   ranked,
   scoreAxis,
@@ -126,8 +126,10 @@ export function chart(data, state) {
     const py = y(v);
     return `<line class="grid" x1="${left}" y1="${py}" x2="${right}" y2="${py}"/>
       <text class="tick" x="${left - 10}" y="${py + 4}" text-anchor="end">${
-      Math.round(v * 100)
-    }%</text>`;
+      state.category === "taste"
+        ? (v * 10).toFixed(1)
+        : `${Math.round(v * 100)}%`
+    }</text>`;
   }).join("") + axis.ticks.map((v) => {
     const px = x(v);
     return `<line class="grid" x1="${px}" y1="${top}" x2="${px}" y2="${bottom}"/>
@@ -174,7 +176,9 @@ export function chart(data, state) {
   }));
   const labels = placeLabels(xy, segments);
   const plotted = points.map((c, index) => {
-    const value = `${percent(scoreValue(c, state.category))}, ${
+    const value = `${
+      formatScore(scoreValue(c, state.category), state.category)
+    }, ${
       escape(
         formatMetric(
           metricValue(c, state.metric, state.category),
@@ -252,7 +256,7 @@ export function table(data, state) {
     <td class="bar-cell"><span class="bar"><span style="width:${
         score * 100
       }%"></span></span></td>
-    <td class="num score">${percent(score)}</td>
+    <td class="num score">${formatScore(score, state.category)}</td>
     <td class="num">${
         money(metricValue(c, "cost", state.category))
       }</td><td class="num">${

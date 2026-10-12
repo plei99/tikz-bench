@@ -3,11 +3,13 @@ import {
   duration,
   effortName,
   escape,
+  formatScore,
   initialState,
   matchesFilters,
   metricValue,
   money,
   percent,
+  scoreValue,
   tokens,
 } from "./lib/model.js";
 import { chart, table } from "./lib/render.js";
@@ -92,10 +94,14 @@ function detail(id) {
   const cohort = data.cohorts.find((cohort) => cohort.id === c.cohort_id);
   $("#detail-title").textContent = `${c.model} (${effortName(c, lang)})`;
   $("#detail-content").innerHTML = `<p>${
-    t.runWith(escape(c.agent), percent(c.score))
+    t.runWith(
+      escape(c.agent),
+      formatScore(scoreValue(c, state.category), state.category),
+    )
   }</p>
     <table><tbody>${
     [
+      [t.taste, formatScore(scoreValue(c, "taste"), "taste")],
       [
         t.handwrittenCount(cohort.handwritten),
         t.fullCredit(

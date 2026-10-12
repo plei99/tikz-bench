@@ -439,3 +439,27 @@ Deno.test("category metrics come from their own task records", async () => {
   bundle.tasks[1].metrics.cost_usd = null as unknown as number;
   assert(aggregate(bundle).configurations[0].digital_cost === null);
 });
+
+Deno.test("taste view ranks saved taste ratings and uses handwritten metrics", () => {
+  const state = { ...initialState(results), category: "taste" };
+  const rows = ranked(results, state);
+  assert(rows.length > 0);
+  for (const c of rows) {
+    assert(scoreValue(c, "taste") === c.taste_score / 10);
+    assert(metricValue(c, "cost", "taste") === c.handwritten_cost);
+    assert(
+      metricValue(c, "agent_seconds", "taste") === c.handwritten_agent_seconds,
+    );
+  }
+  assert(
+    rows.every((c: Configuration, i: number) =>
+      !i || Number(rows[i - 1].taste_score) >= Number(c.taste_score)
+    ),
+  );
+  assert(
+    table(results, state).includes(`${rows[0].taste_score.toFixed(1)}/10`),
+  );
+  assert(chart(results, state).includes("Hand-drawn taste (out of 10)"));
+  const missing = { ...rows[0], taste_score: null };
+  assert(scoreValue(missing, "taste") === null);
+});

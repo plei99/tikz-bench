@@ -30,7 +30,15 @@ export const duration = (n, lang = "en") =>
     ? text(lang).minutes((n / 60).toFixed(1))
     : text(lang).seconds(Math.round(n));
 export const metricValue = (config, metric, category = "overall") =>
-  config[category === "overall" ? metric : `${category}_${metric}`] ?? null;
+  config[
+    category === "overall"
+      ? metric
+      : `${category === "taste" ? "handwritten" : category}_${metric}`
+  ] ?? null;
+export const formatScore = (n, category) =>
+  category === "taste"
+    ? n == null ? "—" : `${(n * 10).toFixed(1)}/10`
+    : percent(n);
 export const formatMetric = (n, metric, lang = "en") =>
   ({ cost: money, output_tokens: tokens, agent_seconds: duration })[metric](
     n,
@@ -146,6 +154,9 @@ export function initialState(data, lang = "en") {
 }
 
 export function scoreValue(config, category) {
+  if (category === "taste") {
+    return config.taste_score == null ? null : config.taste_score / 10;
+  }
   return config[category === "overall" ? "score" : `${category}_score`];
 }
 
