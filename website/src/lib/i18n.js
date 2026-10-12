@@ -48,6 +48,8 @@ export const strings = {
     filters: "Filters",
     harness: "Harness",
     provider: "Provider",
+    country: "Developer country",
+    countries: { us: "United States", cn: "China", other: "Other / unknown" },
     allValues: "All",
     providers: {
       openai: "OpenAI",
@@ -160,6 +162,8 @@ export const strings = {
     filters: "筛选",
     harness: "智能体框架",
     provider: "模型厂商",
+    country: "厂商国家",
+    countries: { us: "美国", cn: "中国", other: "其他／未知" },
     allValues: "全部",
     providers: {
       openai: "OpenAI",

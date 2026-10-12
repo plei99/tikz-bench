@@ -12,6 +12,7 @@ import {
   money,
   paretoFrontier,
   percent,
+  provider,
   ranked,
   scoreAxis,
   scoreValue,
@@ -19,6 +20,7 @@ import {
   tokens,
 } from "./model.js";
 import { text } from "./i18n.js";
+import { brandLogo } from "./logos.js";
 
 // Approximate width of an 11px monospace label; CJK characters are double width.
 const labelWidth = (s) =>
@@ -105,11 +107,13 @@ export function chart(data, state) {
   const t = text(state.lang);
   const rows = ranked(data, { ...state, sort: "score", ascending: false });
   const points = rows.filter((c) =>
-    Number.isFinite(metricValue(c, state.metric)) &&
-    metricValue(c, state.metric) > 0
+    Number.isFinite(metricValue(c, state.metric, state.category)) &&
+    metricValue(c, state.metric, state.category) > 0
   );
   const metric = metrics[state.metric];
-  const values = points.map((c) => metricValue(c, state.metric));
+  const values = points.map((c) =>
+    metricValue(c, state.metric, state.category)
+  );
   const log = state.scale !== "linear";
   const axis = log ? logAxis(values) : linearAxis(values, metric.unit);
   const scaleNote = log ? t.logScaleNote : "";
@@ -140,7 +144,7 @@ export function chart(data, state) {
   const paths = [...groups.values()].filter((g) => g.length > 1).map((g) => ({
     color: color(g[0]),
     coords: g.map((c) => [
-      x(metricValue(c, state.metric)),
+      x(metricValue(c, state.metric, state.category)),
       y(scoreValue(c, state.category)),
     ]).sort((a, b) => a[0] - b[0]),
   }));
@@ -151,7 +155,7 @@ export function chart(data, state) {
   ).join("");
   const frontier = state.frontier
     ? paretoFrontier(points, state.metric, state.category).map((c) => [
-      x(metricValue(c, state.metric)),
+      x(metricValue(c, state.metric, state.category)),
       y(scoreValue(c, state.category)),
     ])
     : [];
@@ -164,7 +168,7 @@ export function chart(data, state) {
     coords,
   ) => coords.slice(1).map(([px, py], i) => [...coords[i], px, py]));
   const xy = points.map((c) => ({
-    x: x(metricValue(c, state.metric)),
+    x: x(metricValue(c, state.metric, state.category)),
     y: y(scoreValue(c, state.category)),
     text: effortName(c, state.lang),
   }));
@@ -172,7 +176,11 @@ export function chart(data, state) {
   const plotted = points.map((c, index) => {
     const value = `${percent(scoreValue(c, state.category))}, ${
       escape(
-        formatMetric(metricValue(c, state.metric), state.metric, state.lang),
+        formatMetric(
+          metricValue(c, state.metric, state.category),
+          state.metric,
+          state.lang,
+        ),
       )
     }`;
     return `<g class="point" tabindex="0" role="button" data-config="${
@@ -230,18 +238,28 @@ export function table(data, state) {
     ? rows.map((c) => {
       const score = scoreValue(c, state.category);
       return `<tr style="--model:${color(c)}">
-    <td><button class="model" data-config="${escape(c.id)}"><span>${
+    <td><button class="model" data-config="${
+        escape(c.id)
+      }"><span class="model-name">${brandLogo(provider(c))}${
         escape(c.model)
       }</span> <span class="effort">[${
         escape(effortName(c, state.lang))
-      }]</span> <span class="agent">${escape(c.agent)}</span></button></td>
+      }]</span> <span class="agent">${
+        ["pi", "opencode"].includes(c.agent)
+          ? brandLogo(c.agent, "harness-logo")
+          : ""
+      }${escape(c.agent)}</span></button></td>
     <td class="bar-cell"><span class="bar"><span style="width:${
         score * 100
       }%"></span></span></td>
     <td class="num score">${percent(score)}</td>
-    <td class="num">${money(c.cost)}</td><td class="num">${
-        tokens(c.output_tokens)
-      }</td><td class="num">${duration(c.agent_seconds, state.lang)}</td>
+    <td class="num">${
+        money(metricValue(c, "cost", state.category))
+      }</td><td class="num">${
+        tokens(metricValue(c, "output_tokens", state.category))
+      }</td><td class="num">${
+        duration(metricValue(c, "agent_seconds", state.category), state.lang)
+      }</td>
   </tr>`;
     }).join("")
     : `<tr><td colspan="6" class="empty">${t.noRows}</td></tr>`;

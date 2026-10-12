@@ -29,7 +29,8 @@ export const duration = (n, lang = "en") =>
     : n >= 60
     ? text(lang).minutes((n / 60).toFixed(1))
     : text(lang).seconds(Math.round(n));
-export const metricValue = (config, metric) => config[metrics[metric].key];
+export const metricValue = (config, metric, category = "overall") =>
+  config[category === "overall" ? metric : `${category}_${metric}`] ?? null;
 export const formatMetric = (n, metric, lang = "en") =>
   ({ cost: money, output_tokens: tokens, agent_seconds: duration })[metric](
     n,
@@ -69,7 +70,7 @@ export const shape = (config) => shapes[config.agent] ?? "circle";
 /** @type {[RegExp, string][]} */
 const providers = [
   [/^(gpt|o\d)/, "openai"],
-  [/^claude/, "anthropic"],
+  [/^(claude|haiku|sonnet|opus)/, "anthropic"],
   [/^(k\d|kimi)/, "moonshot"],
   [/^glm/, "zai"],
   [/^mimo/, "xiaomi"],
@@ -81,11 +82,27 @@ const providers = [
 export const provider = (config) =>
   providers.find(([pattern]) => pattern.test(config.model))?.[1] ?? "other";
 
+// Country of the model developer, independent of the serving provider or CLI.
+const developerCountries = {
+  openai: "us",
+  anthropic: "us",
+  meta: "us",
+  google: "us",
+  moonshot: "cn",
+  zai: "cn",
+  xiaomi: "cn",
+  deepseek: "cn",
+  alibaba: "cn",
+};
+export const country = (config) =>
+  developerCountries[provider(config)] ?? "other";
+
 // Filterable properties of a run. Selected values in one facet are
 // alternatives; facets combine, and an empty facet does not filter.
 export const facets = {
   agent: (c) => c.agent,
   provider,
+  country,
   model: (c) => c.model,
 };
 export const matchesFilters = (config, filters = {}) =>
@@ -121,7 +138,7 @@ export function initialState(data, lang = "en") {
     efforts: "all",
     scale: "log",
     frontier: false,
-    filters: { agent: [], provider: [], model: [] },
+    filters: { agent: [], provider: [], country: [], model: [] },
     sort: "score",
     ascending: false,
     selected: data.configurations.filter((c) => c.complete).map((c) => c.id),
@@ -148,7 +165,8 @@ export function ranked(data, state) {
         !old ||
         scoreValue(c, state.category) > scoreValue(old, state.category) ||
         (scoreValue(c, state.category) === scoreValue(old, state.category) &&
-          (c.cost ?? Infinity) < (old.cost ?? Infinity))
+          (metricValue(c, "cost", state.category) ?? Infinity) <
+            (metricValue(old, "cost", state.category) ?? Infinity))
       ) best.set(key, c);
     }
     rows = [...best.values()];
@@ -156,10 +174,10 @@ export function ranked(data, state) {
   return rows.sort((a, b) => {
     const av = state.sort === "score"
       ? scoreValue(a, state.category)
-      : a[state.sort];
+      : metricValue(a, state.sort, state.category);
     const bv = state.sort === "score"
       ? scoreValue(b, state.category)
-      : b[state.sort];
+      : metricValue(b, state.sort, state.category);
     if (av == null && bv == null) return a.id.localeCompare(b.id);
     if (av == null) return 1;
     if (bv == null) return -1;
@@ -236,7 +254,7 @@ export function linearAxis(values, unit = 1) {
 // faster) with an equal or higher score. Returned in increasing metric order.
 export function paretoFrontier(points, metric, category) {
   const sorted = [...points].sort((a, b) =>
-    metricValue(a, metric) - metricValue(b, metric) ||
+    metricValue(a, metric, category) - metricValue(b, metric, category) ||
     scoreValue(b, category) - scoreValue(a, category)
   );
   const frontier = [];

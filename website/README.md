@@ -27,8 +27,12 @@ installation, model credentials, or private benchmark data.
 
 The chart and leaderboard are rendered into the HTML at build time. JavaScript
 adds the score category and chart metric switches, sorting, best/every effort
-views, harness/provider/model filters, run selection, run details, and a saved
-light/dark theme. Unfinished runs and pilots are not shown.
+views, harness/provider/developer-country/model filters, run selection, run
+details, and a saved light/dark theme. Unfinished runs and pilots are not shown.
+
+The leaderboard shows SVG model/company marks and pi/OpenCode harness marks.
+Asset sources and licenses are recorded in `LOGOS.md`. Country identifies the
+model developer, independently of the serving provider or harness.
 
 ## Refreshing real results
 

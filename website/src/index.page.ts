@@ -87,6 +87,14 @@ function page(lang: Lang, data: Lume.Data, helpers: Lume.Helpers) {
           v: string,
         ) => [v, t.providers[v as keyof typeof t.providers]]),
       )
+    }${
+      facet(
+        "country",
+        t.country,
+        values.country.map((
+          v: string,
+        ) => [v, t.countries[v as keyof typeof t.countries]]),
+      )
     }${facet("model", t.model, values.model.map((v: string) => [v, v]))}</div>`;
   const cohorts = results.cohorts.length > 1
     ? `<label class="sr-only" for="cohort-select">${t.figureSubset}</label><select id="cohort-select">${
@@ -128,11 +136,7 @@ function page(lang: Lang, data: Lume.Data, helpers: Lume.Helpers) {
   }"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z"/></svg></button></nav>
   </div></header>
   <main class="wrap">
-    ${
-    readme.notice
-      ? `<aside class="notice" role="note">${md(readme.notice)}</aside>`
-      : ""
-  }<section class="hero" aria-labelledby="title">
+    <section class="hero" aria-labelledby="title">
       <div class="hero-top">
         <h1 id="title">tikz-bench</h1>
       </div>

@@ -1,5 +1,6 @@
 import results from "../src/data/results.json" with { type: "json" };
 import {
+  country,
   duration,
   effortName,
   facetValues,
@@ -87,7 +88,11 @@ Deno.test("sorting and category views use the recorded measurements", () => {
     sort: "cost",
     ascending: true,
   });
-  assert(costOrder[0].model === "gpt-6.1-sol");
+  assert(
+    costOrder.every((c: Configuration, i: number) =>
+      i === 0 || (c.cost ?? Infinity) >= (costOrder[i - 1].cost ?? Infinity)
+    ),
+  );
   for (const category of ["handwritten", "digital"]) {
     const rows = ranked(results, { ...state, category });
     assert(rows.length >= 2);
@@ -157,9 +162,11 @@ Deno.test("Pareto frontier keeps exactly the undominated configurations", () => 
       const dominated = (c: Configuration) =>
         rows.some((o: Configuration) =>
           o !== c &&
-          metricValue(o, metric) <= metricValue(c, metric) &&
+          metricValue(o, metric, category) <=
+            metricValue(c, metric, category) &&
           scoreValue(o, category) >= scoreValue(c, category) &&
-          (metricValue(o, metric) < metricValue(c, metric) ||
+          (metricValue(o, metric, category) <
+              metricValue(c, metric, category) ||
             scoreValue(o, category) > scoreValue(c, category))
         );
       for (const c of rows) {
@@ -258,7 +265,10 @@ Deno.test("filters combine alternatives within a facet and facets together", () 
   );
   const openaiPi = by({ provider: ["openai"], agent: ["pi"] });
   assert(
-    openaiPi.length &&
+    openaiPi.length ===
+        all.filter((c: Configuration) =>
+          c.agent === "pi" && provider(c) === "openai"
+        ).length &&
       openaiPi.every((c: Configuration) =>
         c.agent === "pi" && provider(c) === "openai"
       ),
@@ -289,6 +299,143 @@ Deno.test("filter options come only from completed runs", () => {
         [...new Set(completed.map((c: Configuration) => c.agent))].sort(),
       ),
   );
-  assert(!values.model.includes("mimo-v2.6-pro"));
+  assert(
+    JSON.stringify(values.model) ===
+      JSON.stringify(
+        [...new Set(completed.map((c: Configuration) => c.model))].sort(),
+      ),
+  );
   assert(values.provider.every((p: string) => p in strings.zh.providers));
+});
+
+Deno.test("developer country filters compose with harness and model filters", () => {
+  const state = initialState(results);
+  const all = ranked(results, state);
+  const china = ranked(results, {
+    ...state,
+    filters: { ...state.filters, country: ["cn"] },
+  });
+  const us = ranked(results, {
+    ...state,
+    filters: { ...state.filters, country: ["us"] },
+  });
+  assert(china.length > 0 && us.length > 0);
+  assert(china.every((c: Configuration) => country(c) === "cn"));
+  assert(us.every((c: Configuration) => country(c) === "us"));
+  assert(china.length + us.length === all.length);
+  const piChina = ranked(results, {
+    ...state,
+    filters: { ...state.filters, country: ["cn"], agent: ["pi"] },
+  });
+  assert(
+    piChina.length > 0 &&
+      piChina.every((c: Configuration) =>
+        country(c) === "cn" && c.agent === "pi"
+      ),
+  );
+  assert(country({ model: "deepseek-v4.1-flash", agent: "codex" }) === "cn");
+  assert(country({ model: "unknown-model" }) === "other");
+  assert(
+    facetValues(results, state.cohort).country.every((c: string) =>
+      c in strings.zh.countries
+    ),
+  );
+});
+
+Deno.test("leaderboard has decorative model and pi/OpenCode SVG marks", () => {
+  const html = table(results, initialState(results));
+  for (
+    const brand of [
+      "openai",
+      "anthropic",
+      "deepseek",
+      "zai",
+      "xiaomi",
+      "pi",
+      "opencode",
+    ]
+  ) {
+    assert(html.includes(`data-brand="${brand}"`), `Missing logo: ${brand}`);
+  }
+  assert(html.includes('class="brand-logo harness-logo"'));
+  assert(html.includes('aria-hidden="true" focusable="false"'));
+  assert(!html.includes("<img"));
+});
+
+Deno.test("category metrics come from their own task records", async () => {
+  const { aggregate } = await import("../scripts/refresh.ts");
+  const bundle = {
+    schema_version: 1,
+    benchmark: "tikz-bench",
+    generated_at: "2026-10-12T00:00:00Z",
+    runs: [{ id: "sample", subset_id: "sample", figure_ids: ["a", "b"] }],
+    configurations: [{
+      id: "sample/config",
+      run_id: "sample",
+      model: "gpt-test",
+      agent: "codex",
+      effort: null,
+      label: "sample",
+      complete: true,
+      summary: {
+        planned_tasks: 2,
+        scored_tasks: 2,
+        generated_tasks: 2,
+        score: 1,
+        cost_missing: 0,
+        cost_per_task: 5,
+        output_tokens_mean: 200,
+        agent_seconds_mean: 60,
+        seconds_mean: 30,
+        compile_rate: 1,
+        cost_sources: [],
+      },
+      score_breakdown: {
+        handwritten_cleanup: {
+          planned: 1,
+          complete: true,
+          score: 1,
+          perfect: 1,
+        },
+        digital_exact: { planned: 1, complete: true, score: 1, perfect: 1 },
+      },
+    }],
+    tasks: [
+      {
+        configuration_id: "sample/config",
+        score: 1,
+        reproduction_policy: "handwritten_cleanup",
+        metrics: {
+          cost_usd: 2,
+          agent_seconds: 40,
+          api_seconds: 20,
+          completion_tokens: 100,
+        },
+      },
+      {
+        configuration_id: "sample/config",
+        score: 1,
+        reproduction_policy: "digital_exact",
+        metrics: {
+          cost_usd: 8,
+          agent_seconds: 80,
+          api_seconds: 40,
+          completion_tokens: 300,
+        },
+      },
+    ],
+  };
+  const data = aggregate(bundle);
+  validateSnapshot(data);
+  const c = data.configurations[0];
+  assert(metricValue(c, "cost") === 5);
+  assert(metricValue(c, "cost", "handwritten") === 2);
+  assert(metricValue(c, "cost", "digital") === 8);
+  assert(metricValue(c, "agent_seconds", "handwritten") === 40);
+  assert(metricValue(c, "agent_seconds", "digital") === 80);
+  const state = initialState(data);
+  assert(table(data, { ...state, category: "handwritten" }).includes("$2.00"));
+  assert(table(data, { ...state, category: "digital" }).includes("$8.00"));
+  bundle.tasks[1].metrics.cost_usd = null as unknown as number;
+  assert(aggregate(bundle).configurations[0].digital_cost === null);
 });

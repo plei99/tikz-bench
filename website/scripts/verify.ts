@@ -18,6 +18,7 @@ const allowed = new Set([
   "lib/model.js",
   "lib/render.js",
   "lib/i18n.js",
+  "lib/logos.js",
   "data/results.json",
 ]);
 async function walk(dir: URL, prefix = "") {
