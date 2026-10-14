@@ -17,7 +17,7 @@ import { script, withEnv, withFakeDocker, withPath } from "./helpers.ts";
 const CODEX_FILE = "/agent-home/.codex/auth.json";
 
 test("requested agents default to subscription; API requires an explicit choice", () => {
-  for (const name of ["codex", "claude", "kimi"]) {
+  for (const name of ["codex", "claude", "kimi", "antigravity"]) {
     assert.equal(authMode(name), "subscription");
     assert.equal(authMode(name, "api"), "api");
   }
@@ -218,6 +218,94 @@ test("Kimi rejects external routes and traversal in the OAuth reference", () =>
       );
     }
   }));
+
+const AGY_FILE = "/agent-home/.gemini/antigravity-cli/antigravity-oauth-token";
+const agyLogin = (auth_method = "consumer") =>
+  JSON.stringify({
+    token: {
+      access_token: "synthetic-access",
+      token_type: "Bearer",
+      refresh_token: "synthetic-refresh",
+      expiry: "2026-10-14T12:00:00Z",
+      unrelated: "private",
+    },
+    auth_method,
+    unrelated: "private",
+  });
+
+test("Antigravity imports only the Google OAuth token in keyring or file form", () =>
+  temporary("tikz-agy-auth-", async (dir) => {
+    const p = path.join(dir, "antigravity-oauth-token");
+    for (const raw of [
+      agyLogin(),
+      "go-keyring-base64:" + Buffer.from(agyLogin()).toString("base64"),
+    ]) {
+      fs.writeFileSync(p, raw);
+      const auth = await loadSubscription("antigravity", "model", p);
+      assert.equal(auth.source, "antigravity_oauth_file");
+      assert.deepEqual(JSON.parse(auth.files[AGY_FILE]), {
+        token: {
+          access_token: "synthetic-access",
+          refresh_token: "synthetic-refresh",
+          expiry: "2026-10-14T12:00:00Z",
+        },
+        auth_method: "consumer",
+      });
+      assert.deepEqual(auth.publicFiles, {});
+      assert.deepEqual(auth.env, {});
+      assert.ok(auth.secrets.includes("synthetic-refresh"));
+      assert.ok(!auth.secrets.includes("Bearer"));
+    }
+    fs.writeFileSync(p, agyLogin("enterprise"));
+    await assert.rejects(
+      loadSubscription("antigravity", "model", p),
+      /personal Google account/,
+    );
+  }));
+
+test("Antigravity refreshes rotate tokens but cannot change the sign-in method", () =>
+  temporary("tikz-agy-refresh-", async (dir) => {
+    const p = path.join(dir, "antigravity-oauth-token");
+    fs.writeFileSync(p, agyLogin());
+    const auth = await loadSubscription("antigravity", "model", p),
+      refreshed = JSON.parse(auth.files[AGY_FILE]);
+    Object.assign(refreshed.token, {
+      access_token: "new-access",
+      expiry: "2026-10-14T13:00:00Z",
+      token_type: "Bearer",
+    });
+    auth.acceptRefresh({ [AGY_FILE]: JSON.stringify(refreshed) });
+    const saved = JSON.parse(auth.files[AGY_FILE]);
+    assert.equal(saved.token.access_token, "new-access");
+    assert.equal(saved.token.expiry, "2026-10-14T13:00:00Z");
+    assert.equal(saved.token.token_type, undefined);
+    assert.ok(auth.secrets.includes("new-access"));
+    refreshed.auth_method = "enterprise";
+    assert.throws(
+      () => auth.acceptRefresh({ [AGY_FILE]: JSON.stringify(refreshed) }),
+      /authentication method/,
+    );
+  }));
+
+test(
+  "the Antigravity keychain entry is decoded from go-keyring's encoding",
+  { skip: process.platform !== "darwin" && "macOS Keychain only" },
+  () =>
+    temporary("tikz-agy-keychain-", async (dir) => {
+      script(
+        dir,
+        "security",
+        '#!/bin/sh\n[ "$3" = gemini ] && [ "$5" = antigravity ] || exit 44\necho \'go-keyring-base64:' +
+          Buffer.from(agyLogin()).toString("base64") +
+          "'\n",
+      );
+      const auth = await withPath(dir, () =>
+        loadSubscription("antigravity", "model"),
+      );
+      assert.equal(auth.source, "antigravity_keychain");
+      assert.ok(!auth.files[AGY_FILE].includes("private"));
+    }),
+);
 
 test("missing, invalid or symlinked credentials never fall back to an API", () =>
   temporary("tikz-bad-auth-", async (dir) => {

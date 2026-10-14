@@ -7,7 +7,12 @@ import { readRegular, same, nonNegative } from "./support.ts";
 import type { RecordData } from "./support.ts";
 import { capture } from "./process.ts";
 
-export const SUBSCRIPTION_AGENTS = new Set(["codex", "claude", "kimi"]);
+export const SUBSCRIPTION_AGENTS = new Set([
+  "codex",
+  "claude",
+  "kimi",
+  "antigravity",
+]);
 export type AuthMode = "subscription" | "api";
 
 /** Subscription by default where supported; never a silent fallback. */
@@ -86,12 +91,29 @@ const KIMI_REFRESH: RefreshRule = {
   fields: ["access_token", "refresh_token", "expires_at", "expires_in"],
   required: "access_token",
 };
+const AGY_REFRESH: RefreshRule = {
+  section: (v) => v.token,
+  fields: ["access_token", "refresh_token", "expiry"],
+  required: "access_token",
+  check(before, after) {
+    if (after.auth_method !== before.auth_method)
+      throw Error("worker changed subscription authentication method");
+    const expiry = after.token?.expiry;
+    if (
+      expiry !== undefined &&
+      (typeof expiry !== "string" || expiry.length > 100)
+    )
+      throw Error("invalid refreshed subscription expiration");
+  },
+};
 const refreshRule = (file: string) =>
   file.endsWith("/.codex/auth.json")
     ? CODEX_REFRESH
     : file.endsWith("/.claude/.credentials.json")
       ? CLAUDE_REFRESH
-      : KIMI_REFRESH;
+      : file.endsWith("/" + AGY_TOKEN_FILE)
+        ? AGY_REFRESH
+        : KIMI_REFRESH;
 
 /**
  * Imported subscription credentials. `files` are private credential caches
@@ -353,6 +375,79 @@ capabilities = ["image_in", "thinking", "tool_use"]
   );
 }
 
+/**
+ * Antigravity keeps its Google sign-in in the OS keyring (go-keyring service
+ * "gemini", user "antigravity"); without one it falls back to this file under
+ * `~/.gemini/antigravity-cli`, which is how the worker receives it.
+ */
+const AGY_TOKEN_FILE = "antigravity-oauth-token";
+
+/** go-keyring's macOS encodings of a stored value. */
+function goKeyring(raw: string) {
+  const value = raw.trim();
+  if (value.startsWith("go-keyring-base64:"))
+    return Buffer.from(value.slice(18), "base64").toString("utf8");
+  if (value.startsWith("go-keyring-encoded:"))
+    return Buffer.from(value.slice(19), "hex").toString("utf8");
+  return value;
+}
+
+/** macOS Keychain entry written by Antigravity's sign-in, if readable. */
+async function antigravityKeychain() {
+  if (process.platform !== "darwin") return undefined;
+  try {
+    const r = await capture(
+      [
+        "security",
+        "find-generic-password",
+        "-s",
+        "gemini",
+        "-a",
+        "antigravity",
+        "-w",
+      ],
+      { timeout: 10 },
+    );
+    if (!r.returncode && !r.error) return goKeyring(r.stdout);
+  } catch {}
+  return undefined;
+}
+
+async function loadAntigravity(authPath?: string) {
+  const keychain = authPath ? undefined : await antigravityKeychain(),
+    raw =
+      keychain ??
+      goKeyring(
+        readPrivate(
+          authPath ??
+            path.join(
+              os.homedir(),
+              ".gemini",
+              "antigravity-cli",
+              AGY_TOKEN_FILE,
+            ),
+        ),
+      ),
+    data = object(raw),
+    token = pick(data.token ?? {}, ["access_token", "refresh_token", "expiry"]);
+  // Business sign-ins keep their project and region in further keyring
+  // entries that are not imported.
+  if (data.auth_method !== "consumer" || !token.access_token)
+    throw Error(
+      "Antigravity requires a personal Google account sign-in; run agy",
+    );
+  if (Object.values(token).some((v) => typeof v !== "string"))
+    throw Error("invalid Antigravity credentials");
+  return new SubscriptionAuth(
+    keychain === undefined ? "antigravity_oauth_file" : "antigravity_keychain",
+    {
+      ["/agent-home/.gemini/antigravity-cli/" + AGY_TOKEN_FILE]: JSON.stringify(
+        { token, auth_method: data.auth_method },
+      ),
+    },
+  );
+}
+
 /** Import the host's native subscription login for `agent`. */
 export async function loadSubscription(
   agent: string,
@@ -362,5 +457,6 @@ export async function loadSubscription(
   if (agent === "codex") return await loadCodex(authPath);
   if (agent === "claude") return await loadClaude(authPath);
   if (agent === "kimi") return await loadKimi(model, authPath);
+  if (agent === "antigravity") return await loadAntigravity(authPath);
   throw Error("subscription authentication is not implemented for " + agent);
 }

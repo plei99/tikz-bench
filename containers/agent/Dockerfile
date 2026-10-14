@@ -20,12 +20,14 @@ RUN npm install -g @openai/codex@${CODEX_VERSION} \
     @moonshot-ai/kimi-code@${KIMI_VERSION}
 
 USER node
+# Antigravity's installer always fetches the latest release; the adapter
+# targets the agy 1.x command format and preflight rejects other majors.
+RUN curl -fsSL https://antigravity.google/cli/install.sh -o /tmp/install-agy.sh \
+    && bash /tmp/install-agy.sh && rm /tmp/install-agy.sh
 ARG INSTALL_OPTIONAL_AGENTS=false
 RUN if [ "$INSTALL_OPTIONAL_AGENTS" = true ]; then \
       curl -fsSL https://cursor.com/install -o /tmp/install-cursor.sh \
-      && bash /tmp/install-cursor.sh && rm /tmp/install-cursor.sh \
-      && curl -fsSL https://antigravity.google/cli/install.sh -o /tmp/install-agy.sh \
-      && bash /tmp/install-agy.sh && rm /tmp/install-agy.sh; \
+      && bash /tmp/install-cursor.sh && rm /tmp/install-cursor.sh; \
     fi
 ENV PATH="/home/node/.local/bin:${PATH}"
 WORKDIR /workspace

@@ -184,9 +184,20 @@ function antigravityReport(events: RecordData[]): CliReport {
       );
   }
   const seconds = sumKnown([...steps.values()]);
+  // input_tokens excludes cache reads; output_tokens includes thinking.
+  const u = r.usage,
+    read = nonNegative(u?.cache_read_tokens),
+    input = nonNegative(u?.input_tokens);
   return {
     completed: r.status === "SUCCESS",
-    usage: r.usage ?? {},
+    usage: u
+      ? {
+          input_tokens: input !== null && read !== null ? input + read : null,
+          cached_input_tokens: read,
+          output_tokens: u.output_tokens,
+          reasoning_output_tokens: u.thinking_tokens,
+        }
+      : {},
     seconds:
       seconds === null
         ? null

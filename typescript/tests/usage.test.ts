@@ -573,3 +573,63 @@ test("--pricing accepts flat rates or a replacement price table", () =>
     fs.writeFileSync(bad, "null");
     assert.throws(() => loadPricing(bad), /pricing must contain/);
   }));
+
+test("Antigravity usage counts cache reads as prompt and thinking as output", () => {
+  // Totals from a real agy 1.3.5 stream-json run: total_tokens is
+  // input + output, cache reads are separate and thinking is part of output.
+  const stdout = lines([
+    {
+      event: "step_update",
+      step_update: {
+        conversation_id: "c",
+        step_index: 1,
+        state: "DONE",
+        step_type: "agent_response",
+        duration_seconds: 12.5,
+      },
+    },
+    {
+      event: "result",
+      result: {
+        status: "SUCCESS",
+        usage: {
+          input_tokens: 15078,
+          output_tokens: 1215,
+          thinking_tokens: 1055,
+          cache_read_tokens: 9748,
+          total_tokens: 16293,
+        },
+      },
+    },
+  ]);
+  const m = measure({
+    agent: "antigravity",
+    stdout,
+    model: "claude-sonnet-5-5-low",
+    table,
+  });
+  assert.deepEqual(m.usage, {
+    prompt_tokens: 24826,
+    completion_tokens: 1215,
+    cached_prompt_tokens: 9748,
+    completion_tokens_details: { reasoning_tokens: 1055 },
+  });
+  assert.equal(m.wall_seconds, 12.5);
+  assert.equal(m.cost_source, "price_table");
+  near(
+    m.cost_usd,
+    requestCost(
+      table.models["claude-sonnet-5-5"],
+      req({ input: 24826, cached_input: 9748, output: 1215 }),
+    ),
+  );
+  assert.equal(
+    measure({
+      agent: "antigravity",
+      stdout,
+      model: "gemini-4-argon-high",
+      table,
+    }).cost_usd,
+    null,
+  );
+});

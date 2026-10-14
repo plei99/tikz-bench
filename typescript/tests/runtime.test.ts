@@ -230,6 +230,16 @@ test("all adapters pin the requested model and preserve prompt as one argument",
     assert.equal(c.at(-1), "literal $(not shell)");
     assert.equal(c[c.indexOf("--model") + 1], "test-model");
   }
+  // agy 1.x reads the argument after -p as the prompt.
+  assert.equal(
+    command({
+      agent: "antigravity",
+      model: "m",
+      prompt: "p",
+      effort: "high",
+    }).at(-2),
+    "-p",
+  );
   for (const agent of ["kimi", "cursor"])
     assert.throws(() =>
       command({ agent, model: "m", prompt: "p", effort: "high" }),
@@ -281,7 +291,7 @@ test("complete documents allow packages before the class but require an uncommen
   );
 });
 test("subscription defaults and explicit API choice never silently fall back", () => {
-  for (const a of ["codex", "claude", "kimi"])
+  for (const a of ["codex", "claude", "kimi", "antigravity"])
     assert.equal(authMode(a), "subscription");
   assert.equal(authMode("codex", "api"), "api");
   assert.throws(() => authMode("pi", "subscription"));
