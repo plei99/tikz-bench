@@ -6,8 +6,11 @@ export const metrics = {
   output_tokens: { key: "output_tokens" },
   agent_seconds: {
     key: "agent_seconds",
-    // Linear ticks fall on whole minutes.
+    // Ticks fall on whole minutes.
     unit: 60,
+    // The runner stops an agent after an hour (`--timeout 3600`) and scores
+    // the task 0, so no average can exceed it.
+    limit: 3600,
   },
 };
 
@@ -186,30 +189,39 @@ export function ranked(data, state) {
   });
 }
 
-export function logAxis(values) {
+// Ticks are 1, 2 and 5 times powers of ten in the given unit. With a fixed
+// maximum the axis ends there, and ticks too close to it are dropped.
+export function logAxis(values, unit = 1, fixedMax) {
   const positive = values.filter((v) => Number.isFinite(v) && v > 0);
   const low = positive.length ? Math.min(...positive) / 1.2 : 0.1;
-  const high = positive.length ? Math.max(...positive) * 1.2 : 10;
+  const high = fixedMax ??
+    (positive.length ? Math.max(...positive) * 1.2 : 10);
   const candidates = [];
   for (
-    let exponent = Math.floor(Math.log10(low));
-    exponent <= Math.ceil(Math.log10(high));
+    let exponent = Math.floor(Math.log10(low / unit));
+    exponent <= Math.ceil(Math.log10(high / unit));
     exponent++
   ) {
     for (const multiplier of [1, 2, 5]) {
-      candidates.push(multiplier * 10 ** exponent);
+      candidates.push(multiplier * 10 ** exponent * unit);
     }
   }
   const min = candidates.filter((v) => v <= low).at(-1) ?? low;
-  const max = candidates.find((v) => v >= high) ?? high;
-  const ticks = candidates.filter((v) => v >= min && v <= max);
+  const max = fixedMax ?? candidates.find((v) => v >= high) ?? high;
+  const position = (v) =>
+    (Math.log10(v) - Math.log10(min)) / (Math.log10(max) - Math.log10(min));
+  const ticks = [
+    ...candidates.filter((v) =>
+      v >= min && (fixedMax ? position(v) < 0.9 : v <= max)
+    ),
+    ...(fixedMax ? [fixedMax] : []),
+  ];
   const stride = Math.max(1, Math.ceil((ticks.length - 1) / 7));
   return {
     min,
     max,
     ticks: ticks.filter((_, i) => i % stride === 0 || i === ticks.length - 1),
-    position: (v) =>
-      (Math.log10(v) - Math.log10(min)) / (Math.log10(max) - Math.log10(min)),
+    position,
   };
 }
 
@@ -236,9 +248,11 @@ export function scoreAxis(values) {
 
 // Linear axis from zero with 1-2-5 steps (in multiples of unit) and at most
 // six intervals.
-export function linearAxis(values, unit = 1) {
+export function linearAxis(values, unit = 1, fixedMax) {
   const positive = values.filter((v) => Number.isFinite(v) && v > 0);
-  const high = (positive.length ? Math.max(...positive) : 10) * 1.05 / unit;
+  const high = fixedMax != null
+    ? fixedMax / unit
+    : (positive.length ? Math.max(...positive) : 10) * 1.05 / unit;
   const magnitude = 10 ** Math.floor(Math.log10(high / 6));
   const step =
     [1, 2, 5, 10].map((m) => m * magnitude).find((s) => high / s <= 6) * unit;

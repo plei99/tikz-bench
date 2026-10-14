@@ -115,7 +115,11 @@ Deno.test("deselection gives an honest empty state and axes include every real p
     const values = ranked(results, state).map((c: Configuration) =>
       c[metric as "cost" | "output_tokens" | "agent_seconds"]
     );
-    const axis = logAxis(values);
+    const { unit, limit } = metrics[metric as keyof typeof metrics] as {
+      unit?: number;
+      limit?: number;
+    };
+    const axis = logAxis(values, unit, limit);
     assert(axis.min > 0 && axis.min < Math.min(...values));
     assert(axis.max > Math.max(...values));
     for (const value of values) {
@@ -139,10 +143,11 @@ Deno.test("linear scale starts at zero and covers every real point", () => {
   const state = { ...initialState(results), scale: "linear" };
   for (const metric of ["cost", "output_tokens", "agent_seconds"] as const) {
     const values = ranked(results, state).map((c: Configuration) => c[metric]);
-    const axis = linearAxis(
-      values,
-      (metrics[metric] as { unit?: number }).unit,
-    );
+    const { unit, limit } = metrics[metric as keyof typeof metrics] as {
+      unit?: number;
+      limit?: number;
+    };
+    const axis = linearAxis(values, unit, limit);
     assert(axis.min === 0 && axis.ticks[0] === 0);
     assert(axis.max > Math.max(...values) && axis.ticks.at(-1) === axis.max);
     assert(axis.ticks.length >= 3 && axis.ticks.length <= 7);
@@ -499,4 +504,25 @@ Deno.test("MiMo uses the same enabled-reasoning label across harnesses", () => {
     assert(effortName(c, "en") === "on");
     assert(effortName(c, "zh") === "on");
   }
+});
+
+Deno.test("agent time axes end at the one-hour generation limit", () => {
+  const state = initialState(results);
+  const values = ranked(results, state).map((c: Configuration) =>
+    c.agent_seconds
+  );
+  for (
+    const axis of [logAxis(values, 60, 3600), linearAxis(values, 60, 3600)]
+  ) {
+    assert(axis.max === 3600 && axis.ticks.at(-1) === 3600);
+    assert(axis.ticks.every((v: number) => v % 60 === 0 || v < 60));
+  }
+  // A configuration whose every task timed out sits on the limit line.
+  assert(logAxis([60, 3600], 60, 3600).position(3600) === 1);
+  for (const scale of ["log", "linear"]) {
+    const svg = chart(results, { ...state, metric: "agent_seconds", scale });
+    assert(svg.includes('class="limit"'));
+    assert(svg.includes("60 min limit: unfinished tasks score 0"));
+  }
+  assert(!chart(results, state).includes('class="limit"'));
 });

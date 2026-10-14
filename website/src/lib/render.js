@@ -82,7 +82,9 @@ export function chart(data, state) {
     metricValue(c, state.metric, state.category)
   );
   const log = state.scale !== "linear";
-  const axis = log ? logAxis(values) : linearAxis(values, metric.unit);
+  const axis = log
+    ? logAxis(values, metric.unit, metric.limit)
+    : linearAxis(values, metric.unit, metric.limit);
   const scaleNote = log ? t.logScaleNote : "";
   const yAxis = scoreAxis(points.map((c) => scoreValue(c, state.category)));
   const x = (v) => left + axis.position(v) * (right - left);
@@ -109,9 +111,21 @@ export function chart(data, state) {
         bottom + 5
       }"/>
       <text class="tick" x="${px}" y="${bottom + 22}" text-anchor="middle">${
-        escape(formatMetric(v, state.metric, state.lang))
+        escape(
+          // Whole-minute ticks need no decimal.
+          state.metric === "agent_seconds" && v >= 60 && v % 60 === 0
+            ? t.minutes(v / 60)
+            : formatMetric(v, state.metric, state.lang),
+        )
       }</text>`;
     }).join("");
+  const limit = metric.limit
+    ? `<line class="limit" x1="${x(metric.limit)}" y1="${top}" x2="${
+      x(metric.limit)
+    }" y2="${bottom}"/><text class="limit-label" x="${x(metric.limit)}" y="${
+      top - 10
+    }" text-anchor="end">${t.timeLimit(t.minutes(metric.limit / 60))}</text>`
+    : "";
   // Effort levels of one model and agent form a series, joined in cost order
   // and labelled where its most expensive effort ends.
   const groups = new Map();
@@ -184,7 +198,7 @@ export function chart(data, state) {
     t.chartLabel(title, axisTitle)
   }">
     <text class="axis-title" x="${left}" y="16">${title}</text>
-    ${grid}${pareto}${plotted}
+    ${grid}${limit}${pareto}${plotted}
     ${
     points.length
       ? ""

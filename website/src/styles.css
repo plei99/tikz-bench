@@ -386,6 +386,15 @@ select {
   stroke-width: 0.75;
   opacity: 0.3;
 }
+.chart .limit {
+  stroke: var(--text);
+  stroke-dasharray: 2 3;
+  opacity: 0.5;
+}
+.chart .limit-label {
+  font-size: 11px;
+  fill: var(--muted);
+}
 .chart .pareto-series {
   color: var(--text);
 }
