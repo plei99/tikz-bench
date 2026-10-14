@@ -183,6 +183,13 @@ Deno.test("Pareto frontier keeps exactly the undominated configurations", () => 
   assert(!chart(results, state).includes('class="pareto"'));
   const shown = chart(results, { ...state, frontier: true });
   assert(shown.includes('class="pareto"') && shown.includes("Pareto frontier"));
+  // Showing the frontier marks exactly its points, so the rest can fade.
+  const marked = shown.match(/class="point on-frontier"/g)?.length ?? 0;
+  assert(shown.includes('class="show-frontier"'));
+  const vertices = shown.match(/<polyline class="pareto" points="([^"]*)"/)![1]
+    .split(" ").length;
+  assert(marked === vertices, `${marked} marked, ${vertices} on the frontier`);
+  assert(!chart(results, state).includes("on-frontier"));
 });
 
 // Every key path in a dictionary, marking which entries are functions.

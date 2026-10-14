@@ -136,9 +136,10 @@ export function chart(data, state) {
   const series = [...groups.values()].map((g) =>
     g.map((c) => ({ c, xy: at(c) })).sort((a, b) => a.xy[0] - b.xy[0])
   );
-  const frontier = state.frontier
-    ? paretoFrontier(points, state.metric, state.category).map(at)
-    : [];
+  const onFrontier = new Set(
+    state.frontier ? paretoFrontier(points, state.metric, state.category) : [],
+  );
+  const frontier = [...onFrontier].map(at);
   const ends = [
     ...series.map((s) => s.at(-1).xy),
     ...(frontier.length > 1 ? [frontier.at(-1)] : []),
@@ -163,9 +164,9 @@ export function chart(data, state) {
           ),
         )
       }`;
-      return `<g class="point" tabindex="0" role="button" data-config="${
-        escape(c.id)
-      }" aria-label="${
+      return `<g class="point${
+        onFrontier.has(c) ? " on-frontier" : ""
+      }" tabindex="0" role="button" data-config="${escape(c.id)}" aria-label="${
         escape(configName(c, state.lang))
       }: ${value}. ${t.openDetails}">
       <title>${escape(configName(c, state.lang))}: ${value}</title>
@@ -173,7 +174,9 @@ export function chart(data, state) {
     </g>`;
     }).join("");
     const ly = labelY[index];
-    return `<g class="series" style="color:${color(c)}">${line}${marks}${
+    return `<g class="series${
+      s.some(({ c }) => onFrontier.has(c)) ? " on-frontier" : ""
+    }" style="color:${color(c)}">${line}${marks}${
       leader(ex, ey, ly)
     }<g class="series-label" transform="translate(${labelX} ${ly})">${
       brandLogo(provider(c), "chart-logo").replace(
@@ -194,7 +197,9 @@ export function chart(data, state) {
     })"><line class="pareto" x1="0" y1="0" x2="16" y2="0"/><text x="22" y="4.5">${t.paretoFrontier}</text></g></g>`
     : "";
   const missing = rows.length - points.length;
-  return `<svg viewBox="0 0 ${width} 464" role="img" aria-label="${
+  return `<svg${
+    frontier.length > 1 ? ' class="show-frontier"' : ""
+  } viewBox="0 0 ${width} 464" role="img" aria-label="${
     t.chartLabel(title, axisTitle)
   }">
     <text class="axis-title" x="${left}" y="16">${title}</text>

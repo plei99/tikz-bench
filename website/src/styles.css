@@ -429,6 +429,17 @@ select {
 .chart svg:has(.series:hover, .series:focus-within) :is(.series, .pareto-series):not(:hover, :focus-within) {
   opacity: 0.2;
 }
+/* With the Pareto frontier shown, everything off it recedes: series with no
+   frontier point fade, and so do off-frontier points of the others. */
+.chart .point {
+  transition: opacity 0.15s;
+}
+.chart svg.show-frontier .series:not(.on-frontier, :hover, :focus-within) {
+  opacity: 0.2;
+}
+.chart svg.show-frontier .series.on-frontier:not(:hover, :focus-within) :is(.line, .point:not(.on-frontier)) {
+  opacity: 0.3;
+}
 .chart .series:is(:hover, :focus-within) .leader {
   opacity: 0.7;
 }
