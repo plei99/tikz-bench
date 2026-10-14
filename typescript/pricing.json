@@ -145,6 +145,24 @@
       "source": "https://platform.claude.com/docs/en/about-claude/pricing",
       "notes": "1M context at standard rates with no premium. Batch: $1/$5. inference_geo 'us' applies 1.1x."
     },
+    "claude-haiku-5-5": {
+      "provider": "anthropic",
+      "input": 0.1,
+      "cached_input": 0.01,
+      "cache_write": 0.125,
+      "cache_write_1h": 0.2,
+      "output": 0.5,
+      "long_context": {
+        "threshold_tokens": 100000,
+        "input": 0.5,
+        "cached_input": 0.05,
+        "cache_write": 0.625,
+        "cache_write_1h": 1,
+        "output": 2.5
+      },
+      "source": "https://platform.claude.com/docs/en/models/haiku-5-5/overview",
+      "notes": "Verified 2026-10-13. Prompts over 100,000 tokens use the higher tier, including cached tokens. Standard first-party API list rates; subscription usage is API-equivalent."
+    },
     "claude-haiku-4-5": {
       "provider": "anthropic",
       "input": 1.0,
