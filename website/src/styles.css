@@ -6,16 +6,16 @@
   --border: #e5e5e5;
   --grid: #f0f0f0;
   --wash: #f5f5f5;
-  /* One colour per lab; see color() in lib/model.js. */
-  --lab-openai: #2f3740;
-  --lab-anthropic: #b9532c;
-  --lab-google: #1f8a4c;
-  --lab-meta: #0b78c0;
-  --lab-deepseek: #4257e0;
-  --lab-moonshot: #0e8a7d;
-  --lab-zai: #8b3fb3;
-  --lab-xiaomi: #c0266e;
-  --lab-alibaba: #a87600;
+  /* One colour per lab, from slopalytics.com; see color() in lib/model.js. */
+  --lab-openai: #303840;
+  --lab-anthropic: #ae5235;
+  --lab-google: #218347;
+  --lab-meta: #3f7fc8;
+  --lab-deepseek: #216b70;
+  --lab-moonshot: #ab3f83;
+  --lab-zai: #8e7318;
+  --lab-xiaomi: #b85212;
+  --lab-alibaba: #6d55bd;
   --lab-other: #7a6a60;
   /* Chinese text falls through the Latin faces to the platform's CJK font. */
   --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
@@ -31,15 +31,15 @@
   --border: #262626;
   --grid: #1c1c1c;
   --wash: #171717;
-  --lab-openai: #e8eaed;
-  --lab-anthropic: #d97757;
+  --lab-openai: #f1f3f5;
+  --lab-anthropic: #df9477;
   --lab-google: #56ca80;
-  --lab-meta: #6cbcf5;
-  --lab-deepseek: #8a9bff;
-  --lab-moonshot: #4fc2b4;
-  --lab-zai: #c992ea;
-  --lab-xiaomi: #f07aae;
-  --lab-alibaba: #e0b040;
+  --lab-meta: #94c4ff;
+  --lab-deepseek: #33979c;
+  --lab-moonshot: #ee86c4;
+  --lab-zai: #ecd36e;
+  --lab-xiaomi: #ff8b45;
+  --lab-alibaba: #9b94ee;
   --lab-other: #a8978b;
 }
 
