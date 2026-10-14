@@ -396,9 +396,6 @@ select {
   font-size: 11px;
   fill: var(--muted);
 }
-.chart .pareto-series {
-  color: var(--text);
-}
 .chart .pareto {
   fill: none;
   stroke: var(--text);
@@ -406,8 +403,7 @@ select {
   stroke-dasharray: 5 4;
   opacity: 0.6;
 }
-.chart .series-label text,
-.chart .pareto-series text {
+.chart .series-label text {
   font-size: 13px;
   font-weight: 550;
   fill: currentColor;

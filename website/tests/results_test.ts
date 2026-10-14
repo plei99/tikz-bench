@@ -184,7 +184,14 @@ Deno.test("Pareto frontier keeps exactly the undominated configurations", () => 
   }
   assert(!chart(results, state).includes('class="pareto"'));
   const shown = chart(results, { ...state, frontier: true });
-  assert(shown.includes('class="pareto"') && shown.includes("Pareto frontier"));
+  // The frontier is drawn but not labelled: its toggle already names it.
+  assert(
+    shown.includes('class="pareto"') && !shown.includes("Pareto frontier"),
+  );
+  assert(
+    shown.split('class="series-label"').length ===
+      chart(results, state).split('class="series-label"').length,
+  );
   // Showing the frontier marks exactly its points, so the rest can fade.
   const marked = shown.match(/class="point on-frontier"/g)?.length ?? 0;
   assert(shown.includes('class="show-frontier"'));
@@ -240,7 +247,7 @@ Deno.test("Chinese chart and table contain no English interface text", () => {
     if (english.length < 4 || leaves(strings.zh).includes(english)) continue;
     assert(!html.includes(english), `English text in Chinese page: ${english}`);
   }
-  assert(html.includes("（对数刻度）") && html.includes("帕累托前沿"));
+  assert(html.includes("（对数刻度）") && html.includes("时限"));
   assert(html.includes("分钟") && !html.includes(" min<"));
 });
 

@@ -193,11 +193,7 @@ export function chart(data, state) {
     state.frontier ? paretoFrontier(points, state.metric, state.category) : [],
   );
   const frontier = [...onFrontier].map(at);
-  const ends = [
-    ...series.map((s) => s.at(-1).xy),
-    ...(frontier.length > 1 ? [frontier.at(-1)] : []),
-  ];
-  const labelY = spreadLabels(ends.map(([, py]) => py));
+  const labelY = spreadLabels(series.map((s) => s.at(-1).xy[1]));
   const plotted = series.map((s, index) => {
     const c = s[0].c, [ex, ey] = s.at(-1).xy;
     const line = s.length > 1
@@ -242,11 +238,7 @@ export function chart(data, state) {
   const pareto = frontier.length > 1
     ? `<g class="pareto-series"><polyline class="pareto" points="${
       frontier.map((xy) => xy.join(",")).join(" ")
-    }"/>${
-      leader(...frontier.at(-1), labelY.at(-1))
-    }<g transform="translate(${labelX} ${
-      labelY.at(-1)
-    })"><line class="pareto" x1="0" y1="0" x2="16" y2="0"/><text x="22" y="4.5">${t.paretoFrontier}</text></g></g>`
+    }"/></g>`
     : "";
   const missing = rows.length - points.length;
   return `<svg${
