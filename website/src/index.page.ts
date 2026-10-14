@@ -181,7 +181,7 @@ function page(lang: Lang, data: Lume.Data, helpers: Lume.Helpers) {
     ])
   }<div class="segmented"><button data-frontier aria-pressed="${state.frontier}">${t.paretoFrontier}</button></div></div><div id="chart">${
     chart(results, state)
-  }</div></figure>
+  }</div><div id="chart-tip" class="chart-tip" aria-hidden="true" hidden></div></figure>
       <div class="panel table-scroll"><table class="leaderboard"><caption class="sr-only">${t.tableCaption}</caption><thead><tr>${
     [
       ["model", t.model],

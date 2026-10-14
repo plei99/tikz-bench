@@ -12,7 +12,7 @@ import {
   scoreValue,
   tokens,
 } from "./lib/model.js";
-import { chart, table } from "./lib/render.js";
+import { chart, table, tooltip } from "./lib/render.js";
 import { text } from "./lib/i18n.js";
 
 const lang = document.documentElement.lang.startsWith("zh") ? "zh" : "en";
@@ -34,6 +34,7 @@ const listed = () => {
 };
 
 function render() {
+  hideTip();
   $("#chart").innerHTML = chart(data, state);
   $("#leaderboard-body").innerHTML = table(data, state);
   const configs = available();
@@ -134,6 +135,44 @@ function detail(id) {
   $("#detail-dialog").showModal();
 }
 
+// The tooltip card sits beside the hovered (or keyboard-focused) point, on
+// whichever side has room within the chart panel.
+function showTip(point) {
+  const c = data.configurations.find((c) => c.id === point.dataset.config);
+  if (!c) return;
+  const tip = $("#chart-tip");
+  tip.innerHTML = tooltip(c, state);
+  tip.hidden = false;
+  const panel = tip.offsetParent.getBoundingClientRect();
+  const mark = point.querySelector(".marker").getBoundingClientRect();
+  const gap = 14;
+  const cx = mark.left + mark.width / 2 - panel.left;
+  const cy = mark.top + mark.height / 2 - panel.top;
+  const room = panel.width - cx - gap;
+  const x = room >= tip.offsetWidth ? cx + gap : cx - gap - tip.offsetWidth;
+  const y = Math.min(
+    Math.max(cy - tip.offsetHeight / 2, 8),
+    panel.height - tip.offsetHeight - 8,
+  );
+  tip.style.left = `${Math.max(x, 8)}px`;
+  tip.style.top = `${y}px`;
+}
+function hideTip() {
+  $("#chart-tip").hidden = true;
+}
+$("#chart").addEventListener("pointerover", (event) => {
+  const point = event.target.closest(".point");
+  if (point && event.pointerType !== "touch") showTip(point);
+});
+$("#chart").addEventListener("pointerout", (event) => {
+  if (event.target.closest(".point")) hideTip();
+});
+$("#chart").addEventListener("focusin", (event) => {
+  if (event.target.matches(".point:focus-visible")) showTip(event.target);
+});
+$("#chart").addEventListener("focusout", hideTip);
+$("#chart").addEventListener("scroll", hideTip);
+
 document.addEventListener("click", (event) => {
   const button = event.target.closest(
     "[data-metric], [data-category], [data-efforts], [data-scale], [data-frontier], [data-filter], [data-sort], [data-config], [data-close]",
@@ -172,7 +211,10 @@ document.addEventListener("click", (event) => {
     state.sort = key;
     render();
   }
-  if (button.dataset.config) detail(button.dataset.config);
+  if (button.dataset.config) {
+    hideTip();
+    detail(button.dataset.config);
+  }
   if (button.hasAttribute("data-close")) button.closest("dialog").close();
 });
 

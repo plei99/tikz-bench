@@ -70,6 +70,59 @@ function spreadLabels(wanted) {
 const leader = (x, y, ly) =>
   `<path class="leader" d="M${x + 7} ${y}L${labelX - 8} ${ly}H${labelX - 4}"/>`;
 
+// Dashed guides from a point to both axes, each ending in the value it
+// reads there. Hidden until the point is hovered or focused.
+function crosshair(c, [px, py], state) {
+  const score = formatScore(scoreValue(c, state.category), state.category);
+  const metric = escape(
+    formatMetric(
+      metricValue(c, state.metric, state.category),
+      state.metric,
+      state.lang,
+    ),
+  );
+  // The metric's label sits right of its guide unless that runs off the plot.
+  const flip = px > right - 60;
+  return `<g class="crosshair" aria-hidden="true"><path d="M${left} ${py}H${px}M${px} ${py}V${bottom}"/><text x="${
+    left + 4
+  }" y="${py - 6}">${score}</text><text x="${px + (flip ? -6 : 6)}" y="${
+    bottom - 6
+  }" text-anchor="${flip ? "end" : "start"}">${metric}</text></g>`;
+}
+
+// The card shown beside a hovered point: the configuration and its averages,
+// with the two values the chart plots emphasized.
+export function tooltip(c, state) {
+  const t = text(state.lang);
+  const rows = [
+    [
+      t.scoreTitles[state.category],
+      formatScore(scoreValue(c, state.category), state.category),
+      true,
+    ],
+    ...[
+      ["cost", t.costPerTask],
+      ["output_tokens", t.tokensPerTask],
+      ["agent_seconds", t.agentTimePerTask],
+    ].map(([m, label]) => [
+      label,
+      escape(formatMetric(metricValue(c, m, state.category), m, state.lang)),
+      m === state.metric,
+    ]),
+  ];
+  return `<div class="tip-head" style="color:${color(c)}">${
+    brandLogo(provider(c), "tip-logo")
+  }<strong>${escape(c.model)}</strong></div><div class="tip-sub">${
+    escape(effortName(c, state.lang))
+  } · ${escape(c.agent)}</div><dl>${
+    rows.map(([label, value, plotted]) =>
+      `<div${
+        plotted ? ' class="plotted"' : ""
+      }><dt>${label}</dt><dd>${value}</dd></div>`
+    ).join("")
+  }</dl><p class="tip-hint">${t.clickForDetails}</p>`;
+}
+
 export function chart(data, state) {
   const t = text(state.lang);
   const rows = ranked(data, { ...state, sort: "score", ascending: false });
@@ -168,10 +221,9 @@ export function chart(data, state) {
         onFrontier.has(c) ? " on-frontier" : ""
       }" tabindex="0" role="button" data-config="${escape(c.id)}" aria-label="${
         escape(configName(c, state.lang))
-      }: ${value}. ${t.openDetails}">
-      <title>${escape(configName(c, state.lang))}: ${value}</title>
-      ${marker(shape(c), ...xy)}
-    </g>`;
+      }: ${value}. ${t.openDetails}">${crosshair(c, xy, state)}${
+        marker(shape(c), ...xy)
+      }</g>`;
     }).join("");
     const ly = labelY[index];
     return `<g class="series${

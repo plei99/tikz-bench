@@ -122,6 +122,7 @@ export const strings = {
     timeLimit: (limit) => `${limit} limit: unfinished tasks score 0`,
     chartLabel: (title, axis) => `${title} against ${axis}`,
     openDetails: "Open details.",
+    clickForDetails: "Click for details",
     noPoints: "No configurations to plot",
     notPlotted: (n, metric) =>
       `${n} run${
@@ -236,6 +237,7 @@ export const strings = {
     timeLimit: (limit) => `${limit}时限：未完成的任务计 0 分`,
     chartLabel: (title, axis) => `${title}与${axis}的关系`,
     openDetails: "打开详情。",
+    clickForDetails: "点击查看详情",
     noPoints: "没有可绘制的配置",
     notPlotted: (n, metric) =>
       `${n} 个运行配置没有记录到正的${metric}，只在表格中显示。`,

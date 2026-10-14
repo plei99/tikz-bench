@@ -5,17 +5,19 @@ import {
   duration,
   effortName,
   facetValues,
+  formatScore,
   initialState,
   linearAxis,
   logAxis,
   metrics,
   metricValue,
+  money,
   paretoFrontier,
   provider,
   ranked,
   scoreValue,
 } from "../src/lib/model.js";
-import { chart, table } from "../src/lib/render.js";
+import { chart, table, tooltip } from "../src/lib/render.js";
 import { strings } from "../src/lib/i18n.js";
 import { validateSnapshot } from "../scripts/validate.ts";
 
@@ -500,6 +502,22 @@ Deno.test("chart omits effort labels but keeps them in point tooltips", () => {
   assert(!html.includes('class="effort"'));
   assert(html.includes("[xhigh]"));
   assert(html.includes('class="point"'));
+});
+
+Deno.test("hovering a point shows its values on both axes and in a card", () => {
+  const state = initialState(results);
+  const html = chart(results, state);
+  const points = html.split('class="point').length - 1;
+  assert(html.split('class="crosshair"').length - 1 === points);
+  assert(!html.includes("<title>"));
+  const c = ranked(results, state)[0];
+  const card = tooltip(c, state);
+  assert(card.includes(c.model) && card.includes(c.agent));
+  assert(card.includes(formatScore(scoreValue(c, "overall"), "overall")));
+  assert(card.includes(money(metricValue(c, "cost"))));
+  // The two plotted values, score and the chart's metric, are emphasized.
+  assert(card.split('class="plotted"').length - 1 === 2);
+  assert(!tooltip(c, { ...state, lang: "zh" }).includes("Click"));
 });
 
 Deno.test("MiMo uses the same enabled-reasoning label across harnesses", () => {
