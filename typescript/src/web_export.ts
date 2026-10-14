@@ -254,6 +254,7 @@ export function exportWebsite(out: string, selectedRun?: string) {
             t.model === summary.model && t.config === summary.config,
         );
       const exported: RecordData[] = [];
+      const resolvedModels = new Set<string>();
       const settings = new Map<string, RecordData>();
       for (const row of rows) {
         const stem = path.join(dir, config, safeName(row.figure)),
@@ -261,6 +262,8 @@ export function exportWebsite(out: string, selectedRun?: string) {
           grade = readJSONIfExists(stem + ".judge.json"),
           valid = validJudgment(grade, rec, stem),
           figure = manifest()[row.figure];
+        for (const model of Object.keys(rec.api?.models ?? {}))
+          resolvedModels.add(model);
         if (!figure) throw Error("missing figure metadata: " + row.figure);
         let items: RecordData[] = [];
         if (requiresChecklist(figure)) {
@@ -342,6 +345,10 @@ export function exportWebsite(out: string, selectedRun?: string) {
         run_id: name,
         directory: config,
         model: summary.model,
+        resolved_model:
+          /^(haiku|sonnet|opus)$/.test(summary.model) && resolvedModels.size === 1
+            ? [...resolvedModels][0]
+            : null,
         label: summary.config,
         agent: spec.agent ?? rows[0]?.agent ?? null,
         effort: spec.effort ?? null,

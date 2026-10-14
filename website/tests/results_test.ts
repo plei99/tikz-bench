@@ -1,5 +1,6 @@
 import results from "../src/data/results.json" with { type: "json" };
 import {
+  color,
   country,
   duration,
   effortName,
@@ -373,6 +374,7 @@ Deno.test("category metrics come from their own task records", async () => {
       id: "sample/config",
       run_id: "sample",
       model: "gpt-test",
+      resolved_model: "claude-haiku-5-5",
       agent: "codex",
       effort: null,
       label: "sample",
@@ -428,6 +430,7 @@ Deno.test("category metrics come from their own task records", async () => {
   const data = aggregate(bundle);
   validateSnapshot(data);
   const c = data.configurations[0];
+  assert(c.model === "claude-haiku-5-5");
   assert(metricValue(c, "cost") === 5);
   assert(metricValue(c, "cost", "handwritten") === 2);
   assert(metricValue(c, "cost", "digital") === 8);
@@ -462,4 +465,38 @@ Deno.test("taste view ranks saved taste ratings and uses handwritten metrics", (
   assert(chart(results, state).includes("Hand-drawn taste (out of 10)"));
   const missing = { ...rows[0], taste_score: null };
   assert(scoreValue(missing, "taste") === null);
+});
+
+Deno.test("each lab has one chart colour and every series a direct label", () => {
+  for (const c of results.configurations) {
+    assert(color(c) === `var(--lab-${provider(c)})`);
+  }
+  assert(color({ model: "gpt-6.1-sol" }) === color({ model: "gpt-6-astra" }));
+  assert(
+    color({ model: "gpt-6.1-sol" }) !== color({ model: "claude-opus-5-5" }),
+  );
+  const state = initialState(results);
+  const html = chart(results, state);
+  const series = new Set(
+    ranked(results, state).map((c: Configuration) => `${c.model}/${c.agent}`),
+  );
+  assert(html.split('class="series-label"').length - 1 === series.size);
+});
+
+Deno.test("chart omits effort labels but keeps them in point tooltips", () => {
+  const html = chart(results, initialState(results));
+  assert(!html.includes('class="effort"'));
+  assert(html.includes("[xhigh]"));
+  assert(html.includes('class="point"'));
+});
+
+Deno.test("MiMo uses the same enabled-reasoning label across harnesses", () => {
+  const runs = results.configurations.filter((c) =>
+    c.model === "mimo-v2.6-pro"
+  );
+  assert(runs.length === 2);
+  for (const c of runs) {
+    assert(effortName(c, "en") === "on");
+    assert(effortName(c, "zh") === "on");
+  }
 });

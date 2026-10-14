@@ -45,24 +45,13 @@ export const formatMetric = (n, metric, lang = "en") =>
     lang,
   );
 export const effortName = (c, lang = "en") =>
-  c.effort ?? text(lang).defaultEffort;
+  c.model === "mimo-v2.6-pro" ? "on" : c.effort ?? text(lang).defaultEffort;
 export const configName = (c, lang = "en") =>
   `${c.model} [${effortName(c, lang)}] · ${c.agent}`;
 
-// Categorical slots (--series-N in styles.css) in fixed order. The first three
-// stay distinguishable for every pair, as a scatter plot needs; known models are
-// pinned so a filter never repaints them.
-const pinned = [["sol", 1], ["opus", 2], ["astra", 3]];
-
-export function color(config) {
-  const slot = pinned.find(([name]) => config.model.includes(name))?.[1];
-  if (slot) return `var(--series-${slot})`;
-  let hash = 0;
-  for (const c of config.model) {
-    hash = (Math.imul(hash, 31) + c.charCodeAt(0)) | 0;
-  }
-  return `var(--series-${4 + Math.abs(hash) % 5})`;
-}
+// Every model from one lab shares the lab's colour (--lab-* in styles.css);
+// the chart's direct labels tell its series apart.
+export const color = (config) => `var(--lab-${provider(config)})`;
 
 // Marker shape identifies the agent harness; a vendor's own CLI is a circle.
 const shapes = {

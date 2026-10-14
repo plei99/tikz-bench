@@ -6,15 +6,17 @@
   --border: #e5e5e5;
   --grid: #f0f0f0;
   --wash: #f5f5f5;
-  /* Categorical chart slots; see color() in lib/model.js. */
-  --series-1: #2a78d6;
-  --series-2: #eb6834;
-  --series-3: #1baf7a;
-  --series-4: #eda100;
-  --series-5: #e87ba4;
-  --series-6: #008300;
-  --series-7: #4a3aa7;
-  --series-8: #e34948;
+  /* One colour per lab; see color() in lib/model.js. */
+  --lab-openai: #2f3740;
+  --lab-anthropic: #b9532c;
+  --lab-google: #1f8a4c;
+  --lab-meta: #0b78c0;
+  --lab-deepseek: #4257e0;
+  --lab-moonshot: #0e8a7d;
+  --lab-zai: #8b3fb3;
+  --lab-xiaomi: #c0266e;
+  --lab-alibaba: #a87600;
+  --lab-other: #7a6a60;
   /* Chinese text falls through the Latin faces to the platform's CJK font. */
   --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei",
@@ -29,14 +31,16 @@
   --border: #262626;
   --grid: #1c1c1c;
   --wash: #171717;
-  --series-1: #3987e5;
-  --series-2: #d95926;
-  --series-3: #199e70;
-  --series-4: #c98500;
-  --series-5: #d55181;
-  --series-6: #008300;
-  --series-7: #9085e9;
-  --series-8: #e66767;
+  --lab-openai: #e8eaed;
+  --lab-anthropic: #d97757;
+  --lab-google: #56ca80;
+  --lab-meta: #6cbcf5;
+  --lab-deepseek: #8a9bff;
+  --lab-moonshot: #4fc2b4;
+  --lab-zai: #c992ea;
+  --lab-xiaomi: #f07aae;
+  --lab-alibaba: #e0b040;
+  --lab-other: #a8978b;
 }
 
 * {
@@ -322,6 +326,13 @@ select {
   margin: 0 0 40px;
   padding: 16px 12px 8px;
 }
+/* Narrow screens scroll the chart sideways rather than shrink its labels. */
+#chart {
+  overflow-x: auto;
+}
+#chart > svg {
+  min-width: 720px;
+}
 .chart svg {
   display: block;
   width: 100%;
@@ -330,17 +341,21 @@ select {
   font-family: var(--sans);
 }
 .chart .grid {
-  stroke: var(--grid);
+  stroke: var(--muted);
+  stroke-dasharray: 2 6;
+  opacity: 0.35;
+}
+.chart .axis {
+  stroke: var(--border);
 }
 .chart .tick {
-  font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   fill: var(--muted);
+  font-variant-numeric: tabular-nums;
 }
 .chart .axis-title {
-  font-size: 13px;
-  font-weight: 500;
-  fill: var(--text);
+  font-size: 12px;
+  fill: var(--muted);
 }
 .chart .empty {
   font-size: 13px;
@@ -358,32 +373,21 @@ select {
   font-size: 12px;
   color: var(--muted);
 }
-.chart .legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px 20px;
-  margin: 0 0 8px;
-  padding: 0 4px;
-  list-style: none;
-  font-size: 13px;
-}
-.chart .legend li {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.chart .legend svg {
-  width: 24px;
-  height: 14px;
-}
-.chart .legend .agent {
-  font-size: 11px;
-}
-.chart .frontier {
+.chart .line {
   fill: none;
   stroke: currentColor;
-  stroke-width: 2;
-  opacity: 0.45;
+  stroke-width: 2.25;
+  stroke-linejoin: round;
+  opacity: 0.8;
+}
+.chart .leader {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 0.75;
+  opacity: 0.3;
+}
+.chart .pareto-series {
+  color: var(--text);
 }
 .chart .pareto {
   fill: none;
@@ -392,10 +396,37 @@ select {
   stroke-dasharray: 5 4;
   opacity: 0.6;
 }
+.chart .series-label text,
+.chart .pareto-series text {
+  font-size: 13px;
+  font-weight: 550;
+  fill: currentColor;
+}
+.chart .series-label .agent {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 400;
+  fill: var(--muted);
+}
+.chart .chart-logo {
+  width: 16px;
+  height: 16px;
+}
+/* Pointing at a series, or focusing one of its points, fades the others. */
+.chart .series,
+.chart .pareto-series {
+  transition: opacity 0.15s;
+}
+.chart svg:has(.series:hover, .series:focus-within) :is(.series, .pareto-series):not(:hover, :focus-within) {
+  opacity: 0.2;
+}
+.chart .series:is(:hover, :focus-within) .leader {
+  opacity: 0.7;
+}
 .chart .marker {
   fill: currentColor;
   stroke: var(--bg);
-  stroke-width: 2;
+  stroke-width: 1.8;
   paint-order: stroke;
   transform-box: fill-box;
   transform-origin: center;
@@ -403,12 +434,6 @@ select {
 .chart .point {
   cursor: pointer;
   outline: none;
-}
-.chart .effort {
-  font-family: var(--mono);
-  font-size: 11px;
-  fill: var(--muted);
-  pointer-events: none;
 }
 .chart .point:hover .marker,
 .chart .point:focus-visible .marker {
