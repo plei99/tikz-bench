@@ -7,6 +7,7 @@ import {
   initialState,
   matchesFilters,
   metricValue,
+  modelName,
   money,
   percent,
   scoreValue,
@@ -29,7 +30,8 @@ const listed = () => {
   const query = $("#config-search").value.toLowerCase().trim();
   return available().filter((c) =>
     matchesFilters(c, state.filters) &&
-    configName(c, lang).toLowerCase().includes(query)
+    (configName(c, lang).toLowerCase().includes(query) ||
+      c.model.toLowerCase().includes(query))
   );
 };
 
@@ -83,7 +85,7 @@ function renderPicker() {
     rows.map((c) =>
       `<label><input type="checkbox" value="${escape(c.id)}" ${
         state.selected.includes(c.id) ? "checked" : ""
-      }> ${escape(c.model)} (${escape(effortName(c, lang))}), ${
+      }> ${escape(modelName(c.model))} (${escape(effortName(c, lang))}), ${
         escape(c.agent)
       }</label>`
     ).join("") || `<p>${t.noRunsMatch}</p>`;
@@ -93,7 +95,9 @@ function detail(id) {
   const c = data.configurations.find((c) => c.id === id);
   if (!c) return;
   const cohort = data.cohorts.find((cohort) => cohort.id === c.cohort_id);
-  $("#detail-title").textContent = `${c.model} (${effortName(c, lang)})`;
+  $("#detail-title").textContent = `${modelName(c.model)} (${
+    effortName(c, lang)
+  })`;
   $("#detail-content").innerHTML = `<p>${
     t.runWith(
       escape(c.agent),

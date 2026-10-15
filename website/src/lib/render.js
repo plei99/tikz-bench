@@ -10,6 +10,7 @@ import {
   logAxis,
   metrics,
   metricValue,
+  modelName,
   money,
   paretoFrontier,
   provider,
@@ -112,7 +113,7 @@ export function tooltip(c, state) {
   ];
   return `<div class="tip-head" style="color:${color(c)}">${
     brandLogo(provider(c), "tip-logo")
-  }<strong>${escape(c.model)}</strong></div><div class="tip-sub">${
+  }<strong>${escape(modelName(c.model))}</strong></div><div class="tip-sub">${
     escape(effortName(c, state.lang))
   } · ${escape(c.agent)}</div><dl>${
     rows.map(([label, value, plotted]) =>
@@ -231,9 +232,9 @@ export function chart(data, state) {
         "<svg ",
         '<svg x="0" y="-8" width="16" height="16" ',
       )
-    }<text x="22" y="4.5">${escape(c.model)}<tspan class="agent" dx="6">${
-      escape(c.agent)
-    }</tspan></text></g></g>`;
+    }<text x="22" y="4.5">${
+      escape(modelName(c.model))
+    }<tspan class="agent" dx="6">${escape(c.agent)}</tspan></text></g></g>`;
   }).join("");
   const pareto = frontier.length > 1
     ? `<g class="pareto-series"><polyline class="pareto" points="${
@@ -277,7 +278,7 @@ export function table(data, state) {
     <td><button class="model" data-config="${
         escape(c.id)
       }"><span class="model-name">${brandLogo(provider(c))}${
-        escape(c.model)
+        escape(modelName(c.model))
       }</span> <span class="effort">[${
         escape(effortName(c, state.lang))
       }]</span> <span class="agent">${

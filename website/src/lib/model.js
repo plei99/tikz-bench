@@ -49,8 +49,34 @@ export const formatMetric = (n, metric, lang = "en") =>
   );
 export const effortName = (c, lang = "en") =>
   c.model === "mimo-v2.6-pro" ? "on" : c.effort ?? text(lang).defaultEffort;
+
+// Provider-published names, verified 2026-10-16. Keep saved model IDs for
+// filtering and series identity; harness aliases and effort aren't model names.
+const modelNames = {
+  // https://www.anthropic.com/claude-opus-5-5
+  // https://www.anthropic.com/claude-haiku-5-5
+  // https://www.anthropic.com/claude-sonnet-5-5
+  "claude-opus-5-5": "Claude Opus 5.5",
+  "claude-haiku-5-5": "Claude Haiku 5.5",
+  "claude-sonnet-5-5-low": "Claude Sonnet 5.5",
+  // https://developers.openai.com/api/docs/models
+  "gpt-6-astra": "GPT-6 Astra",
+  "gpt-6-luna": "GPT-6 Luna",
+  "gpt-6.1-sol": "GPT-6.1 Sol",
+  // https://www.deepseek.com/en/news/deepseek-v4-1-flash/
+  "deepseek-v4.1-flash": "DeepSeek-V4.1-Flash",
+  // https://ai.google.dev/gemini-api/docs/models/gemini-4-argon
+  "gemini-4-argon": "Gemini 4 Argon",
+  // https://autoclaw.z.ai/blog/model/glm-5.3-flash/
+  "glm-5.3-flash": "GLM-5.3-Flash",
+  // https://www.kimi.com/ai-models/kimi-k3
+  "k3": "Kimi K3",
+  // https://mimo.mi.com/models/en-US/mimo-v2.6-pro
+  "mimo-v2.6-pro": "MiMo-V2.6-Pro",
+};
+export const modelName = (model) => modelNames[model] ?? model;
 export const configName = (c, lang = "en") =>
-  `${c.model} [${effortName(c, lang)}] · ${c.agent}`;
+  `${modelName(c.model)} [${effortName(c, lang)}] · ${c.agent}`;
 
 // Every model from one lab shares the lab's colour (--lab-* in styles.css);
 // the chart's direct labels tell its series apart.

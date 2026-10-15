@@ -1,6 +1,7 @@
 import results from "../src/data/results.json" with { type: "json" };
 import {
   color,
+  configName,
   country,
   duration,
   effortName,
@@ -11,6 +12,7 @@ import {
   logAxis,
   metrics,
   metricValue,
+  modelName,
   money,
   paretoFrontier,
   provider,
@@ -62,6 +64,29 @@ Deno.test("real Sol xhigh and both Astra efforts are in the first chart and tabl
     assert(row.planned === 100 && row.scored === 100);
     assert(chart(results, state).includes(`data-config="${row.id}"`));
     assert(table(results, state).includes(`data-config="${row.id}"`));
+  }
+});
+
+Deno.test("model names use provider branding throughout the results UI", () => {
+  for (const c of results.configurations) {
+    assert(modelName(c.model) !== c.model, `Missing display name: ${c.model}`);
+    assert(configName(c).startsWith(`${modelName(c.model)} [`));
+  }
+  assert(modelName("claude-opus-5-5") === "Claude Opus 5.5");
+  assert(modelName("k3") === "Kimi K3");
+  assert(modelName("claude-sonnet-5-5-low") === "Claude Sonnet 5.5");
+  // Don't invent branding for a model that hasn't been verified yet.
+  assert(modelName("future-model") === "future-model");
+  for (const lang of ["en", "zh"]) {
+    const state = initialState(results, lang);
+    const graph = chart(results, state);
+    const leaderboard = table(results, state);
+    for (const c of ranked(results, state)) {
+      const name = modelName(c.model);
+      assert(graph.includes(`>${name}<tspan`));
+      assert(leaderboard.includes(name));
+      assert(tooltip(c, state).includes(`<strong>${name}</strong>`));
+    }
   }
 });
 
@@ -242,10 +267,19 @@ Deno.test("Chinese chart and table contain no English interface text", () => {
     table(results, { ...state, selected: [] }),
     chart(results, { ...state, selected: [] }),
   ].join("\n");
+  // Model branding stays in its official form in both languages, even when
+  // it contains an English provider name such as DeepSeek.
+  const interfaceHtml = results.configurations.reduce(
+    (markup, c) => markup.replaceAll(modelName(c.model), ""),
+    html,
+  );
   for (const english of leaves(strings.en)) {
     // Short words such as "Run" or "Log" are too likely to occur in data.
     if (english.length < 4 || leaves(strings.zh).includes(english)) continue;
-    assert(!html.includes(english), `English text in Chinese page: ${english}`);
+    assert(
+      !interfaceHtml.includes(english),
+      `English text in Chinese page: ${english}`,
+    );
   }
   assert(html.includes("（对数刻度）") && html.includes("时限"));
   assert(html.includes("分钟") && !html.includes(" min<"));
@@ -519,7 +553,7 @@ Deno.test("hovering a point shows its values on both axes and in a card", () => 
   assert(!html.includes("<title>"));
   const c = ranked(results, state)[0];
   const card = tooltip(c, state);
-  assert(card.includes(c.model) && card.includes(c.agent));
+  assert(card.includes(modelName(c.model)) && card.includes(c.agent));
   assert(card.includes(formatScore(scoreValue(c, "overall"), "overall")));
   assert(card.includes(money(metricValue(c, "cost"))));
   // The two plotted values, score and the chart's metric, are emphasized.

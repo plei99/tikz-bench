@@ -1,5 +1,5 @@
 import results from "./data/results.json" with { type: "json" };
-import { escape, facetValues, initialState } from "./lib/model.js";
+import { escape, facetValues, initialState, modelName } from "./lib/model.js";
 import { chart, table } from "./lib/render.js";
 import { languages, locales, text } from "./lib/i18n.js";
 
@@ -95,7 +95,13 @@ function page(lang: Lang, data: Lume.Data, helpers: Lume.Helpers) {
           v: string,
         ) => [v, t.countries[v as keyof typeof t.countries]]),
       )
-    }${facet("model", t.model, values.model.map((v: string) => [v, v]))}</div>`;
+    }${
+      facet(
+        "model",
+        t.model,
+        values.model.map((v: string) => [v, modelName(v)]),
+      )
+    }</div>`;
   const cohorts = results.cohorts.length > 1
     ? `<label class="sr-only" for="cohort-select">${t.figureSubset}</label><select id="cohort-select">${
       results.cohorts.map((c) =>
