@@ -558,3 +558,18 @@ Deno.test("agent time axes end at the one-hour generation limit", () => {
   }
   assert(!chart(results, state).includes('class="limit"'));
 });
+
+Deno.test("Argon reasoning levels share one model series", () => {
+  const rows = results.configurations.filter((c) =>
+    c.run === "agy-gemini4-argon-high-20261014" ||
+    c.run === "agy-gemini4-argon-medium-20261015"
+  );
+  assert(rows.length === 2);
+  assert(rows.every((c) => c.model === "gemini-4-argon"));
+  assert(new Set(rows.map((c) => c.effort)).size === 2);
+  const html = chart(
+    { ...results, configurations: rows },
+    initialState(results),
+  );
+  assert(html.split('class="series-label"').length - 1 === 1);
+});
