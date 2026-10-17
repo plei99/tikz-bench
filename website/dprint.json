@@ -1,0 +1,28 @@
+{
+  "typescript": {
+    "deno": true
+  },
+  "json": {
+    "deno": true
+  },
+  "markdown": {
+    "deno": true
+  },
+  "malva": {},
+  "yaml": {
+    "trailingComma": false
+  },
+  "excludes": [
+    "dist",
+    "node_modules",
+    "bun.lock",
+    "data/results.json"
+  ],
+  "plugins": [
+    "npm:@dprint/typescript@0.96.1",
+    "npm:@dprint/json@0.25.2",
+    "npm:@dprint/markdown@0.26.0",
+    "npm:dprint-plugin-malva@0.16.0",
+    "npm:dprint-plugin-yaml@0.6.0"
+  ]
+}

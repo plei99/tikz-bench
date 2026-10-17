@@ -3,6 +3,7 @@ import {
   duration,
   effortName,
   escape,
+  type Facet,
   formatScore,
   initialState,
   matchesFilters,
@@ -11,29 +12,38 @@ import {
   money,
   percent,
   scoreValue,
+  type Snapshot,
+  type State,
   tokens,
-} from "./lib/model.js";
-import { chart, table, tooltip } from "./lib/render.js";
-import { text } from "./lib/i18n.js";
+} from "../lib/model";
+import { chart, table, tooltip } from "../lib/render";
+import { type Lang, text } from "../lib/i18n";
 
-const lang = document.documentElement.lang.startsWith("zh") ? "zh" : "en";
+// The leaderboard's controls. The page arrives fully rendered; this re-renders
+// the chart and table from the embedded snapshot whenever a control changes.
+const lang: Lang = document.documentElement.lang.startsWith("zh") ? "zh" : "en";
 const t = text(lang);
-const data = JSON.parse(document.querySelector("#benchmark-data").textContent);
+const data: Snapshot = JSON.parse($("#benchmark-data").textContent!);
 const state = initialState(data, lang);
-const $ = (selector) => document.querySelector(selector);
+function $<E extends Element = HTMLElement>(selector: string) {
+  return document.querySelector<E>(selector)!;
+}
 const available = () =>
   data.configurations.filter((c) =>
     c.complete && !c.pilot && c.cohort_id === state.cohort
   );
 // Runs the filter dialog lists: those matching its facets and search text.
 const listed = () => {
-  const query = $("#config-search").value.toLowerCase().trim();
+  const query = $<HTMLInputElement>("#config-search").value.toLowerCase()
+    .trim();
   return available().filter((c) =>
     matchesFilters(c, state.filters) &&
     (configName(c, lang).toLowerCase().includes(query) ||
       c.model.toLowerCase().includes(query))
   );
 };
+
+const groups = ["metric", "category", "efforts", "scale"] as const;
 
 function render() {
   hideTip();
@@ -46,8 +56,10 @@ function render() {
     ).length
   }/${configs.length})`;
   $("[data-frontier]").setAttribute("aria-pressed", String(state.frontier));
-  for (const button of document.querySelectorAll("[data-filter]")) {
-    const selected = state.filters[button.dataset.filter];
+  for (
+    const button of document.querySelectorAll<HTMLElement>("[data-filter]")
+  ) {
+    const selected = state.filters[button.dataset.filter as Facet];
     button.setAttribute(
       "aria-pressed",
       String(
@@ -57,23 +69,26 @@ function render() {
       ),
     );
   }
-  for (const group of ["metric", "category", "efforts", "scale"]) {
-    for (const button of document.querySelectorAll(`[data-${group}]`)) {
+  for (const group of groups) {
+    for (
+      const button of document.querySelectorAll<HTMLElement>(`[data-${group}]`)
+    ) {
       button.setAttribute(
         "aria-pressed",
         String(button.dataset[group] === state[group]),
       );
     }
   }
-  for (const button of document.querySelectorAll("[data-sort]")) {
+  for (const button of document.querySelectorAll<HTMLElement>("[data-sort]")) {
     const active = button.dataset.sort === state.sort;
+    const th = button.closest("th")!;
     if (active) {
-      button.closest("th").setAttribute(
+      th.setAttribute(
         "aria-sort",
         state.ascending ? "ascending" : "descending",
       );
-    } else button.closest("th").removeAttribute("aria-sort");
-    button.querySelector("span").textContent = active
+    } else th.removeAttribute("aria-sort");
+    button.querySelector("span")!.textContent = active
       ? (state.ascending ? "↑" : "↓")
       : "";
   }
@@ -85,16 +100,14 @@ function renderPicker() {
     rows.map((c) =>
       `<label><input type="checkbox" value="${escape(c.id)}" ${
         state.selected.includes(c.id) ? "checked" : ""
-      }> ${escape(modelName(c.model))} (${escape(effortName(c, lang))}), ${
-        escape(c.agent)
-      }</label>`
+      }> ${escape(configName(c, lang))}</label>`
     ).join("") || `<p>${t.noRunsMatch}</p>`;
 }
 
-function detail(id) {
+function detail(id: string) {
   const c = data.configurations.find((c) => c.id === id);
   if (!c) return;
-  const cohort = data.cohorts.find((cohort) => cohort.id === c.cohort_id);
+  const cohort = data.cohorts.find((cohort) => cohort.id === c.cohort_id)!;
   $("#detail-title").textContent = `${modelName(c.model)} (${
     effortName(c, lang)
   })`;
@@ -136,19 +149,19 @@ function detail(id) {
       `<tr><th scope="row">${label}</th><td>${value}</td></tr>`
     ).join("")
   }</tbody></table>`;
-  $("#detail-dialog").showModal();
+  $<HTMLDialogElement>("#detail-dialog").showModal();
 }
 
 // The tooltip card sits beside the hovered (or keyboard-focused) point, on
 // whichever side has room within the chart panel.
-function showTip(point) {
+function showTip(point: HTMLElement) {
   const c = data.configurations.find((c) => c.id === point.dataset.config);
   if (!c) return;
   const tip = $("#chart-tip");
   tip.innerHTML = tooltip(c, state);
   tip.hidden = false;
-  const panel = tip.offsetParent.getBoundingClientRect();
-  const mark = point.querySelector(".marker").getBoundingClientRect();
+  const panel = tip.offsetParent!.getBoundingClientRect();
+  const mark = point.querySelector(".marker")!.getBoundingClientRect();
   const gap = 14;
   const cx = mark.left + mark.width / 2 - panel.left;
   const cy = mark.top + mark.height / 2 - panel.top;
@@ -164,27 +177,28 @@ function showTip(point) {
 function hideTip() {
   $("#chart-tip").hidden = true;
 }
+const target = (event: Event) => event.target as HTMLElement;
 $("#chart").addEventListener("pointerover", (event) => {
-  const point = event.target.closest(".point");
+  const point = target(event).closest<HTMLElement>(".point");
   if (point && event.pointerType !== "touch") showTip(point);
 });
 $("#chart").addEventListener("pointerout", (event) => {
-  if (event.target.closest(".point")) hideTip();
+  if (target(event).closest(".point")) hideTip();
 });
 $("#chart").addEventListener("focusin", (event) => {
-  if (event.target.matches(".point:focus-visible")) showTip(event.target);
+  if (target(event).matches(".point:focus-visible")) showTip(target(event));
 });
 $("#chart").addEventListener("focusout", hideTip);
 $("#chart").addEventListener("scroll", hideTip);
 
 document.addEventListener("click", (event) => {
-  const button = event.target.closest(
+  const button = target(event).closest<HTMLElement>(
     "[data-metric], [data-category], [data-efforts], [data-scale], [data-frontier], [data-filter], [data-sort], [data-config], [data-close]",
   );
   if (!button) return;
   if (button.dataset.filter) {
     // "All" clears the facet; any other value toggles in or out of it.
-    const { filter, value } = button.dataset;
+    const filter = button.dataset.filter as Facet, value = button.dataset.value;
     const selected = state.filters[filter];
     state.filters[filter] = !value
       ? []
@@ -200,18 +214,16 @@ document.addEventListener("click", (event) => {
     render();
     return;
   }
-  for (const key of ["metric", "category", "efforts", "scale"]) {
+  for (const key of groups) {
     if (button.dataset[key]) {
-      state[key] = button.dataset[key];
+      (state[key] as string) = button.dataset[key];
       render();
       return;
     }
   }
   if (button.dataset.sort) {
-    const key = button.dataset.sort;
-    state.ascending = state.sort === key
-      ? !state.ascending
-      : !["score", "compile_rate"].includes(key);
+    const key = button.dataset.sort as State["sort"];
+    state.ascending = state.sort === key ? !state.ascending : key !== "score";
     state.sort = key;
     render();
   }
@@ -219,30 +231,33 @@ document.addEventListener("click", (event) => {
     hideTip();
     detail(button.dataset.config);
   }
-  if (button.hasAttribute("data-close")) button.closest("dialog").close();
+  if (button.hasAttribute("data-close")) button.closest("dialog")!.close();
 });
 
 document.addEventListener("keydown", (event) => {
   if (
     (event.key === "Enter" || event.key === " ") &&
-    event.target.matches(".point")
+    target(event).matches(".point")
   ) {
     event.preventDefault();
-    detail(event.target.dataset.config);
+    detail(target(event).dataset.config!);
   }
 });
 
-$("#cohort-select")?.addEventListener("change", (event) => {
-  state.cohort = event.target.value;
-  render();
-});
+document.querySelector("#cohort-select")?.addEventListener(
+  "change",
+  (event) => {
+    state.cohort = (event.target as HTMLSelectElement).value;
+    render();
+  },
+);
 $("#config-picker").addEventListener("click", () => {
   renderPicker();
-  $("#config-dialog").showModal();
+  $<HTMLDialogElement>("#config-dialog").showModal();
 });
 $("#config-search").addEventListener("input", renderPicker);
 $("#config-options").addEventListener("change", (event) => {
-  const checkbox = event.target;
+  const checkbox = event.target as HTMLInputElement;
   state.selected = state.selected.filter((id) => id !== checkbox.value);
   if (checkbox.checked) state.selected.push(checkbox.value);
   render();
@@ -278,9 +293,10 @@ function themeLabel() {
     : "dark";
   $("#theme-toggle").setAttribute("aria-label", t.themeLabel(next));
 }
-// A choice is saved with the system setting it was made under. The inline
-// script in <head> applies it only while that setting holds; a change of the
-// system setting, here or between visits, puts the system's theme back.
+// A choice is saved with the system setting it was made under; the inline
+// script in <head> (client/inline/theme.ts) applies it only while that setting
+// holds. A change of the system setting while the page is open puts the
+// system's theme back.
 const system = matchMedia("(prefers-color-scheme: dark)");
 const systemTheme = () => system.matches ? "dark" : "light";
 $("#theme-toggle").addEventListener("click", () => {
@@ -305,10 +321,11 @@ system.addEventListener("change", () => {
 themeLabel();
 // The other language keeps the current section, and the choice outlasts the
 // browser-language redirect on the English page.
-$("#lang-switch").addEventListener("click", (event) => {
+const link = $<HTMLAnchorElement>("#lang-switch");
+link.addEventListener("click", () => {
   try {
-    localStorage.setItem("tikz-lang", event.currentTarget.hreflang.slice(0, 2));
+    localStorage.setItem("tikz-lang", link.hreflang.slice(0, 2));
   } catch { /* Storage may be unavailable in private browsing. */ }
-  event.currentTarget.hash = location.hash;
+  link.hash = location.hash;
 });
 render();

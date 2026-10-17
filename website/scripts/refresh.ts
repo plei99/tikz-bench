@@ -1,5 +1,6 @@
 /** Reduce the private benchmark export to an explicit aggregate-only schema. */
-import { validateSnapshot } from "./validate.ts";
+import { rename, rm } from "node:fs/promises";
+import { validateSnapshot } from "./validate";
 interface Summary {
   planned_tasks: number;
   scored_tasks: number;
@@ -158,24 +159,18 @@ export function aggregate(bundle: Bundle) {
 }
 
 if (import.meta.main) {
-  const input = Deno.args[0] ?? "../runs/web-results/results.json";
-  const data = aggregate(JSON.parse(await Deno.readTextFile(input)));
+  const input = Bun.argv[2] ?? "../runs/web-results/results.json";
+  const data = aggregate(await Bun.file(input).json());
   validateSnapshot(data);
-  const output = new URL("../src/data/results.json", import.meta.url);
-  await Deno.mkdir(new URL("../src/data/", import.meta.url), {
-    recursive: true,
-  });
-  const temporary = await Deno.makeTempFile({
-    dir: new URL("../src/data/", import.meta.url).pathname,
-    prefix: ".results-",
-  });
+  // Write beside the snapshot and rename, so an interrupted refresh leaves
+  // the previous snapshot intact.
+  const output = `${import.meta.dir}/../data/results.json`;
+  const temporary = `${output}.${process.pid}.tmp`;
   try {
-    await Deno.writeTextFile(temporary, JSON.stringify(data, null, 2) + "\n");
-    await Deno.rename(temporary, output);
+    await Bun.write(temporary, JSON.stringify(data, null, 2) + "\n");
+    await rename(temporary, output);
   } finally {
-    await Deno.remove(temporary).catch((error) => {
-      if (!(error instanceof Deno.errors.NotFound)) throw error;
-    });
+    await rm(temporary, { force: true });
   }
   console.log(
     `Refreshed ${data.configurations.length} aggregate configurations; no task data or assets copied.`,

@@ -1,29 +1,66 @@
 # Benchmark website
 
-This Lume site uses a public snapshot of aggregate results. All prose on the
-page (introduction, "Why this exists," "How it works," runner instructions and
-author credits) is extracted from the repository's README at build time.
+The site is written as React components and rendered to static HTML by
+[Bun Bake](https://bun.com) (`bun build --app`), the same stack as
+[plei99.github.io](https://github.com/plei99/plei99.github.io). No React reaches
+the browser: the pages have no client components, so the output is plain HTML,
+the stylesheet and one bundled script. Everything that is code is TypeScript and
+type checked, including the browser script.
 
-The site is built in English (`/`) and Chinese (`/zh/`) from one template.
+It shows a public snapshot of aggregate results. All prose on the page
+(introduction, "Why this exists," "How it works," runner instructions and author
+credits) is extracted from the repository's README at build time.
+
+The site is built in English (`/`) and Chinese (`/zh/`) from one component.
 Chinese prose comes from `README.zh.md`, whose section headings must match the
-`sections` strings in `src/lib/i18n.js`; the build fails otherwise. Interface
-text for both languages is in `src/lib/i18n.js`, and tests check that the two
-dictionaries have the same keys. A first visit from a Chinese-language browser
-is redirected to `/zh/` unless the visitor has chosen a language with the header
-switch.
+`sections` strings in `lib/i18n.ts`; the build fails otherwise. Interface text
+for both languages is in `lib/i18n.ts`, typed so that both dictionaries have the
+same keys. A first visit from a Chinese-language browser is redirected to `/zh/`
+unless the visitor has chosen a language with the header switch.
+
+## Running it
+
+Bake is experimental and only in Bun's canary builds (developed against
+1.4.4-canary.1). Put a canary `bun` first on your `PATH`, since package scripts
+call `bun` again, then run `bun install`.
 
 ```sh
 cd website
-deno task serve                 # http://localhost:3000
-deno task check
-deno task test
-deno task build
-deno task verify
+bun run dev      # build, serve dist/ at http://localhost:3000, rebuild on save
+bun run check    # dprint check, oxlint, bun check (pages and browser code)
+bun run test
+bun run build    # bun build --app, then scripts/finish.ts; writes dist/
+bun run verify
 ```
 
-Lume 3.3.2 is pinned in `deno.json`; dependencies are pinned in `deno.lock`. The
-build needs Deno 2 and network access on the first build, but needs no Bun, TeX
-installation, model credentials, or private benchmark data.
+The build needs no TeX installation, model credentials, or private benchmark
+data.
+
+## Layout
+
+```
+bun.app.ts          Bake config: the built-in React framework
+pages/              index.tsx is /, zh/index.tsx is /zh/
+components/Page.tsx The page: head, header, leaderboard, README prose, dialogs
+lib/
+  model.ts          Snapshot types, ranking, filters, axes, the Pareto frontier
+  render.ts         Chart and table HTML, shared by the build and the browser
+  i18n.ts           Interface strings for en + zh
+  logos.ts          Model and harness marks (sources in LOGOS.md)
+  site.ts           Validated snapshot, base-path URLs, README sections
+  inline.ts         Builds client/inline/*.ts into the scripts inlined in <head>
+client/
+  app.ts            Controls: re-renders chart and table, filters, dialogs, theme
+  inline/           Head scripts: theme before first paint, language detection
+data/results.json   The public aggregate snapshot
+public/             Copied verbatim: styles.css, favicon.svg, .nojekyll
+scripts/
+  finish.ts         After Bake: <html> attributes, bundles js/app.js, asset hashes
+  serve.ts          The dev server
+  refresh.ts        Reduces a private export to data/results.json
+  validate.ts       The snapshot's allowlisted schema
+  verify.ts         Checks dist/ for unexpected files and broken local links
+```
 
 The chart and leaderboard are rendered into the HTML at build time. JavaScript
 adds the score category and chart metric switches, sorting, best/every effort
@@ -41,18 +78,18 @@ From the repository root, export the private benchmark records:
 ```sh
 ./benchmark export
 cd website
-deno task refresh
-deno task build
-deno task verify
+bun run refresh
+bun run build
+bun run verify
 ```
 
 `refresh` reads `../runs/web-results/results.json` by default; an alternate
-export can be supplied as `deno task refresh /path/to/results.json`. It
-explicitly selects aggregate fields and writes `src/data/results.json`. It never
-copies reference images, selected figure IDs, task records, checklists, judge
-replies, or logs. Review the aggregate snapshot diff and commit it with the
-website source when updating the public site. The full exporter bundle must
-remain under the gitignored `runs/` directory.
+export can be supplied as `bun run refresh /path/to/results.json`. It explicitly
+selects aggregate fields and writes `data/results.json`. It never copies
+reference images, selected figure IDs, task records, checklists, judge replies,
+or logs. Review the aggregate snapshot diff and commit it with the website
+source when updating the public site. The full exporter bundle must remain under
+the gitignored `runs/` directory.
 
 The local grading service also runs `bun runs/grading-watch/website-updater.ts`.
 It checks completed score reports every 30 seconds. When a report is added or
@@ -69,15 +106,15 @@ PRs. Once the repository is public, set **Settings → Pages → Source → GitH
 Actions** and run the **Website** workflow (or push a website change to `main`).
 Deployment is deliberately disabled while the repository is private.
 
-The workflow builds for the repository's project URL. For a custom domain,
-change the workflow's `--location` to that domain and configure it in Pages
-settings. Local builds can verify any base path:
+The workflow builds for the repository's project URL by setting `SITE_URL`. For
+a custom domain, change the workflow's `SITE_URL` to that domain and configure
+it in Pages settings. Local builds can verify any base path:
 
 ```sh
-deno task build --location=https://plei99.github.io/tikz-bench/
-deno task verify
+SITE_URL=https://plei99.github.io/tikz-bench/ bun run build
+bun run verify
 ```
 
-`website/_site/` is the only deployment artifact. The public snapshot is checked
+`website/dist/` is the only deployment artifact. The public snapshot is checked
 in so GitHub Actions never needs the private overlay, evaluation assets, or run
 directories. No synthetic benchmark results are included.

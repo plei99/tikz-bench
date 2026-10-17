@@ -10,8 +10,8 @@ data/.cache/
 # Benchmark runs (model outputs, renderings); see ./benchmark
 runs/
 
-# Lume's generated public website; source and aggregate snapshots are tracked.
-/website/_site/
+# The built public website; source and aggregate snapshots are tracked.
+/website/dist/
 
 # Trusted generated METAFONT font cache; regenerated from the TeX installation.
 /.cache/tex-fonts/

@@ -18,12 +18,21 @@
   --lab-alibaba: #6d55bd;
   --lab-other: #7a6a60;
   /* Chinese text falls through the Latin faces to the platform's CJK font. */
-  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei",
-    "Noto Sans CJK SC", sans-serif;
+  --sans:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    "PingFang SC",
+    "Microsoft YaHei",
+    "Noto Sans CJK SC",
+    sans-serif;
   --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
-:root[data-theme=dark] {
+:root[data-theme="dark"] {
   color-scheme: dark;
   --bg: #0a0a0a;
   --text: #fafafa;
@@ -296,7 +305,7 @@ h2 {
 .segmented button:hover {
   color: var(--text);
 }
-.segmented button[aria-pressed=true] {
+.segmented button[aria-pressed="true"] {
   background: var(--text);
   color: var(--bg);
 }
@@ -423,7 +432,9 @@ select {
 .chart .pareto-series {
   transition: opacity 0.15s;
 }
-.chart svg:has(.series:hover, .series:focus-within) :is(.series, .pareto-series):not(:hover, :focus-within) {
+.chart
+  svg:has(.series:hover, .series:focus-within)
+  :is(.series, .pareto-series):not(:hover, :focus-within) {
   opacity: 0.2;
 }
 /* With the Pareto frontier shown, everything off it recedes: series with no
@@ -434,7 +445,10 @@ select {
 .chart svg.show-frontier .series:not(.on-frontier, :hover, :focus-within) {
   opacity: 0.2;
 }
-.chart svg.show-frontier .series.on-frontier:not(:hover, :focus-within) :is(.line, .point:not(.on-frontier)) {
+.chart
+  svg.show-frontier
+  .series.on-frontier:not(:hover, :focus-within)
+  :is(.line, .point:not(.on-frontier)) {
   opacity: 0.3;
 }
 .chart .series:is(:hover, :focus-within) .leader {
@@ -495,7 +509,7 @@ select {
   font-size: 12px;
   pointer-events: none;
 }
-:root[data-theme=dark] .chart-tip {
+:root[data-theme="dark"] .chart-tip {
   background: var(--wash);
   box-shadow: 0 8px 24px rgb(0 0 0 / 0.5);
 }
@@ -798,7 +812,7 @@ dialog h2 {
   text-align: right;
   font-family: var(--mono);
 }
-dialog input[type=search] {
+dialog input[type="search"] {
   width: 100%;
   height: 36px;
   padding: 0 10px;

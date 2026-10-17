@@ -1,6 +1,6 @@
 # Leaderboard brand marks
 
-SVGs are bundled locally in src/lib/logos.js. They are decorative beside visible
+SVGs are bundled locally in lib/logos.ts. They are decorative beside visible
 model or harness names. Monochrome marks inherit the text color; colored marks
 retain their original colors.
 

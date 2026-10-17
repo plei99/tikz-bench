@@ -1,6 +1,7 @@
 import {
   color,
   configName,
+  type Configuration,
   duration,
   effortName,
   escape,
@@ -17,18 +18,23 @@ import {
   ranked,
   scoreAxis,
   scoreValue,
+  type Shape,
   shape,
+  type Snapshot,
+  type State,
   tokens,
-} from "./model.js";
-import { text } from "./i18n.js";
-import { brandLogo } from "./logos.js";
+} from "./model";
+import { text } from "./i18n";
+import { brandLogo } from "./logos";
+
+type Point = [number, number];
 
 // Plot area inside the SVG viewBox; series are labelled in a column at its right.
 const width = 960, left = 52, right = 700, top = 36, bottom = 420;
 const labelX = right + 28, labelGap = 20;
 
 // Marker centred on (x, y); every shape has roughly the same area.
-function marker(kind, x, y) {
+function marker(kind: Shape, x: number, y: number) {
   if (kind === "square") {
     return `<rect class="marker" x="${x - 4}" y="${
       y - 4
@@ -49,7 +55,7 @@ function marker(kind, x, y) {
 
 // Moves label baselines apart by at least the label gap, as close as possible
 // to where each series ends, and keeps them within the plot's height.
-function spreadLabels(wanted) {
+function spreadLabels(wanted: number[]) {
   const order = wanted.map((y, i) => [y, i]).sort((a, b) => a[0] - b[0]);
   const gap = Math.min(
     labelGap,
@@ -57,23 +63,23 @@ function spreadLabels(wanted) {
   );
   const ys = order.map(([y]) => y);
   for (let i = 0; i < ys.length; i++) {
-    ys[i] = Math.max(ys[i], i ? ys[i - 1] + gap : top);
+    ys[i] = Math.max(ys[i]!, i ? ys[i - 1]! + gap : top);
   }
   for (let i = ys.length - 1; i >= 0; i--) {
-    ys[i] = Math.min(ys[i], i < ys.length - 1 ? ys[i + 1] - gap : bottom);
+    ys[i] = Math.min(ys[i]!, i < ys.length - 1 ? ys[i + 1]! - gap : bottom);
   }
-  const placed = [];
-  order.forEach(([, index], i) => placed[index] = ys[i]);
+  const placed: number[] = [];
+  order.forEach(([, index], i) => placed[index!] = ys[i]!);
   return placed;
 }
 
 // A label in the right-hand column, joined to the point (x, y) it names.
-const leader = (x, y, ly) =>
+const leader = (x: number, y: number, ly: number) =>
   `<path class="leader" d="M${x + 7} ${y}L${labelX - 8} ${ly}H${labelX - 4}"/>`;
 
 // Dashed guides from a point to both axes, each ending in the value it
 // reads there. Hidden until the point is hovered or focused.
-function crosshair(c, [px, py], state) {
+function crosshair(c: Configuration, [px, py]: Point, state: State) {
   const score = formatScore(scoreValue(c, state.category), state.category);
   const metric = escape(
     formatMetric(
@@ -93,19 +99,19 @@ function crosshair(c, [px, py], state) {
 
 // The card shown beside a hovered point: the configuration and its averages,
 // with the two values the chart plots emphasized.
-export function tooltip(c, state) {
+export function tooltip(c: Configuration, state: State) {
   const t = text(state.lang);
-  const rows = [
+  const rows: [string, string, boolean][] = [
     [
       t.scoreTitles[state.category],
       formatScore(scoreValue(c, state.category), state.category),
       true,
     ],
-    ...[
+    ...([
       ["cost", t.costPerTask],
       ["output_tokens", t.tokensPerTask],
       ["agent_seconds", t.agentTimePerTask],
-    ].map(([m, label]) => [
+    ] as const).map(([m, label]): [string, string, boolean] => [
       label,
       escape(formatMetric(metricValue(c, m, state.category), m, state.lang)),
       m === state.metric,
@@ -114,8 +120,8 @@ export function tooltip(c, state) {
   return `<div class="tip-head" style="color:${color(c)}">${
     brandLogo(provider(c), "tip-logo")
   }<strong>${escape(modelName(c.model))}</strong></div><div class="tip-sub">${
-    escape(effortName(c, state.lang))
-  } · ${escape(c.agent)}</div><dl>${
+    escape(t.effortAgent(effortName(c, state.lang), c.agent))
+  }</div><dl>${
     rows.map(([label, value, plotted]) =>
       `<div${
         plotted ? ' class="plotted"' : ""
@@ -124,16 +130,16 @@ export function tooltip(c, state) {
   }</dl><p class="tip-hint">${t.clickForDetails}</p>`;
 }
 
-export function chart(data, state) {
+export function chart(data: Snapshot, state: State) {
   const t = text(state.lang);
   const rows = ranked(data, { ...state, sort: "score", ascending: false });
-  const points = rows.filter((c) =>
-    Number.isFinite(metricValue(c, state.metric, state.category)) &&
-    metricValue(c, state.metric, state.category) > 0
-  );
+  const points = rows.filter((c) => {
+    const value = metricValue(c, state.metric, state.category);
+    return value !== null && Number.isFinite(value) && value > 0;
+  });
   const metric = metrics[state.metric];
   const values = points.map((c) =>
-    metricValue(c, state.metric, state.category)
+    metricValue(c, state.metric, state.category)!
   );
   const log = state.scale !== "linear";
   const axis = log
@@ -141,11 +147,11 @@ export function chart(data, state) {
     : linearAxis(values, metric.unit, metric.limit);
   const scaleNote = log ? t.logScaleNote : "";
   const yAxis = scoreAxis(points.map((c) => scoreValue(c, state.category)));
-  const x = (v) => left + axis.position(v) * (right - left);
-  const y = (v) => bottom - yAxis.position(v) * (bottom - top);
-  const at = (c) => [
-    x(metricValue(c, state.metric, state.category)),
-    y(scoreValue(c, state.category)),
+  const x = (v: number) => left + axis.position(v) * (right - left);
+  const y = (v: number) => bottom - yAxis.position(v) * (bottom - top);
+  const at = (c: Configuration): Point => [
+    x(metricValue(c, state.metric, state.category)!),
+    y(scoreValue(c, state.category)!),
   ];
   const title = t.scoreTitles[state.category];
   const axisTitle = t.metrics[state.metric].axis + scaleNote;
@@ -182,7 +188,7 @@ export function chart(data, state) {
     : "";
   // Effort levels of one model and agent form a series, joined in cost order
   // and labelled where its most expensive effort ends.
-  const groups = new Map();
+  const groups = new Map<string, Configuration[]>();
   for (const c of points) {
     const key = `${c.model}/${c.agent}`;
     groups.set(key, [...(groups.get(key) ?? []), c]);
@@ -194,9 +200,9 @@ export function chart(data, state) {
     state.frontier ? paretoFrontier(points, state.metric, state.category) : [],
   );
   const frontier = [...onFrontier].map(at);
-  const labelY = spreadLabels(series.map((s) => s.at(-1).xy[1]));
+  const labelY = spreadLabels(series.map((s) => s.at(-1)!.xy[1]));
   const plotted = series.map((s, index) => {
-    const c = s[0].c, [ex, ey] = s.at(-1).xy;
+    const c = s[0]!.c, [ex, ey] = s.at(-1)!.xy;
     const line = s.length > 1
       ? `<polyline class="line" points="${
         s.map(({ xy }) => xy.join(",")).join(" ")
@@ -222,7 +228,7 @@ export function chart(data, state) {
         marker(shape(c), ...xy)
       }</g>`;
     }).join("");
-    const ly = labelY[index];
+    const ly = labelY[index]!;
     return `<g class="series${
       s.some(({ c }) => onFrontier.has(c)) ? " on-frontier" : ""
     }" style="color:${color(c)}">${line}${marks}${
@@ -268,7 +274,7 @@ export function chart(data, state) {
   }`;
 }
 
-export function table(data, state) {
+export function table(data: Snapshot, state: State) {
   const t = text(state.lang);
   const rows = ranked(data, state);
   return rows.length
@@ -287,7 +293,7 @@ export function table(data, state) {
           : ""
       }${escape(c.agent)}</span></button></td>
     <td class="bar-cell"><span class="bar"><span style="width:${
-        score * 100
+        score! * 100
       }%"></span></span></td>
     <td class="num score">${formatScore(score, state.category)}</td>
     <td class="num">${

@@ -1,4 +1,5 @@
-import results from "../src/data/results.json" with { type: "json" };
+import { test } from "bun:test";
+import snapshot from "../data/results.json" with { type: "json" };
 import {
   color,
   configName,
@@ -18,18 +19,21 @@ import {
   provider,
   ranked,
   scoreValue,
-} from "../src/lib/model.js";
-import { chart, table, tooltip } from "../src/lib/render.js";
-import { strings } from "../src/lib/i18n.js";
-import { validateSnapshot } from "../scripts/validate.ts";
+  type Snapshot,
+  type State,
+} from "../lib/model";
+import { chart, table, tooltip } from "../lib/render";
+import { strings } from "../lib/i18n";
+import { validateSnapshot } from "../scripts/validate";
 
-type Configuration = typeof results.configurations[number];
+const results = snapshot as Snapshot;
+type Configuration = Snapshot["configurations"][number];
 
 function assert(value: unknown, message = "Assertion failed"): asserts value {
   if (!value) throw new Error(message);
 }
 
-Deno.test("public snapshot contains only allowlisted aggregates", () => {
+test("public snapshot contains only allowlisted aggregates", () => {
   validateSnapshot(results);
   const serialized = JSON.stringify(results);
   for (
@@ -47,7 +51,7 @@ Deno.test("public snapshot contains only allowlisted aggregates", () => {
   }
 });
 
-Deno.test("real Sol xhigh and both Astra efforts are in the first chart and table", () => {
+test("real Sol xhigh and both Astra efforts are in the first chart and table", () => {
   const state = initialState(results);
   const rows = ranked(results, state);
   for (
@@ -67,17 +71,17 @@ Deno.test("real Sol xhigh and both Astra efforts are in the first chart and tabl
   }
 });
 
-Deno.test("model names use provider branding throughout the results UI", () => {
+test("model names use provider branding throughout the results UI", () => {
   for (const c of results.configurations) {
     assert(modelName(c.model) !== c.model, `Missing display name: ${c.model}`);
-    assert(configName(c).startsWith(`${modelName(c.model)} [`));
+    assert(configName(c).startsWith(`${modelName(c.model)} (`));
   }
   assert(modelName("claude-opus-5-5") === "Claude Opus 5.5");
   assert(modelName("k3") === "Kimi K3");
   assert(modelName("claude-sonnet-5-5-low") === "Claude Sonnet 5.5");
   // Don't invent branding for a model that hasn't been verified yet.
   assert(modelName("future-model") === "future-model");
-  for (const lang of ["en", "zh"]) {
+  for (const lang of ["en", "zh"] as const) {
     const state = initialState(results, lang);
     const graph = chart(results, state);
     const leaderboard = table(results, state);
@@ -90,8 +94,8 @@ Deno.test("model names use provider branding throughout the results UI", () => {
   }
 });
 
-Deno.test("incomplete runs and completed pilots cannot enter rankings", () => {
-  const state = {
+test("incomplete runs and completed pilots cannot enter rankings", () => {
+  const state: State = {
     ...initialState(results),
     efforts: "all",
     selected: results.configurations.map((c) => c.id),
@@ -103,12 +107,12 @@ Deno.test("incomplete runs and completed pilots cannot enter rankings", () => {
   }
 });
 
-Deno.test("sorting and category views use the recorded measurements", () => {
-  const state = { ...initialState(results), efforts: "all" };
+test("sorting and category views use the recorded measurements", () => {
+  const state: State = { ...initialState(results), efforts: "all" };
   const scoreOrder = ranked(results, state);
   assert(
     scoreOrder.every((c: Configuration, i: number) =>
-      i === 0 || c.score! <= scoreOrder[i - 1].score
+      i === 0 || c.score! <= scoreOrder[i - 1]!.score!
     ),
   );
   const costOrder = ranked(results, {
@@ -118,10 +122,10 @@ Deno.test("sorting and category views use the recorded measurements", () => {
   });
   assert(
     costOrder.every((c: Configuration, i: number) =>
-      i === 0 || (c.cost ?? Infinity) >= (costOrder[i - 1].cost ?? Infinity)
+      i === 0 || (c.cost ?? Infinity) >= (costOrder[i - 1]!.cost ?? Infinity)
     ),
   );
-  for (const category of ["handwritten", "digital"]) {
+  for (const category of ["handwritten", "digital"] as const) {
     const rows = ranked(results, { ...state, category });
     assert(rows.length >= 2);
     for (const row of rows) {
@@ -130,18 +134,19 @@ Deno.test("sorting and category views use the recorded measurements", () => {
   }
 });
 
-Deno.test("deselection gives an honest empty state and axes include every real point", () => {
+test("deselection gives an honest empty state and axes include every real point", () => {
   const state = initialState(results);
-  const empty = { ...state, selected: [] };
+  const empty: State = {
+    ...state,
+    selected: [],
+  };
   assert(ranked(results, empty).length === 0);
-  assert(chart(results, empty).includes("No configurations to plot"));
+  assert(chart(results, empty).includes("No runs to plot"));
   assert(
-    table(results, empty).includes("No completed configurations selected"),
+    table(results, empty).includes("No completed runs selected"),
   );
-  for (const metric of ["cost", "output_tokens", "agent_seconds"]) {
-    const values = ranked(results, state).map((c: Configuration) =>
-      c[metric as "cost" | "output_tokens" | "agent_seconds"]
-    );
+  for (const metric of ["cost", "output_tokens", "agent_seconds"] as const) {
+    const values = ranked(results, state).map((c: Configuration) => c[metric]!);
     const { unit, limit } = metrics[metric as keyof typeof metrics] as {
       unit?: number;
       limit?: number;
@@ -153,7 +158,7 @@ Deno.test("deselection gives an honest empty state and axes include every real p
       assert(axis.position(value) > 0 && axis.position(value) < 1);
     }
     // Equal multiplicative changes must occupy equal horizontal distances.
-    const first = values[0];
+    const first = values[0]!;
     assert(
       Math.abs(
         (axis.position(first * 2) - axis.position(first)) -
@@ -166,10 +171,10 @@ Deno.test("deselection gives an honest empty state and axes include every real p
   }
 });
 
-Deno.test("linear scale starts at zero and covers every real point", () => {
-  const state = { ...initialState(results), scale: "linear" };
+test("linear scale starts at zero and covers every real point", () => {
+  const state: State = { ...initialState(results), scale: "linear" };
   for (const metric of ["cost", "output_tokens", "agent_seconds"] as const) {
-    const values = ranked(results, state).map((c: Configuration) => c[metric]);
+    const values = ranked(results, state).map((c: Configuration) => c[metric]!);
     const { unit, limit } = metrics[metric as keyof typeof metrics] as {
       unit?: number;
       limit?: number;
@@ -186,21 +191,21 @@ Deno.test("linear scale starts at zero and covers every real point", () => {
   }
 });
 
-Deno.test("Pareto frontier keeps exactly the undominated configurations", () => {
+test("Pareto frontier keeps exactly the undominated configurations", () => {
   const state = initialState(results);
-  for (const category of ["overall", "handwritten", "digital"]) {
-    for (const metric of ["cost", "output_tokens", "agent_seconds"]) {
+  for (const category of ["overall", "handwritten", "digital"] as const) {
+    for (const metric of ["cost", "output_tokens", "agent_seconds"] as const) {
       const rows = ranked(results, { ...state, category });
       const frontier = paretoFrontier(rows, metric, category);
       const dominated = (c: Configuration) =>
         rows.some((o: Configuration) =>
           o !== c &&
-          metricValue(o, metric, category) <=
-            metricValue(c, metric, category) &&
-          scoreValue(o, category) >= scoreValue(c, category) &&
-          (metricValue(o, metric, category) <
-              metricValue(c, metric, category) ||
-            scoreValue(o, category) > scoreValue(c, category))
+          metricValue(o, metric, category)! <=
+            metricValue(c, metric, category)! &&
+          scoreValue(o, category)! >= scoreValue(c, category)! &&
+          (metricValue(o, metric, category)! <
+              metricValue(c, metric, category)! ||
+            scoreValue(o, category)! > scoreValue(c, category)!)
         );
       for (const c of rows) {
         assert(frontier.includes(c) === !dominated(c), `${c.id} ${metric}`);
@@ -246,7 +251,7 @@ function leaves(value: unknown): string[] {
   return [];
 }
 
-Deno.test("English and Chinese dictionaries have the same keys", () => {
+test("English and Chinese dictionaries have the same keys", () => {
   const en = shape(strings.en), zh = shape(strings.zh);
   assert(
     JSON.stringify(en) === JSON.stringify(zh),
@@ -257,7 +262,7 @@ Deno.test("English and Chinese dictionaries have the same keys", () => {
   );
 });
 
-Deno.test("Chinese chart and table contain no English interface text", () => {
+test("Chinese chart and table contain no English interface text", () => {
   const state = initialState(results, "zh");
   const html = [
     chart(results, { ...state, frontier: true }),
@@ -285,28 +290,28 @@ Deno.test("Chinese chart and table contain no English interface text", () => {
   assert(html.includes("分钟") && !html.includes(" min<"));
 });
 
-Deno.test("Chinese formatting uses Chinese units and effort names", () => {
+test("Chinese formatting uses Chinese units and effort names", () => {
   assert(duration(90, "zh") === "1.5 分钟" && duration(45, "zh") === "45 秒");
   assert(duration(90) === "1.5 min" && duration(45) === "45 s");
-  assert(effortName({ effort: null }, "zh") === "默认");
-  assert(effortName({ effort: "xhigh" }, "zh") === "xhigh");
+  assert(effortName({ model: "k3", effort: null }, "zh") === "默认");
+  assert(effortName({ model: "k3", effort: "xhigh" }, "zh") === "xhigh");
   assert(strings.zh.date("2026-10-05T01:00:00Z") === "2026年10月5日");
 });
 
-Deno.test("every recorded model belongs to a known provider", () => {
+test("every recorded model belongs to a known provider", () => {
   for (const c of results.configurations) {
     assert(provider(c) !== "other", `No provider for model ${c.model}`);
     assert(provider(c) in strings.en.providers);
   }
 });
 
-Deno.test("filters combine alternatives within a facet and facets together", () => {
+test("filters combine alternatives within a facet and facets together", () => {
   const state = initialState(results);
   const all = ranked(results, state);
-  const by = (filters: Record<string, string[]>) =>
+  const by = (filters: Partial<State["filters"]>) =>
     ranked(results, {
       ...state,
-      filters: { agent: [], provider: [], model: [], ...filters },
+      filters: { agent: [], provider: [], country: [], model: [], ...filters },
     });
   assert(by({}).length === all.length);
   const codex = by({ agent: ["codex"] });
@@ -331,9 +336,14 @@ Deno.test("filters combine alternatives within a facet and facets together", () 
   );
   assert(by({ provider: ["anthropic"], agent: ["codex"] }).length === 0);
   // The chart, table and "Best" view all show only filtered runs.
-  const filters = { agent: [], provider: [], model: ["gpt-6.1-sol"] };
-  for (const efforts of ["all", "best"]) {
-    const view = { ...state, efforts, filters };
+  const filters = {
+    agent: [],
+    provider: [],
+    country: [],
+    model: ["gpt-6.1-sol"],
+  };
+  for (const efforts of ["all", "best"] as const) {
+    const view: State = { ...state, efforts, filters };
     const html = chart(results, view) + table(results, view);
     for (const c of all) {
       assert(
@@ -345,7 +355,7 @@ Deno.test("filters combine alternatives within a facet and facets together", () 
   }
 });
 
-Deno.test("filter options come only from completed runs", () => {
+test("filter options come only from completed runs", () => {
   const state = initialState(results);
   const values = facetValues(results, state.cohort);
   const completed = ranked(results, state);
@@ -364,7 +374,7 @@ Deno.test("filter options come only from completed runs", () => {
   assert(values.provider.every((p: string) => p in strings.zh.providers));
 });
 
-Deno.test("developer country filters compose with harness and model filters", () => {
+test("developer country filters compose with harness and model filters", () => {
   const state = initialState(results);
   const all = ranked(results, state);
   const china = ranked(results, {
@@ -389,7 +399,7 @@ Deno.test("developer country filters compose with harness and model filters", ()
         country(c) === "cn" && c.agent === "pi"
       ),
   );
-  assert(country({ model: "deepseek-v4.1-flash", agent: "codex" }) === "cn");
+  assert(country({ model: "deepseek-v4.1-flash" }) === "cn");
   assert(country({ model: "unknown-model" }) === "other");
   assert(
     facetValues(results, state.cohort).country.every((c: string) =>
@@ -398,7 +408,7 @@ Deno.test("developer country filters compose with harness and model filters", ()
   );
 });
 
-Deno.test("leaderboard has decorative model and pi/OpenCode SVG marks", () => {
+test("leaderboard has decorative model and pi/OpenCode SVG marks", () => {
   const html = table(results, initialState(results));
   for (
     const brand of [
@@ -418,8 +428,8 @@ Deno.test("leaderboard has decorative model and pi/OpenCode SVG marks", () => {
   assert(!html.includes("<img"));
 });
 
-Deno.test("category metrics come from their own task records", async () => {
-  const { aggregate } = await import("../scripts/refresh.ts");
+test("category metrics come from their own task records", async () => {
+  const { aggregate } = await import("../scripts/refresh");
   const bundle = {
     schema_version: 1,
     benchmark: "tikz-bench",
@@ -498,12 +508,12 @@ Deno.test("category metrics come from their own task records", async () => {
   assert(aggregate(bundle).configurations[0].digital_cost === null);
 });
 
-Deno.test("taste view ranks saved taste ratings and uses handwritten metrics", () => {
-  const state = { ...initialState(results), category: "taste" };
+test("taste view ranks saved taste ratings and uses handwritten metrics", () => {
+  const state: State = { ...initialState(results), category: "taste" };
   const rows = ranked(results, state);
   assert(rows.length > 0);
   for (const c of rows) {
-    assert(scoreValue(c, "taste") === c.taste_score / 10);
+    assert(scoreValue(c, "taste") === c.taste_score! / 10);
     assert(metricValue(c, "cost", "taste") === c.handwritten_cost);
     assert(
       metricValue(c, "agent_seconds", "taste") === c.handwritten_agent_seconds,
@@ -511,18 +521,18 @@ Deno.test("taste view ranks saved taste ratings and uses handwritten metrics", (
   }
   assert(
     rows.every((c: Configuration, i: number) =>
-      !i || Number(rows[i - 1].taste_score) >= Number(c.taste_score)
+      !i || Number(rows[i - 1]!.taste_score) >= Number(c.taste_score)
     ),
   );
   assert(
-    table(results, state).includes(`${rows[0].taste_score.toFixed(1)}/10`),
+    table(results, state).includes(`${rows[0]!.taste_score!.toFixed(1)}/10`),
   );
   assert(chart(results, state).includes("Hand-drawn taste (out of 10)"));
-  const missing = { ...rows[0], taste_score: null };
+  const missing = { ...rows[0]!, taste_score: null };
   assert(scoreValue(missing, "taste") === null);
 });
 
-Deno.test("each lab has one chart colour and every series a direct label", () => {
+test("each lab has one chart colour and every series a direct label", () => {
   for (const c of results.configurations) {
     assert(color(c) === `var(--lab-${provider(c)})`);
   }
@@ -538,14 +548,14 @@ Deno.test("each lab has one chart colour and every series a direct label", () =>
   assert(html.split('class="series-label"').length - 1 === series.size);
 });
 
-Deno.test("chart omits effort labels but keeps them in point tooltips", () => {
+test("chart omits effort labels but keeps them in point tooltips", () => {
   const html = chart(results, initialState(results));
   assert(!html.includes('class="effort"'));
-  assert(html.includes("[xhigh]"));
+  assert(html.includes("(xhigh)"));
   assert(html.includes('class="point"'));
 });
 
-Deno.test("hovering a point shows its values on both axes and in a card", () => {
+test("hovering a point shows its values on both axes and in a card", () => {
   const state = initialState(results);
   const html = chart(results, state);
   const points = html.split('class="point').length - 1;
@@ -554,6 +564,7 @@ Deno.test("hovering a point shows its values on both axes and in a card", () => 
   const c = ranked(results, state)[0];
   const card = tooltip(c, state);
   assert(card.includes(modelName(c.model)) && card.includes(c.agent));
+  assert(card.includes(`${effortName(c)}, ${c.agent}</div>`));
   assert(card.includes(formatScore(scoreValue(c, "overall"), "overall")));
   assert(card.includes(money(metricValue(c, "cost"))));
   // The two plotted values, score and the chart's metric, are emphasized.
@@ -561,7 +572,7 @@ Deno.test("hovering a point shows its values on both axes and in a card", () => 
   assert(!tooltip(c, { ...state, lang: "zh" }).includes("Click"));
 });
 
-Deno.test("MiMo uses the same enabled-reasoning label across harnesses", () => {
+test("MiMo uses the same enabled-reasoning label across harnesses", () => {
   const runs = results.configurations.filter((c) =>
     c.model === "mimo-v2.6-pro"
   );
@@ -572,10 +583,10 @@ Deno.test("MiMo uses the same enabled-reasoning label across harnesses", () => {
   }
 });
 
-Deno.test("agent time axes end at the one-hour generation limit", () => {
+test("agent time axes end at the one-hour generation limit", () => {
   const state = initialState(results);
   const values = ranked(results, state).map((c: Configuration) =>
-    c.agent_seconds
+    c.agent_seconds!
   );
   for (
     const axis of [logAxis(values, 60, 3600), linearAxis(values, 60, 3600)]
@@ -585,7 +596,7 @@ Deno.test("agent time axes end at the one-hour generation limit", () => {
   }
   // A configuration whose every task timed out sits on the limit line.
   assert(logAxis([60, 3600], 60, 3600).position(3600) === 1);
-  for (const scale of ["log", "linear"]) {
+  for (const scale of ["log", "linear"] as const) {
     const svg = chart(results, { ...state, metric: "agent_seconds", scale });
     assert(svg.includes('class="limit"'));
     assert(svg.includes("60 min limit: unfinished tasks score 0"));
@@ -593,7 +604,7 @@ Deno.test("agent time axes end at the one-hour generation limit", () => {
   assert(!chart(results, state).includes('class="limit"'));
 });
 
-Deno.test("Argon reasoning levels share one model series", () => {
+test("Argon reasoning levels share one model series", () => {
   const rows = results.configurations.filter((c) =>
     c.run === "agy-gemini4-argon-high-20261014" ||
     c.run === "agy-gemini4-argon-medium-20261015"

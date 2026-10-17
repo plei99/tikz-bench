@@ -1,0 +1,26 @@
+{
+  "name": "tikz-bench-website",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "rm -rf dist && bun build --app && bun scripts/finish.ts",
+    "dev": "bun scripts/serve.ts",
+    "refresh": "bun scripts/refresh.ts",
+    "verify": "bun scripts/verify.ts",
+    "check": "dprint check && oxlint && bun check && bun check -p client",
+    "test": "bun test tests/"
+  },
+  "dependencies": {
+    "react": "0.0.0-experimental-b618bbb4-20261007",
+    "react-dom": "0.0.0-experimental-b618bbb4-20261007",
+    "react-refresh": "0.0.0-experimental-b618bbb4-20261007",
+    "react-server-dom-bun": "0.0.0-experimental-603e6108-20241029"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.4.3",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "dprint": "^0.63.0",
+    "oxlint": "^1.87.0"
+  }
+}

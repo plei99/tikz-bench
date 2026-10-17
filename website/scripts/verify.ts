@@ -1,10 +1,10 @@
-import { validateSnapshot } from "./validate.ts";
-import { initialState, ranked } from "../src/lib/model.js";
+// Checks the built site in dist/: only the expected public files, every
+// initial run on both pages, and local links that resolve.
+import { validateSnapshot } from "./validate";
+import { initialState, ranked, type Snapshot } from "../lib/model";
 
-const root = new URL("../_site/", import.meta.url);
-const data = JSON.parse(
-  await Deno.readTextFile(new URL("data/results.json", root)),
-);
+const root = `${import.meta.dir}/../dist/`;
+const data: Snapshot = await Bun.file(`${root}data/results.json`).json();
 validateSnapshot(data);
 // One page per language; every check below runs on each.
 const pages = ["index.html", "zh/index.html"];
@@ -12,30 +12,22 @@ const state = initialState(data);
 const allowed = new Set([
   ...pages,
   "styles.css",
-  "app.js",
   "favicon.svg",
   ".nojekyll",
-  "lib/model.js",
-  "lib/render.js",
-  "lib/i18n.js",
-  "lib/logos.js",
+  "js/app.js",
   "data/results.json",
 ]);
-async function walk(dir: URL, prefix = "") {
-  for await (const entry of Deno.readDir(dir)) {
-    const name = prefix + entry.name;
-    if (entry.isDirectory) {
-      await walk(new URL(entry.name + "/", dir), name + "/");
-    } else if (!allowed.has(name)) {
-      throw new Error(`Unexpected published file: ${name}`);
-    }
+for (const name of new Bun.Glob("**").scanSync({ cwd: root, dot: true })) {
+  if (!allowed.has(name)) throw new Error(`Unexpected published file: ${name}`);
+}
+for (const name of allowed) {
+  if (!(await Bun.file(root + name).exists())) {
+    throw new Error(`Missing published file: ${name}`);
   }
 }
-await walk(root);
-for (const name of allowed) await Deno.stat(new URL(name, root));
 function checkLink(link: string) {
   // Cache-busting versions (?v=...) do not change which file is served.
-  const url = link.split("?")[0];
+  const url = link.split("?")[0]!;
   if (/^https?:|^#/.test(url)) return;
   if (!url.startsWith("/")) {
     throw new Error(`Unexpected relative asset URL: ${url}`);
@@ -49,29 +41,20 @@ function checkLink(link: string) {
   }
 }
 for (const page of pages) {
-  const html = await Deno.readTextFile(new URL(page, root));
+  const html = await Bun.file(root + page).text();
   for (const row of ranked(data, state)) {
     if (!html.includes(`data-config="${row.id}"`)) {
       throw new Error(`Run missing from ${page}: ${row.id}`);
     }
   }
   for (const match of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
-    checkLink(match[1]);
-  }
-  const importMap = html.match(/<script type="importmap">([^<]*)<\/script>/);
-  for (
-    const [from, to] of Object.entries(
-      JSON.parse(importMap?.[1] ?? '{"imports":{}}').imports as Record<
-        string,
-        string
-      >,
-    )
-  ) {
-    checkLink(from);
-    checkLink(to);
+    checkLink(match[1]!);
   }
   if (!html.includes('id="benchmark-data"') || !html.includes('id="chart"')) {
     throw new Error(`Missing static results in ${page}`);
+  }
+  if (/__REV__|__bun_f|\.rsc"/.test(html)) {
+    throw new Error(`Unfinished Bake output in ${page}`);
   }
 }
 console.log(
