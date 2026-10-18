@@ -71,6 +71,28 @@ test("real Sol xhigh and both Astra efforts are in the first chart and table", (
   }
 });
 
+test("pi DeepSeek, pi GLM and OpenCode MiMo runs start hidden", () => {
+  const state = initialState(results);
+  const hidden = results.configurations.filter((c) =>
+    c.complete && !c.pilot &&
+    ((c.agent === "pi" &&
+      ["deepseek-v4.1-flash", "glm-5.3-flash"].includes(c.model)) ||
+      (c.agent === "opencode" && c.model === "mimo-v2.6-pro"))
+  );
+  assert(hidden.length === 7);
+  const rows = ranked(results, state);
+  for (const c of hidden) {
+    assert(!state.selected.includes(c.id));
+    assert(!rows.includes(c));
+    assert(!chart(results, state).includes(`data-config="${c.id}"`));
+  }
+  // The same models under other harnesses stay visible.
+  assert(
+    rows.some((c) => c.agent === "opencode" && c.model === "glm-5.3-flash"),
+  );
+  assert(rows.some((c) => c.agent === "pi" && c.model === "mimo-v2.6-pro"));
+});
+
 test("model names use provider branding throughout the results UI", () => {
   for (const c of results.configurations) {
     assert(modelName(c.model) !== c.model, `Missing display name: ${c.model}`);
