@@ -19,6 +19,7 @@ import {
   provider,
   ranked,
   scoreValue,
+  setupKey,
   type Snapshot,
   type State,
 } from "../lib/model";
@@ -82,7 +83,7 @@ test("pi DeepSeek, pi GLM and OpenCode MiMo runs start hidden", () => {
   assert(hidden.length === 7);
   const rows = ranked(results, state);
   for (const c of hidden) {
-    assert(!state.selected.includes(c.id));
+    assert(!state.selected.includes(setupKey(c)));
     assert(!rows.includes(c));
     assert(!chart(results, state).includes(`data-config="${c.id}"`));
   }
@@ -91,6 +92,53 @@ test("pi DeepSeek, pi GLM and OpenCode MiMo runs start hidden", () => {
     rows.some((c) => c.agent === "opencode" && c.model === "glm-5.3-flash"),
   );
   assert(rows.some((c) => c.agent === "pi" && c.model === "mimo-v2.6-pro"));
+});
+
+test("selection shows or hides every effort of a model+harness setup", () => {
+  const state = initialState(results);
+  const sol = results.configurations.filter((c) =>
+    c.complete && c.model === "gpt-6.1-sol" && c.agent === "codex"
+  );
+  assert(sol.length > 1);
+  assert(state.selected.includes("gpt-6.1-sol/codex"));
+  assert(sol.every((c) => ranked(results, state).includes(c)));
+  const hidden = {
+    ...state,
+    selected: state.selected.filter((key) => key !== "gpt-6.1-sol/codex"),
+  };
+  assert(!ranked(results, hidden).some((c) => sol.includes(c)));
+});
+
+test("only the newest snapshot of a model starts shown", () => {
+  const base = results.configurations.find((c) =>
+    c.complete && !c.pilot && c.model === "deepseek-v4.1-flash" &&
+    c.agent === "opencode"
+  )!;
+  const data: Snapshot = {
+    ...results,
+    configurations: [
+      ...results.configurations,
+      { ...base, id: "new/low", model: "deepseek-v4.1-flash-1017" },
+      // Unfinished, so it cannot supersede 1017.
+      {
+        ...base,
+        id: "pending/low",
+        model: "deepseek-v4.1-flash-1231",
+        complete: false,
+      },
+    ],
+  };
+  const state = initialState(data);
+  assert(state.selected.includes("deepseek-v4.1-flash-1017/opencode"));
+  assert(!state.selected.includes("deepseek-v4.1-flash/opencode"));
+  assert(!state.selected.includes("deepseek-v4.1-flash/pi"));
+  assert(!ranked(data, state).some((c) => c.model === "deepseek-v4.1-flash"));
+  // Other models are unaffected.
+  assert(state.selected.includes("glm-5.3-flash/opencode"));
+  // Without a newer snapshot, the undated release stays shown.
+  assert(
+    initialState(results).selected.includes("deepseek-v4.1-flash/opencode"),
+  );
 });
 
 test("model names use provider branding throughout the results UI", () => {

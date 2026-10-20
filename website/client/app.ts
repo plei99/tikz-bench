@@ -1,5 +1,5 @@
 import {
-  configName,
+  type Configuration,
   duration,
   effortName,
   escape,
@@ -12,6 +12,8 @@ import {
   money,
   percent,
   scoreValue,
+  setupKey,
+  setupName,
   type Snapshot,
   type State,
   tokens,
@@ -32,15 +34,19 @@ const available = () =>
   data.configurations.filter((c) =>
     c.complete && !c.pilot && c.cohort_id === state.cohort
   );
-// Runs the filter dialog lists: those matching its facets and search text.
+// One run per model+harness setup, standing for all of its efforts.
+const setups = (configs: Configuration[]) => [
+  ...new Map(configs.map((c) => [setupKey(c), c])).values(),
+];
+// Setups the filter dialog lists: those matching its facets and search text.
 const listed = () => {
   const query = $<HTMLInputElement>("#config-search").value.toLowerCase()
     .trim();
-  return available().filter((c) =>
-    matchesFilters(c, state.filters) &&
-    (configName(c, lang).toLowerCase().includes(query) ||
-      c.model.toLowerCase().includes(query))
-  );
+  return setups(available().filter((c) => matchesFilters(c, state.filters)))
+    .filter((c) =>
+      setupName(c).toLowerCase().includes(query) ||
+      c.model.toLowerCase().includes(query)
+    );
 };
 
 const groups = ["metric", "category", "efforts", "scale"] as const;
@@ -49,12 +55,12 @@ function render() {
   hideTip();
   $("#chart").innerHTML = chart(data, state);
   $("#leaderboard-body").innerHTML = table(data, state);
-  const configs = available();
+  const all = setups(available());
   $("#config-count").textContent = `(${
-    configs.filter((c) =>
-      state.selected.includes(c.id) && matchesFilters(c, state.filters)
+    all.filter((c) =>
+      state.selected.includes(setupKey(c)) && matchesFilters(c, state.filters)
     ).length
-  }/${configs.length})`;
+  }/${all.length})`;
   $("[data-frontier]").setAttribute("aria-pressed", String(state.frontier));
   for (
     const button of document.querySelectorAll<HTMLElement>("[data-filter]")
@@ -98,9 +104,9 @@ function renderPicker() {
   const rows = listed();
   $("#config-options").innerHTML =
     rows.map((c) =>
-      `<label><input type="checkbox" value="${escape(c.id)}" ${
-        state.selected.includes(c.id) ? "checked" : ""
-      }> ${escape(configName(c, lang))}</label>`
+      `<label><input type="checkbox" value="${escape(setupKey(c))}" ${
+        state.selected.includes(setupKey(c)) ? "checked" : ""
+      }> ${escape(setupName(c))}</label>`
     ).join("") || `<p>${t.noRunsMatch}</p>`;
 }
 
@@ -258,20 +264,20 @@ $("#config-picker").addEventListener("click", () => {
 $("#config-search").addEventListener("input", renderPicker);
 $("#config-options").addEventListener("change", (event) => {
   const checkbox = event.target as HTMLInputElement;
-  state.selected = state.selected.filter((id) => id !== checkbox.value);
+  state.selected = state.selected.filter((key) => key !== checkbox.value);
   if (checkbox.checked) state.selected.push(checkbox.value);
   render();
 });
 $("#select-all").addEventListener("click", () => {
   state.selected = [
-    ...new Set([...state.selected, ...listed().map((c) => c.id)]),
+    ...new Set([...state.selected, ...listed().map(setupKey)]),
   ];
   renderPicker();
   render();
 });
 $("#select-none").addEventListener("click", () => {
-  const ids = listed().map((c) => c.id);
-  state.selected = state.selected.filter((id) => !ids.includes(id));
+  const keys = listed().map(setupKey);
+  state.selected = state.selected.filter((key) => !keys.includes(key));
   renderPicker();
   render();
 });

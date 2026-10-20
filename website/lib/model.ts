@@ -64,6 +64,7 @@ export type State = {
   filters: Record<Facet, string[]>;
   sort: "score" | Metric;
   ascending: boolean;
+  /** Shown model+harness setups (setupKey), each with every effort. */
   selected: string[];
 };
 
@@ -144,6 +145,8 @@ const modelNames: Record<string, string> = {
   "gpt-6.1-sol": "GPT-6.1 Sol",
   // https://www.deepseek.com/en/news/deepseek-v4-1-flash/
   "deepseek-v4.1-flash": "DeepSeek-V4.1-Flash",
+  // OpenRouter's dated snapshot deepseek/deepseek-v4.1-flash-1017.
+  "deepseek-v4.1-flash-1017": "DeepSeek-V4.1-Flash-1017",
   // https://ai.google.dev/gemini-api/docs/models/gemini-4-argon
   "gemini-4-argon": "Gemini 4 Argon",
   // https://autoclaw.z.ai/blog/model/glm-5.3-flash/
@@ -156,6 +159,13 @@ const modelNames: Record<string, string> = {
 export const modelName = (model: string) => modelNames[model] ?? model;
 export const configName = (c: Configuration, lang: Lang = "en") =>
   `${modelName(c.model)} (${effortName(c, lang)}), ${c.agent}`;
+
+// A model under one harness, across its reasoning efforts. The run selection
+// dialog shows and hides these as a whole.
+export const setupKey = (c: Pick<Configuration, "model" | "agent">) =>
+  `${c.model}/${c.agent}`;
+export const setupName = (c: Pick<Configuration, "model" | "agent">) =>
+  `${modelName(c.model)}, ${c.agent}`;
 
 // Every model from one lab shares the lab's colour (--lab-* in styles.css);
 // the chart's direct labels tell its series apart.
@@ -244,17 +254,29 @@ export function facetValues(data: Snapshot, cohort: string | undefined) {
   ) as Record<Facet, string[]>;
 }
 
-// Runs left out of the default selection. They stay listed in the run
+// Setups left out of the default selection. They stay listed in the run
 // selection dialog, where a reader can turn them back on.
 const hiddenByDefault: [agent: string, model: string][] = [
   ["pi", "deepseek-v4.1-flash"],
   ["pi", "glm-5.3-flash"],
   ["opencode", "mimo-v2.6-pro"],
 ];
-export const shownByDefault = (config: Configuration) =>
-  !hiddenByDefault.some(([agent, model]) =>
+// A dated snapshot ends in -MMDD (deepseek-v4.1-flash-1017); the undated ID is
+// the first release. Older snapshots of a model also start hidden.
+const snapshot = (model: string) => {
+  const [, base, date = ""] = model.match(/^(.*?)(?:-(\d{4}))?$/)!;
+  return { base: base!, date };
+};
+export function shownByDefault(config: Configuration, data: Snapshot) {
+  const { base, date } = snapshot(config.model);
+  return !hiddenByDefault.some(([agent, model]) =>
     config.agent === agent && config.model === model
-  );
+  ) &&
+    !data.configurations.some((c) =>
+      c.complete && !c.pilot && snapshot(c.model).base === base &&
+      snapshot(c.model).date > date
+    );
+}
 
 export function initialState(data: Snapshot, lang: Lang = "en"): State {
   const cohort =
@@ -275,8 +297,12 @@ export function initialState(data: Snapshot, lang: Lang = "en"): State {
     filters: { agent: [], provider: [], country: [], model: [] },
     sort: "score",
     ascending: false,
-    selected: data.configurations.filter((c) => c.complete && shownByDefault(c))
-      .map((c) => c.id),
+    selected: [
+      ...new Set(
+        data.configurations.filter((c) => c.complete && shownByDefault(c, data))
+          .map(setupKey),
+      ),
+    ],
   };
 }
 
@@ -292,14 +318,14 @@ export function scoreValue(config: Configuration, category: Category) {
 export function ranked(data: Snapshot, state: State) {
   let rows = data.configurations.filter((c) =>
     c.complete && !c.pilot &&
-    c.cohort_id === state.cohort && state.selected.includes(c.id) &&
+    c.cohort_id === state.cohort && state.selected.includes(setupKey(c)) &&
     matchesFilters(c, state.filters) &&
     scoreValue(c, state.category) !== null
   );
   if (state.efforts === "best") {
     const best = new Map<string, Configuration>();
     for (const c of rows) {
-      const key = `${c.model}/${c.agent}`;
+      const key = setupKey(c);
       const old = best.get(key);
       const score = scoreValue(c, state.category)!;
       if (
