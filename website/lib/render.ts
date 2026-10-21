@@ -86,6 +86,7 @@ function crosshair(c: Configuration, [px, py]: Point, state: State) {
       metricValue(c, state.metric, state.category),
       state.metric,
       state.lang,
+      c.cost_sources.includes("lower_bound"),
     ),
   );
   // The metric's label sits right of its guide unless that runs off the plot.
@@ -113,7 +114,14 @@ export function tooltip(c: Configuration, state: State) {
       ["agent_seconds", t.agentTimePerTask],
     ] as const).map(([m, label]): [string, string, boolean] => [
       label,
-      escape(formatMetric(metricValue(c, m, state.category), m, state.lang)),
+      escape(
+        formatMetric(
+          metricValue(c, m, state.category),
+          m,
+          state.lang,
+          c.cost_sources.includes("lower_bound"),
+        ),
+      ),
       m === state.metric,
     ]),
   ];
@@ -217,6 +225,7 @@ export function chart(data: Snapshot, state: State) {
             metricValue(c, state.metric, state.category),
             state.metric,
             state.lang,
+            c.cost_sources.includes("lower_bound"),
           ),
         )
       }`;
@@ -297,7 +306,10 @@ export function table(data: Snapshot, state: State) {
       }%"></span></span></td>
     <td class="num score">${formatScore(score, state.category)}</td>
     <td class="num">${
-        money(metricValue(c, "cost", state.category))
+        money(
+          metricValue(c, "cost", state.category),
+          c.cost_sources.includes("lower_bound"),
+        )
       }</td><td class="num">${
         tokens(metricValue(c, "output_tokens", state.category))
       }</td><td class="num">${

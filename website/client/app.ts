@@ -137,7 +137,13 @@ function detail(id: string) {
         t.digitalCount(cohort.digital),
         t.exact(percent(c.digital_score), c.digital_perfect ?? "—"),
       ],
-      [t.costPerTask, money(metricValue(c, "cost", state.category))],
+      [
+        t.costPerTask,
+        money(
+          metricValue(c, "cost", state.category),
+          c.cost_sources.includes("lower_bound"),
+        ),
+      ],
       [
         t.tokensPerTask,
         tokens(metricValue(c, "output_tokens", state.category)),

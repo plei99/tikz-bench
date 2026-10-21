@@ -117,7 +117,9 @@ test("only the newest snapshot of a model starts shown", () => {
   const data: Snapshot = {
     ...results,
     configurations: [
-      ...results.configurations,
+      ...results.configurations.filter((c) =>
+        !c.model.startsWith("deepseek-v4.1-flash-")
+      ),
       { ...base, id: "new/low", model: "deepseek-v4.1-flash-1017" },
       // Unfinished, so it cannot supersede 1017.
       {
@@ -137,8 +139,38 @@ test("only the newest snapshot of a model starts shown", () => {
   assert(state.selected.includes("glm-5.3-flash/opencode"));
   // Without a newer snapshot, the undated release stays shown.
   assert(
-    initialState(results).selected.includes("deepseek-v4.1-flash/opencode"),
+    initialState({ ...results, configurations: [base] }).selected.includes(
+      "deepseek-v4.1-flash/opencode",
+    ),
   );
+});
+
+test("latest DeepSeek efforts and only OpenCode Mistral start shown; hidden runs can be enabled", () => {
+  const state = initialState(results);
+  const rows = ranked(results, state);
+  const deepseek = rows.filter((c) => c.model.startsWith("deepseek"));
+  assert(deepseek.length === 3);
+  assert(deepseek.every((c) => c.model === "deepseek-v4.1-flash-1017"));
+  const mistral = results.configurations.filter((c) =>
+    c.model === "mistral-large-4-0"
+  );
+  assert(mistral.length === 2);
+  assert(rows.filter((c) => mistral.includes(c)).length === 1);
+  assert(
+    rows.some((c) => c.model === "mistral-large-4-0" && c.agent === "opencode"),
+  );
+  const pi = mistral.find((c) => c.agent === "pi")!;
+  assert(!table(results, state).includes(`data-config="${pi.id}"`));
+  assert(
+    table(results, { ...state, selected: [...state.selected, setupKey(pi)] })
+      .includes(`data-config="${pi.id}"`),
+  );
+  for (const c of mistral) {
+    const selected = { ...state, selected: [setupKey(c)] };
+    assert(table(results, selected).includes(`≥$${c.cost!.toFixed(2)}`));
+    assert(tooltip(c, selected).includes(`≥$${c.cost!.toFixed(2)}`));
+    assert(country(c) === "fr");
+  }
 });
 
 test("model names use provider branding throughout the results UI", () => {
@@ -428,7 +460,10 @@ test("filters combine alternatives within a facet and facets together", () => {
 test("filter options come only from completed runs", () => {
   const state = initialState(results);
   const values = facetValues(results, state.cohort);
-  const completed = ranked(results, state);
+  const completed = ranked(results, {
+    ...state,
+    selected: results.configurations.map(setupKey),
+  });
   assert(
     JSON.stringify(values.agent) ===
       JSON.stringify(
@@ -458,7 +493,12 @@ test("developer country filters compose with harness and model filters", () => {
   assert(china.length > 0 && us.length > 0);
   assert(china.every((c: Configuration) => country(c) === "cn"));
   assert(us.every((c: Configuration) => country(c) === "us"));
-  assert(china.length + us.length === all.length);
+  const france = ranked(results, {
+    ...state,
+    filters: { ...state.filters, country: ["fr"] },
+  });
+  assert(france.length > 0 && france.every((c) => country(c) === "fr"));
+  assert(china.length + us.length + france.length === all.length);
   const piChina = ranked(results, {
     ...state,
     filters: { ...state.filters, country: ["cn"], agent: ["pi"] },

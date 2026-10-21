@@ -92,7 +92,8 @@ export const escape = (value: unknown) =>
   String(value ?? "").replace(/[&<>"']/g, (c) => entities[c]!);
 export const percent = (n: number | null) =>
   n == null ? "—" : `${(n * 100).toFixed(1)}%`;
-export const money = (n: number | null) => n == null ? "—" : `$${n.toFixed(2)}`;
+export const money = (n: number | null, lowerBound = false) =>
+  n == null ? "—" : `${lowerBound ? "≥" : ""}$${n.toFixed(2)}`;
 export const tokens = (n: number | null) =>
   n == null ? "—" : n >= 1000 ? `${(n / 1000).toFixed(1)}k` : String(n);
 export const duration = (n: number | null, lang: Lang = "en") =>
@@ -119,9 +120,10 @@ export const formatMetric = (
   n: number | null,
   metric: Metric,
   lang: Lang = "en",
+  lowerBound = false,
 ) =>
   metric === "cost"
-    ? money(n)
+    ? money(n, lowerBound)
     : metric === "output_tokens"
     ? tokens(n)
     : duration(n, lang);
@@ -147,6 +149,7 @@ const modelNames: Record<string, string> = {
   "deepseek-v4.1-flash": "DeepSeek-V4.1-Flash",
   // OpenRouter's dated snapshot deepseek/deepseek-v4.1-flash-1017.
   "deepseek-v4.1-flash-1017": "DeepSeek-V4.1-Flash-1017",
+  "mistral-large-4-0": "Mistral Large 4",
   // https://ai.google.dev/gemini-api/docs/models/gemini-4-argon
   "gemini-4-argon": "Gemini 4 Argon",
   // https://autoclaw.z.ai/blog/model/glm-5.3-flash/
@@ -195,6 +198,7 @@ export type Provider =
   | "google"
   | "deepseek"
   | "alibaba"
+  | "mistral"
   | "other";
 const providers: [RegExp, Provider][] = [
   [/^(gpt|o\d)/, "openai"],
@@ -206,12 +210,13 @@ const providers: [RegExp, Provider][] = [
   [/^gemini/, "google"],
   [/^deepseek/, "deepseek"],
   [/^qwen/, "alibaba"],
+  [/^mistral/, "mistral"],
 ];
 export const provider = (config: Pick<Configuration, "model">): Provider =>
   providers.find(([pattern]) => pattern.test(config.model))?.[1] ?? "other";
 
 // Country of the model developer, independent of the serving provider or CLI.
-export type Country = "us" | "cn" | "other";
+export type Country = "us" | "cn" | "fr" | "other";
 const developerCountries: Partial<Record<Provider, Country>> = {
   openai: "us",
   anthropic: "us",
@@ -222,6 +227,7 @@ const developerCountries: Partial<Record<Provider, Country>> = {
   xiaomi: "cn",
   deepseek: "cn",
   alibaba: "cn",
+  mistral: "fr",
 };
 export const country = (config: Pick<Configuration, "model">): Country =>
   developerCountries[provider(config)] ?? "other";
@@ -260,6 +266,7 @@ const hiddenByDefault: [agent: string, model: string][] = [
   ["pi", "deepseek-v4.1-flash"],
   ["pi", "glm-5.3-flash"],
   ["opencode", "mimo-v2.6-pro"],
+  ["pi", "mistral-large-4-0"],
 ];
 // A dated snapshot ends in -MMDD (deepseek-v4.1-flash-1017); the undated ID is
 // the first release. Older snapshots of a model also start hidden.

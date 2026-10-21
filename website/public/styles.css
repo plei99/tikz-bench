@@ -16,6 +16,7 @@
   --lab-zai: #8e7318;
   --lab-xiaomi: #b85212;
   --lab-alibaba: #6d55bd;
+  --lab-mistral: #ac4d20;
   --lab-other: #7a6a60;
   /* Chinese text falls through the Latin faces to the platform's CJK font. */
   --sans:
@@ -49,6 +50,7 @@
   --lab-zai: #ecd36e;
   --lab-xiaomi: #ff8b45;
   --lab-alibaba: #9b94ee;
+  --lab-mistral: #ffad70;
   --lab-other: #a8978b;
 }
 
