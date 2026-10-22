@@ -8,6 +8,8 @@
 // - public/ and the snapshot are copied, client/app.ts is bundled into
 //   js/app.js, and asset URLs get a hash of the published assets.
 import { cp, rm } from "node:fs/promises";
+import { url } from "../lib/site";
+import { scriptHash, securePage } from "../lib/security";
 
 const OUT = "dist";
 
@@ -23,6 +25,9 @@ if (!app.success) {
   throw new AggregateError(app.logs, "Bundling client/app.ts failed");
 }
 await Bun.write(`${OUT}/js/app.js`, app.outputs[0]!);
+const scripts = new Map([
+  [url("/js/app.js"), scriptHash(await app.outputs[0]!.text())],
+]);
 
 const hash = new Bun.CryptoHasher("sha256");
 for (const file of ["styles.css", "js/app.js", "data/results.json"]) {
@@ -61,7 +66,10 @@ function finishPage(html: string) {
 let pages = 0;
 for (const file of new Bun.Glob("**/index.html").scanSync(OUT)) {
   const path = `${OUT}/${file}`;
-  await Bun.write(path, finishPage(await Bun.file(path).text()));
+  await Bun.write(
+    path,
+    securePage(finishPage(await Bun.file(path).text()), scripts),
+  );
   pages++;
 }
 for (const file of new Bun.Glob("**/*.rsc").scanSync(OUT)) {

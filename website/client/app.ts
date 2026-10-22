@@ -20,12 +20,15 @@ import {
 } from "../lib/model";
 import { chart, table, tooltip } from "../lib/render";
 import { type Lang, text } from "../lib/i18n";
+import { validateSnapshot } from "../scripts/validate";
 
 // The leaderboard's controls. The page arrives fully rendered; this re-renders
 // the chart and table from the embedded snapshot whenever a control changes.
 const lang: Lang = document.documentElement.lang.startsWith("zh") ? "zh" : "en";
 const t = text(lang);
-const data: Snapshot = JSON.parse($("#benchmark-data").textContent!);
+const snapshot: unknown = JSON.parse($("#benchmark-data").textContent!);
+validateSnapshot(snapshot);
+const data = snapshot as Snapshot;
 const state = initialState(data, lang);
 function $<E extends Element = HTMLElement>(selector: string) {
   return document.querySelector<E>(selector)!;

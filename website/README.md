@@ -49,6 +49,7 @@ lib/
   logos.ts          Model and harness marks (sources in LOGOS.md)
   site.ts           Validated snapshot, base-path URLs, README sections
   inline.ts         Builds client/inline/*.ts into the scripts inlined in <head>
+  security.ts       Hash-based script policy and integrity-checked module loader
 client/
   app.ts            Controls: re-renders chart and table, filters, dialogs, theme
   inline/           Head scripts: theme before first paint, language detection
@@ -70,6 +71,20 @@ details, and a saved light/dark theme. Unfinished runs and pilots are not shown.
 The leaderboard shows SVG model/company marks and pi/OpenCode harness marks.
 Asset sources and licenses are recorded in `LOGOS.md`. Country identifies the
 model developer, independently of the serving provider or harness.
+
+## Browser security
+
+Every generated page starts with a hash-based Content Security Policy. Hashed
+loaders start only the compiled app module, with Subresource Integrity. Injected
+scripts, inline event handlers, `javascript:` URLs, `eval`, embedded documents,
+form submissions and external resource requests are blocked. The chart's inline
+style attributes remain allowed; inline style blocks are blocked.
+
+The embedded results stay a JSON data block, and the browser validates the same
+public schema as the build before rendering them. Labels are escaped when used
+in HTML. Regression tests run through `bun run test`. The Pages artifact still
+contains only the allowlisted public files; no private benchmark data is needed
+for these checks.
 
 ## Refreshing real results
 

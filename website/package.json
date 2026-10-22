@@ -7,7 +7,7 @@
     "dev": "bun scripts/serve.ts",
     "refresh": "bun scripts/refresh.ts",
     "verify": "bun scripts/verify.ts",
-    "check": "dprint check && oxlint && bun check && bun check -p client",
+    "check": "dprint check && oxlint && bun --check && bun --cwd client --check",
     "test": "bun test tests/"
   },
   "dependencies": {
