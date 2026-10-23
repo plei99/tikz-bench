@@ -264,6 +264,7 @@ export function facetValues(data: Snapshot, cohort: string | undefined) {
 // selection dialog, where a reader can turn them back on.
 const hiddenByDefault: [agent: string, model: string][] = [
   ["pi", "deepseek-v4.1-flash"],
+  ["pi", "deepseek-v4.1-flash-1017"],
   ["pi", "glm-5.3-flash"],
   ["opencode", "mimo-v2.6-pro"],
   ["pi", "mistral-large-4-0"],
