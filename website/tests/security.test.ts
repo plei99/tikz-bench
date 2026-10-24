@@ -12,6 +12,7 @@ test("the policy authorizes exact inline bytes and pins entry script integrity",
   const html = securePage(
     `<html><head><script>${code}</script><script type="module" src="/tikz-bench/js/app.js?v=1"></script></head><body></body></html>`,
     new Map([["/tikz-bench/js/app.js", entryHash]]),
+    new Set([code]),
   );
   let policy = "";
   const inlineScripts: string[] = [];
@@ -85,9 +86,27 @@ test("the build refuses script entries outside the compiled client scripts", () 
       securePage(
         `<html><head><script type="module" src="${src}"></script></head></html>`,
         new Map(),
+        new Set(),
       )
     ).toThrow();
   }
+});
+
+test("the build refuses inline scripts it did not inline itself", () => {
+  const theme = 'document.documentElement.dataset.theme = "dark";';
+  const page = (body: string) =>
+    `<html><head><script>${theme}</script></head><body>${body}</body></html>`;
+  expect(() => securePage(page(""), new Map(), new Set([theme]))).not
+    .toThrow();
+  // Markup that reaches the page at build time, such as raw HTML in the
+  // README, must fail the build rather than have its script hashed.
+  expect(() =>
+    securePage(
+      page("<p><script>alert(document.domain)</script></p>"),
+      new Map(),
+      new Set([theme]),
+    )
+  ).toThrow("Unexpected inline script");
 });
 
 test("embedded JSON stays data and is not authorized as executable code", () => {
@@ -95,6 +114,7 @@ test("embedded JSON stays data and is not authorized as executable code", () => 
   const html = securePage(
     `<html><head></head><body><script id="benchmark-data" type="application/json">${json}</script></body></html>`,
     new Map(),
+    new Set(),
   );
   expect(html).toContain(`type="application/json">${json}</script>`);
   expect(html).not.toContain(scriptHash(json));

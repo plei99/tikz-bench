@@ -6,8 +6,14 @@ export const scriptHash = (code: string) =>
 // GitHub Pages serves these files directly, so deliver CSP in the document.
 // Only hashes authorize scripts; 'self' would trust every project on this
 // github.io origin. Hashed loaders create SRI-checked module entries so that
-// strict-dynamic also permits their dependencies across browsers.
-export function securePage(html: string, scripts: ReadonlyMap<string, string>) {
+// strict-dynamic also permits their dependencies across browsers. An inline
+// script is authorized only if it is one the build inlined itself, so markup
+// injected into the page at build time cannot gain a hash.
+export function securePage(
+  html: string,
+  scripts: ReadonlyMap<string, string>,
+  inlineScripts: ReadonlySet<string>,
+) {
   const hashes = new Set<string>();
   let inline = "";
   html = new HTMLRewriter()
@@ -35,6 +41,9 @@ export function securePage(html: string, scripts: ReadonlyMap<string, string>) {
         } else {
           inline = "";
           el.onEndTag(() => {
+            if (!inlineScripts.has(inline)) {
+              throw new Error("Unexpected inline script in generated HTML");
+            }
             hashes.add(scriptHash(inline));
           });
         }

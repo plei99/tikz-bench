@@ -1,7 +1,24 @@
 // Scripts inlined into the page head, written in TypeScript under
 // client/inline/ and built here, at render time, into a classic script.
 // `define` supplies the constants each one declares, such as THEME_PAIRS.
+import { type Lang, locales } from "./i18n";
+import { absolute, url } from "./site";
+
 const cache = new Map<string, Promise<string>>();
+
+// Every inline script of one language's page, in page order. The page renders
+// these and scripts/finish.ts authorizes only these in its script policy.
+export const pageScripts = async (lang: Lang) => [
+  ...(lang === "en"
+    ? [
+      await inlineScript("detect-language", {
+        SITE_ROOT: absolute("/"),
+        ZH_PAGE: url(locales.zh.path),
+      }),
+    ]
+    : []),
+  await inlineScript("theme"),
+];
 
 export function inlineScript(
   name: string,

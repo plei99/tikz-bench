@@ -1,4 +1,4 @@
-import { inlineScript } from "../lib/inline";
+import { pageScripts } from "../lib/inline";
 import { type Lang, languages, locales, text } from "../lib/i18n";
 import { facetValues, initialState, modelName, type State } from "../lib/model";
 import { chart, table } from "../lib/render";
@@ -42,19 +42,9 @@ export default async function Page({ lang }: { lang: Lang }) {
         />
       ))}
       <link rel="stylesheet" href={asset("/styles.css")} precedence="site" />
-      {lang === "en" && (
-        <script
-          dangerouslySetInnerHTML={{
-            __html: await inlineScript("detect-language", {
-              SITE_ROOT: absolute("/"),
-              ZH_PAGE: url(locales.zh.path),
-            }),
-          }}
-        />
-      )}
-      <script
-        dangerouslySetInnerHTML={{ __html: await inlineScript("theme") }}
-      />
+      {(await pageScripts(lang)).map((code) => (
+        <script key={code} dangerouslySetInnerHTML={{ __html: code }} />
+      ))}
 
       <a className="skip-link" href="#leaderboard">{t.skip}</a>
       <header className="site-header">

@@ -75,10 +75,12 @@ model developer, independently of the serving provider or harness.
 ## Browser security
 
 Every generated page starts with a hash-based Content Security Policy. Hashed
-loaders start only the compiled app module, with Subresource Integrity. Injected
-scripts, inline event handlers, `javascript:` URLs, `eval`, embedded documents,
-form submissions and external resource requests are blocked. The chart's inline
-style attributes remain allowed; inline style blocks are blocked.
+loaders start only the compiled app module, with Subresource Integrity. Only the
+page's own inline scripts (`lib/inline.ts`) are hashed: any other script in the
+generated HTML fails the build instead of being authorized. Injected scripts,
+inline event handlers, `javascript:` URLs, `eval`, embedded documents, form
+submissions and external resource requests are blocked. The chart's inline style
+attributes remain allowed; inline style blocks are blocked.
 
 The embedded results stay a JSON data block, and the browser validates the same
 public schema as the build before rendering them. Labels are escaped when used
