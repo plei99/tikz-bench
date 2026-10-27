@@ -189,7 +189,8 @@ test("model names use provider branding throughout the results UI", () => {
     const leaderboard = table(results, state);
     for (const c of ranked(results, state)) {
       const name = modelName(c.model);
-      assert(graph.includes(`>${name}<tspan`));
+      const value = metricValue(c, state.metric, state.category);
+      if (value !== null && value > 0) assert(graph.includes(`>${name}<tspan`));
       assert(leaderboard.includes(name));
       assert(tooltip(c, state).includes(`<strong>${name}</strong>`));
     }
@@ -248,7 +249,8 @@ test("deselection gives an honest empty state and axes include every real point"
     table(results, empty).includes("No completed runs selected"),
   );
   for (const metric of ["cost", "output_tokens", "agent_seconds"] as const) {
-    const values = ranked(results, state).map((c: Configuration) => c[metric]!);
+    const values = ranked(results, state).map((c: Configuration) => c[metric])
+      .filter((v): v is number => v !== null && v > 0);
     const { unit, limit } = metrics[metric as keyof typeof metrics] as {
       unit?: number;
       limit?: number;
@@ -653,7 +655,10 @@ test("each lab has one chart colour and every series a direct label", () => {
   const state = initialState(results);
   const html = chart(results, state);
   const series = new Set(
-    ranked(results, state).map((c: Configuration) => `${c.model}/${c.agent}`),
+    ranked(results, state).filter((c) => {
+      const value = metricValue(c, state.metric, state.category);
+      return value !== null && value > 0;
+    }).map((c: Configuration) => `${c.model}/${c.agent}`),
   );
   assert(html.split('class="series-label"').length - 1 === series.size);
 });

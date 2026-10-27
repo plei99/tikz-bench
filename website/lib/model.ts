@@ -145,6 +145,7 @@ const modelNames: Record<string, string> = {
   "gpt-6-astra": "GPT-6 Astra",
   "gpt-6-luna": "GPT-6 Luna",
   "gpt-6.1-sol": "GPT-6.1 Sol",
+  "gpt-6.1-terra": "GPT-6.1 Terra",
   // https://www.deepseek.com/en/news/deepseek-v4-1-flash/
   "deepseek-v4.1-flash": "DeepSeek-V4.1-Flash",
   // OpenRouter's dated snapshot deepseek/deepseek-v4.1-flash-1017.
