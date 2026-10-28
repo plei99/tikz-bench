@@ -28,6 +28,8 @@ developer, independently of the inference provider and harness.
   https://raw.githubusercontent.com/lobehub/lobe-icons/master/packages/static-svg/icons/google-color.svg
 - qwen-color:
   https://raw.githubusercontent.com/lobehub/lobe-icons/master/packages/static-svg/icons/qwen-color.svg
+- mistral-color:
+  https://raw.githubusercontent.com/lobehub/lobe-icons/master/packages/static-svg/icons/mistral-color.svg
 - opencode:
   https://raw.githubusercontent.com/lobehub/lobe-icons/master/packages/static-svg/icons/opencode.svg
 - pi: https://pi.dev/logo-auto.svg (viewBox cropped to its visible mark;

@@ -94,6 +94,24 @@ test("pi DeepSeek, pi GLM and OpenCode MiMo runs start hidden", () => {
   assert(rows.some((c) => c.agent === "pi" && c.model === "mimo-v2.6-pro"));
 });
 
+test("all four completed Sonnet efforts appear in the initial chart and table", () => {
+  const state = initialState(results);
+  const rows = ranked(results, state);
+  const graph = chart(results, state);
+  const leaderboard = table(results, state);
+  for (const effort of ["low", "medium", "high", "xhigh"]) {
+    const row = rows.find((c) =>
+      c.model === "claude-sonnet-5-5" && c.agent === "claude" &&
+      c.effort === effort
+    );
+    assert(row, `Initial results missing Sonnet ${effort}`);
+    assert(row.complete && row.planned === 100 && row.scored === 100);
+    assert(graph.includes(`data-config="${row.id}"`));
+    assert(leaderboard.includes(`data-config="${row.id}"`));
+    assert(tooltip(row, state).includes("<strong>Claude Sonnet 5.5</strong>"));
+  }
+});
+
 test("selection shows or hides every effort of a model+harness setup", () => {
   const state = initialState(results);
   const sol = results.configurations.filter((c) =>
@@ -529,6 +547,7 @@ test("leaderboard has decorative model and pi/OpenCode SVG marks", () => {
       "deepseek",
       "zai",
       "xiaomi",
+      "mistral",
       "pi",
       "opencode",
     ]
