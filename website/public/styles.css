@@ -838,6 +838,7 @@ dialog input[type="search"] {
   display: flex;
   flex-direction: column;
   height: min(640px, calc(100vh - 64px));
+  height: min(640px, calc(100dvh - 64px));
   overflow: hidden;
 }
 #config-dialog > :not(#config-options) {
@@ -861,6 +862,30 @@ dialog input[type="search"] {
 #config-options p {
   font-size: 14px;
   color: var(--muted);
+}
+/* On phones and short windows the facets alone nearly fill the dialog and
+   would leave the run list a sliver, so the whole dialog scrolls instead,
+   with the heading and its close button pinned. */
+@media (max-width: 720px), (max-height: 760px) {
+  #config-dialog[open] {
+    height: calc(100vh - 32px);
+    height: calc(100dvh - 32px);
+    padding-top: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  #config-dialog .dialog-heading {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    margin: 0;
+    padding: 20px 0 12px;
+    background: var(--bg);
+  }
+  #config-options {
+    flex: none;
+    overflow: visible;
+  }
 }
 
 @media (max-width: 720px) {
