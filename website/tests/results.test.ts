@@ -752,3 +752,25 @@ test("Argon reasoning levels share one model series", () => {
   );
   assert(html.split('class="series-label"').length - 1 === 1);
 });
+
+test("K3.1 Pro starts shown and K3 can be enabled from run selection", () => {
+  const state = initialState(results);
+  const latest = results.configurations.find((c) =>
+    c.model === "k3.1-pro" && c.complete
+  );
+  const older = results.configurations.filter((c) =>
+    c.model === "k3" && c.complete
+  );
+  assert(latest && older.length > 0);
+  assert(modelName(latest.model) === "Kimi K3.1 Pro");
+  assert(table(results, state).includes(`data-config="${latest.id}"`));
+  for (const c of older) {
+    assert(!state.selected.includes(setupKey(c)));
+    assert(!table(results, state).includes(`data-config="${c.id}"`));
+  }
+  const enabled = {
+    ...state,
+    selected: [...state.selected, setupKey(older[0]!)],
+  };
+  assert(ranked(results, enabled).some((c) => c.model === "k3"));
+});

@@ -158,6 +158,7 @@ const modelNames: Record<string, string> = {
   "glm-5.3-flash": "GLM-5.3-Flash",
   // https://www.kimi.com/ai-models/kimi-k3
   "k3": "Kimi K3",
+  "k3.1-pro": "Kimi K3.1 Pro",
   // https://mimo.mi.com/models/en-US/mimo-v2.6-pro
   "mimo-v2.6-pro": "MiMo-V2.6-Pro",
 };
@@ -265,6 +266,7 @@ export function facetValues(data: Snapshot, cohort: string | undefined) {
 // Setups left out of the default selection. They stay listed in the run
 // selection dialog, where a reader can turn them back on.
 const hiddenByDefault: [agent: string, model: string][] = [
+  ["kimi", "k3"],
   ["pi", "deepseek-v4.1-flash"],
   ["pi", "deepseek-v4.1-flash-1017"],
   ["pi", "glm-5.3-flash"],
