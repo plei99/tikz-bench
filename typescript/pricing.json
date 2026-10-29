@@ -201,6 +201,16 @@
       "output": 50.0,
       "source": "https://platform.claude.com/docs/en/about-claude/pricing",
       "notes": "Cache hits are 0.025x base input. 1M context at standard rates with no premium. Batch: $5/$25. inference_geo 'us' applies 1.1x."
+    },
+    "kimi-k3.1-pro": {
+      "provider": "moonshot",
+      "input": 2.0,
+      "cached_input": 0.2,
+      "cache_write": 2.0,
+      "cache_write_1h": 4.0,
+      "output": 10.0,
+      "source": "https://platform.kimi.ai/docs/pricing/chat",
+      "notes": "Verified 2026-10-29 from the official international pricing table. Flat pricing across the 1,048,576-token context. Cache write: 5min $2, 1h $4 per MTok; cached input billed only at $0.20. Subscription runs use API-equivalent estimates, not extra charges. Prices exclude taxes."
     }
   },
   "aliases": {
@@ -216,6 +226,7 @@
     "claude-opus-5-5-high": "claude-opus-5-5",
     "claude-sonnet-5-5-low": "claude-sonnet-5-5",
     "claude-sonnet-5-5-medium": "claude-sonnet-5-5",
-    "claude-sonnet-5-5-high": "claude-sonnet-5-5"
+    "claude-sonnet-5-5-high": "claude-sonnet-5-5",
+    "k3.1-pro": "kimi-k3.1-pro"
   }
 }
