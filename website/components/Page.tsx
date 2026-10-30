@@ -179,6 +179,10 @@ export default async function Page({ lang }: { lang: Lang }) {
                   {t.paretoFrontier}
                 </button>
               </div>
+              <button id="export-png" className="picker" type="button">
+                {t.exportPng}
+              </button>
+              <span id="export-status" className="sr-only" role="status" />
             </div>
             <div
               id="chart"

@@ -20,6 +20,7 @@ import {
 } from "../lib/model";
 import { chart, table, tooltip } from "../lib/render";
 import { type Lang, text } from "../lib/i18n";
+import { downloadChartPng } from "./export-png";
 import { validateSnapshot } from "../scripts/validate";
 
 // The leaderboard's controls. The page arrives fully rendered; this re-renders
@@ -51,6 +52,36 @@ const listed = () => {
       c.model.toLowerCase().includes(query)
     );
 };
+
+$("#export-png").addEventListener("click", async () => {
+  const button = $<HTMLButtonElement>("#export-png");
+  button.disabled = true;
+  button.textContent = t.exportingPng;
+  $("#export-status").textContent = "";
+  // Render a fresh copy so hover, focus and scroll never affect the download.
+  const panel = document.createElement("div");
+  panel.className = "chart";
+  panel.style.cssText =
+    "position:fixed;left:-10000px;top:0;width:1200px;pointer-events:none";
+  panel.setAttribute("aria-hidden", "true");
+  panel.innerHTML = chart(data, state);
+  const filename = "tikz-bench-" + state.category + "-" + state.metric + "-" +
+    state.efforts + "-" + state.scale + ".png";
+  document.body.append(panel);
+  try {
+    await downloadChartPng(
+      panel.querySelector("svg")!,
+      filename,
+      panel.querySelector(".chart-note")?.textContent ?? "",
+    );
+  } catch {
+    $("#export-status").textContent = t.exportFailed;
+  } finally {
+    panel.remove();
+    button.disabled = false;
+    button.textContent = t.exportPng;
+  }
+});
 
 const groups = ["metric", "category", "efforts", "scale"] as const;
 
