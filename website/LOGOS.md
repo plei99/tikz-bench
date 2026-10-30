@@ -5,8 +5,9 @@ model or harness names. Monochrome marks inherit the text color; colored marks
 retain their original colors.
 
 The Claude mark is used for Claude models rather than the Anthropic corporate
-logo. Kimi and MiMo use their model marks. Kimi’s K inherits the text color so
-it remains visible in both themes; its blue accent keeps the original color.
+logo. Gemini models use the Gemini mark rather than the Google corporate logo.
+Kimi and MiMo use their model marks. Kimi’s K inherits the text color so it
+remains visible in both themes; its blue accent keeps the original color.
 Country filters refer to the model developer, independently of the inference
 provider and harness.
 
@@ -26,8 +27,8 @@ provider and harness.
   https://raw.githubusercontent.com/lobehub/lobe-icons/master/packages/static-svg/icons/xiaomimimo.svg
 - meta:
   https://raw.githubusercontent.com/lobehub/lobe-icons/master/packages/static-svg/icons/meta.svg
-- google-color:
-  https://raw.githubusercontent.com/lobehub/lobe-icons/master/packages/static-svg/icons/google-color.svg
+- gemini-color:
+  https://raw.githubusercontent.com/lobehub/lobe-icons/master/packages/static-svg/icons/gemini-color.svg
 - qwen-color:
   https://raw.githubusercontent.com/lobehub/lobe-icons/master/packages/static-svg/icons/qwen-color.svg
 - mistral-color:
