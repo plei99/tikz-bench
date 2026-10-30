@@ -5,8 +5,10 @@ model or harness names. Monochrome marks inherit the text color; colored marks
 retain their original colors.
 
 The Claude mark is used for Claude models rather than the Anthropic corporate
-logo. Kimi and MiMo use their model marks. Country filters refer to the model
-developer, independently of the inference provider and harness.
+logo. Kimi and MiMo use their model marks. Kimi’s K inherits the text color so
+it remains visible in both themes; its blue accent keeps the original color.
+Country filters refer to the model developer, independently of the inference
+provider and harness.
 
 ## Sources
 
