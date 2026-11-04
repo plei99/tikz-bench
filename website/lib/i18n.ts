@@ -103,7 +103,18 @@ const en = {
     `${score}, ${n} with full credit`,
   digitalCount: (n: number) => `Digital (${n})`,
   exact: (score: string, n: number | string) => `${score}, ${n} exact`,
-  costPerTask: "Cost per task",
+  costPerTask: "API cost per task",
+  subscriptionPerTask: "Subscription cost per task",
+  subscriptionNote:
+    "Subscription fee allocated to each task, assuming full allowance use. Plans cost $100/month, except GLM ($80).",
+  subscriptionAllowances:
+    "Monthly API-equivalent allowances: Codex Pro 100 $2,833.22 (assuming the October 29 quota increase doubles its value), Claude Max 5x $4,605.34, Google AI Ultra via Antigravity $426.06, Kimi K3.1 Pro $343.18 (measured November 2). Older K3 runs use their $482.54 estimate. These assume a plan buys the same API-dollar value across its listed models.",
+  subscriptionCredits:
+    "GLM and MiMo use each run’s actual uncached input, cached input and output tokens, separately for hand-drawn and digital tasks. Failures and timeouts count; judging does not. GLM Pro has 60,000 credits/week, averaged over 4.348 weeks/month, with 50% peak and 50% off-peak use. MiMo Max has 82 billion credits/month at regular hours. Session limits and runtime can reduce capacity. Runs without a matching estimate are omitted.",
+  subscriptionSource: "Allowance audit and sources",
+  subscriptionAssumptions: "Subscription estimates and assumptions",
+  subscriptionMissing: (n: number) =>
+    `${n} configurations have no subscription estimate and are omitted from this chart.`,
   tokensPerTask: "Output tokens per task",
   agentTimePerTask: "Agent time per task",
   responseTimePerTask: "Model response time per task",
@@ -112,7 +123,11 @@ const en = {
   minutes: (n: number | string) => `${n} min`,
   seconds: (n: number) => `${n} s`,
   metrics: {
-    cost: { label: "Cost", axis: "Average cost per task (USD)" },
+    cost: { label: "API cost", axis: "Average API cost per task (USD)" },
+    subscription_cost: {
+      label: "Subscription cost",
+      axis: "Estimated subscription cost per task (USD)",
+    },
     output_tokens: {
       label: "Output tokens",
       axis: "Average output tokens per task",
@@ -227,7 +242,17 @@ const zh: Strings = {
   fullCredit: (score, n) => `${score}，${n} 个满分`,
   digitalCount: (n) => `电脑绘制（${n}）`,
   exact: (score, n) => `${score}，${n} 个完全一致`,
-  costPerTask: "每个任务的成本",
+  costPerTask: "每个任务的 API 成本",
+  subscriptionPerTask: "每个任务的订阅成本",
+  subscriptionNote:
+    "假设充分使用额度，估算每个任务分摊的订阅费。GLM 每月 $80，其他方案每月 $100。",
+  subscriptionAllowances:
+    "月度 API 等值额度：Codex Pro 100 为 $2,833.22（假设 10 月 29 日额度翻倍，其 API 等值也翻倍），Claude Max 5x 为 $4,605.34，通过 Antigravity 使用的 Google AI Ultra 为 $426.06，Kimi K3.1 Pro 为 $343.18（11 月 2 日实测）。旧版 K3 使用当时的 $482.54 估算。这里假设同一订阅下列出的各个模型具有相同的 API 等值额度。",
+  subscriptionCredits:
+    "GLM 和 MiMo 按各次测试中实际的未缓存输入、缓存输入和输出 token 计算，手绘与电脑绘制任务分别统计。包含失败和超时任务，不含评分用量。GLM Pro 每周 60,000 积分，按每月 4.348 周换算，假设高峰与非高峰用量各占 50%。MiMo Max 每月 820 亿积分，采用普通时段。会话限额和运行时间可能减少实际任务数。没有匹配估算的运行配置不在图中绘制。",
+  subscriptionSource: "额度核算与来源",
+  subscriptionAssumptions: "订阅估算与计算假设",
+  subscriptionMissing: (n) => `${n} 个配置没有订阅估算，未在此图中绘制。`,
   tokensPerTask: "每个任务的输出 token",
   agentTimePerTask: "每个任务的智能体用时",
   responseTimePerTask: "每个任务的模型响应时间",
@@ -236,7 +261,11 @@ const zh: Strings = {
   minutes: (n) => `${n} 分钟`,
   seconds: (n) => `${n} 秒`,
   metrics: {
-    cost: { label: "成本", axis: "每个任务的平均成本（美元）" },
+    cost: { label: "API 成本", axis: "每个任务的平均 API 成本（美元）" },
+    subscription_cost: {
+      label: "订阅成本",
+      axis: "每个任务的估算订阅成本（美元）",
+    },
     output_tokens: {
       label: "输出 token",
       axis: "每个任务的平均输出 token 数",

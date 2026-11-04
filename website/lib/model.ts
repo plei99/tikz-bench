@@ -1,4 +1,5 @@
 import { type Lang, text } from "./i18n";
+import { subscriptionCost } from "./subscriptions";
 
 /** The public snapshot in data/results.json (checked by scripts/validate.ts). */
 export type Snapshot = {
@@ -51,7 +52,11 @@ export type Configuration = {
 };
 
 export type Category = "overall" | "handwritten" | "taste" | "digital";
-export type Metric = "cost" | "output_tokens" | "agent_seconds";
+export type Metric =
+  | "cost"
+  | "subscription_cost"
+  | "output_tokens"
+  | "agent_seconds";
 export type Facet = "agent" | "provider" | "country" | "model";
 export type State = {
   lang: Lang;
@@ -71,6 +76,7 @@ export type State = {
 // Display labels for each metric are in i18n.ts.
 export const metrics: Record<Metric, { unit?: number; limit?: number }> = {
   cost: {},
+  subscription_cost: {},
   output_tokens: {},
   agent_seconds: {
     // Ticks fall on whole minutes.
@@ -107,7 +113,7 @@ export const metricValue = (
   metric: Metric | "api_seconds",
   category: Category = "overall",
 ): number | null =>
-  config[
+  metric === "subscription_cost" ? subscriptionCost(config, category) : config[
     category === "overall"
       ? metric
       : `${category === "taste" ? "handwritten" : category}_${metric}` as const
@@ -124,6 +130,8 @@ export const formatMetric = (
 ) =>
   metric === "cost"
     ? money(n, lowerBound)
+    : metric === "subscription_cost"
+    ? n === null ? "—" : `$${Number(n.toPrecision(3))}`
     : metric === "output_tokens"
     ? tokens(n)
     : duration(n, lang);

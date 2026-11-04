@@ -68,6 +68,27 @@ adds the score category and chart metric switches, sorting, best/every effort
 views, harness/provider/developer-country/model filters, run selection, run
 details, and a saved light/dark theme. Unfinished runs and pilots are not shown.
 
+The **Subscription cost** chart allocates a subscription's monthly fee to each
+task, assuming the full allowance is used. It supports the same score
+categories, filters, scales, Pareto frontier and PNG export as the API-cost
+chart. Dollar estimates and their assumptions appear below the chart in both
+languages.
+
+`lib/subscriptions.ts` contains the audited monthly allowances for Codex,
+Claude, Google and Kimi. GLM ($80/month) and MiMo ($100/month) use actual
+benchmark token counts and the providers' credit weights. GLM assumes half peak
+and half off-peak use; MiMo assumes regular hours. The counts in
+`data/subscription-tokens.json` are aggregate-only, including failed and
+timed-out generation tasks and excluding judging. Each run has separate
+hand-drawn and digital counts. Changed generation metrics invalidate a token
+calibration until it is refreshed; a missing estimate stays blank and is omitted
+from the subscription chart.
+
+After refreshing the public results, regenerate those aggregates from the
+private run records with `bun run refresh:subscriptions`, optionally passing an
+alternate `runs/` directory. This command needs the private records locally; the
+ordinary build and deployment use only the checked-in aggregates.
+
 The leaderboard shows SVG model/company marks and pi/OpenCode harness marks.
 Asset sources and licenses are recorded in `LOGOS.md`. Country identifies the
 model developer, independently of the serving provider or harness.

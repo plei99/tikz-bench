@@ -385,6 +385,18 @@ select {
   font-size: 12px;
   color: var(--muted);
 }
+.subscription-notes {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+.subscription-notes summary {
+  cursor: pointer;
+}
+.subscription-notes p {
+  max-width: 85ch;
+  line-height: 1.6;
+}
 .chart .line {
   fill: none;
   stroke: currentColor;

@@ -4,6 +4,7 @@ import {
   effortName,
   escape,
   type Facet,
+  formatMetric,
   formatScore,
   initialState,
   matchesFilters,
@@ -72,7 +73,8 @@ $("#export-png").addEventListener("click", async () => {
     await downloadChartPng(
       panel.querySelector("svg")!,
       filename,
-      panel.querySelector(".chart-note")?.textContent ?? "",
+      panel.querySelector(".subscription-note")?.textContent ??
+        panel.querySelector(".chart-note")?.textContent ?? "",
     );
   } catch {
     $("#export-status").textContent = t.exportFailed;
@@ -191,6 +193,14 @@ function detail(id: string) {
         duration(metricValue(c, "api_seconds", state.category), lang),
       ],
       [t.compileRate, percent(c.compile_rate)],
+      [
+        t.subscriptionPerTask,
+        formatMetric(
+          metricValue(c, "subscription_cost", state.category),
+          "subscription_cost",
+          lang,
+        ),
+      ],
     ].map(([label, value]) =>
       `<tr><th scope="row">${label}</th><td>${value}</td></tr>`
     ).join("")

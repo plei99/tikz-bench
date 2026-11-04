@@ -110,6 +110,7 @@ export function tooltip(c: Configuration, state: State) {
     ],
     ...([
       ["cost", t.costPerTask],
+      ["subscription_cost", t.subscriptionPerTask],
       ["output_tokens", t.tokensPerTask],
       ["agent_seconds", t.agentTimePerTask],
     ] as const).map(([m, label]): [string, string, boolean] => [
@@ -277,8 +278,16 @@ export function chart(data: Snapshot, state: State) {
   </svg>${
     missing
       ? `<p class="chart-note">${
-        t.notPlotted(missing, t.metrics[state.metric].label)
+        state.metric === "subscription_cost"
+          ? t.subscriptionMissing(missing)
+          : t.notPlotted(missing, t.metrics[state.metric].label)
       }</p>`
+      : ""
+  }${
+    state.metric === "subscription_cost"
+      ? `<p class="chart-note subscription-note">${t.subscriptionNote}</p><details class="subscription-notes"><summary>${t.subscriptionAssumptions}</summary><p>${t.subscriptionAllowances}</p><p>${t.subscriptionCredits}</p><p><a href="https://plei99.github.io/${
+        state.lang === "zh" ? "zh" : "en"
+      }/uses.html#ai-subscriptions">${t.subscriptionSource}</a> · <a href="https://docs.z.ai/devpack/overview">GLM</a> · <a href="https://mimo.mi.com/docs/en-US/tokenplan/Token%20Plan/subscription">MiMo</a></p></details>`
       : ""
   }`;
 }
@@ -311,11 +320,17 @@ export function table(data: Snapshot, state: State) {
           c.cost_sources.includes("lower_bound"),
         )
       }</td><td class="num">${
+        formatMetric(
+          metricValue(c, "subscription_cost", state.category),
+          "subscription_cost",
+          state.lang,
+        )
+      }</td><td class="num">${
         tokens(metricValue(c, "output_tokens", state.category))
       }</td><td class="num">${
         duration(metricValue(c, "agent_seconds", state.category), state.lang)
       }</td>
   </tr>`;
     }).join("")
-    : `<tr><td colspan="6" class="empty">${t.noRows}</td></tr>`;
+    : `<tr><td colspan="7" class="empty">${t.noRows}</td></tr>`;
 }

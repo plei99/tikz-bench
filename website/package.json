@@ -6,6 +6,7 @@
     "build": "rm -rf dist && bun build --app && bun scripts/finish.ts",
     "dev": "bun scripts/serve.ts",
     "refresh": "bun scripts/refresh.ts",
+    "refresh:subscriptions": "bun scripts/subscription-tokens.ts",
     "verify": "bun scripts/verify.ts",
     "check": "dprint check && oxlint && bun --check && bun --cwd client --check",
     "test": "bun test tests/"
