@@ -272,8 +272,8 @@ export function facetValues(data: Snapshot, cohort: string | undefined) {
   ) as Record<Facet, string[]>;
 }
 
-// Other models remain available in the run picker. Every harness and effort
-// for these models starts selected.
+// Other models remain available in the run picker. DeepSeek starts selected
+// only under OpenCode; the other listed models include every harness and effort.
 const defaultModels = new Set([
   "gpt-6.1-terra",
   "gpt-6.1-sol",
@@ -287,7 +287,8 @@ const defaultModels = new Set([
   "gemini-4-argon",
 ]);
 export const shownByDefault = (config: Configuration) =>
-  defaultModels.has(config.model);
+  defaultModels.has(config.model) &&
+  (!config.model.startsWith("deepseek-") || config.agent === "opencode");
 
 export function initialState(data: Snapshot, lang: Lang = "en"): State {
   const cohort =

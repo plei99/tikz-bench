@@ -98,7 +98,8 @@ test("only the requested ten model families appear by default", () => {
         c.complete && !c.pilot && c.cohort_id === state.cohort
       )
     ) {
-      const visible = allowed.includes(c.model);
+      const visible = allowed.includes(c.model) &&
+        (!c.model.startsWith("deepseek-") || c.agent === "opencode");
       assert(rows.includes(c) === visible, c.id);
       assert(leaderboard.includes(`data-config="${c.id}"`) === visible, c.id);
       if (!visible) assert(!graph.includes(`data-config="${c.id}"`));
@@ -167,9 +168,19 @@ test("dated DeepSeek starts shown; hidden Mistral runs remain selectable with lo
   const state = initialState(results);
   const rows = ranked(results, state);
   const deepseek = rows.filter((c) => c.model.startsWith("deepseek"));
-  assert(deepseek.some((c) => c.agent === "pi"));
-  assert(deepseek.some((c) => c.agent === "opencode"));
+  assert(deepseek.length === 3);
+  assert(deepseek.every((c) => c.agent === "opencode"));
   assert(deepseek.every((c) => c.model === "deepseek-v4.1-flash-1017"));
+  const deepseekPi = results.configurations.find((c) =>
+    c.complete && c.model === "deepseek-v4.1-flash-1017" && c.agent === "pi"
+  )!;
+  assert(!state.selected.includes(setupKey(deepseekPi)));
+  assert(
+    table(results, {
+      ...state,
+      selected: [...state.selected, setupKey(deepseekPi)],
+    }).includes(`data-config="${deepseekPi.id}"`),
+  );
   const mistral = results.configurations.filter((c) =>
     c.model === "mistral-large-4-0"
   );
