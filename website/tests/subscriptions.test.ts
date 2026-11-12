@@ -128,3 +128,23 @@ test("Carbon subscription cost uses the published High workload allowance", () =
     expect(table(data, state)).toContain("$0.13");
   }
 });
+
+test("Argon costs use standard rates without the pre-December promotion", () => {
+  for (
+    const [effort, expected] of [["low", 0.35471203], ["medium", 0.661860768], [
+      "high",
+      1.016690002,
+    ]] as const
+  ) {
+    const c = configuration("gemini-4-argon", effort, "antigravity");
+    expect(c.cost).toBeCloseTo(expected, 9);
+    expect(c.cost).toBeCloseTo(
+      0.8 * c.handwritten_cost! + 0.2 * c.digital_cost!,
+      9,
+    );
+    expect(metricValue(c, "subscription_cost")).toBeCloseTo(
+      100 * expected / 426.05901063035714,
+      9,
+    );
+  }
+});
