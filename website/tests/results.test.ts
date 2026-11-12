@@ -72,26 +72,38 @@ test("real Sol xhigh and both Astra efforts are in the first chart and table", (
   }
 });
 
-test("pi DeepSeek, pi GLM and OpenCode MiMo runs start hidden", () => {
-  const state = initialState(results);
-  const hidden = results.configurations.filter((c) =>
-    c.complete && !c.pilot &&
-    ((c.agent === "pi" &&
-      ["deepseek-v4.1-flash", "glm-5.3-flash"].includes(c.model)) ||
-      (c.agent === "opencode" && c.model === "mimo-v2.6-pro"))
-  );
-  assert(hidden.length === 7);
-  const rows = ranked(results, state);
-  for (const c of hidden) {
-    assert(!state.selected.includes(setupKey(c)));
-    assert(!rows.includes(c));
-    assert(!chart(results, state).includes(`data-config="${c.id}"`));
+test("only the requested ten model families appear by default", () => {
+  const allowed = [
+    "gpt-6.1-terra",
+    "gpt-6.1-sol",
+    "gpt-6-astra",
+    "claude-haiku-5-5",
+    "claude-sonnet-5-5",
+    "claude-opus-5-5",
+    "deepseek-v4.1-flash-1017",
+    "k3.1-pro",
+    "gemini-4-carbon",
+    "gemini-4-argon",
+  ];
+  for (const lang of ["en", "zh"] as const) {
+    const state = initialState(results, lang);
+    const rows = ranked(results, state);
+    for (const model of allowed) {
+      assert(rows.some((c) => c.model === model), model);
+    }
+    assert(rows.every((c) => allowed.includes(c.model)));
+    const graph = chart(results, state), leaderboard = table(results, state);
+    for (
+      const c of results.configurations.filter((c) =>
+        c.complete && !c.pilot && c.cohort_id === state.cohort
+      )
+    ) {
+      const visible = allowed.includes(c.model);
+      assert(rows.includes(c) === visible, c.id);
+      assert(leaderboard.includes(`data-config="${c.id}"`) === visible, c.id);
+      if (!visible) assert(!graph.includes(`data-config="${c.id}"`));
+    }
   }
-  // The same models under other harnesses stay visible.
-  assert(
-    rows.some((c) => c.agent === "opencode" && c.model === "glm-5.3-flash"),
-  );
-  assert(rows.some((c) => c.agent === "pi" && c.model === "mimo-v2.6-pro"));
 });
 
 test("all four completed Sonnet efforts appear in the initial chart and table", () => {
@@ -127,55 +139,44 @@ test("selection shows or hides every effort of a model+harness setup", () => {
   assert(!ranked(results, hidden).some((c) => sol.includes(c)));
 });
 
-test("only the newest snapshot of a model starts shown", () => {
+test("new unrequested model snapshots stay hidden until selected", () => {
   const base = results.configurations.find((c) =>
-    c.complete && !c.pilot && c.model === "deepseek-v4.1-flash" &&
-    c.agent === "opencode"
+    c.model === "deepseek-v4.1-flash-1017" && c.complete
   )!;
-  const data: Snapshot = {
+  const future = {
+    ...base,
+    id: "future/run",
+    model: "deepseek-v4.1-flash-1231",
+  };
+  const data = {
     ...results,
-    configurations: [
-      ...results.configurations.filter((c) =>
-        !c.model.startsWith("deepseek-v4.1-flash-")
-      ),
-      { ...base, id: "new/low", model: "deepseek-v4.1-flash-1017" },
-      // Unfinished, so it cannot supersede 1017.
-      {
-        ...base,
-        id: "pending/low",
-        model: "deepseek-v4.1-flash-1231",
-        complete: false,
-      },
-    ],
+    configurations: [...results.configurations, future],
   };
   const state = initialState(data);
-  assert(state.selected.includes("deepseek-v4.1-flash-1017/opencode"));
-  assert(!state.selected.includes("deepseek-v4.1-flash/opencode"));
-  assert(!state.selected.includes("deepseek-v4.1-flash/pi"));
-  assert(!ranked(data, state).some((c) => c.model === "deepseek-v4.1-flash"));
-  // Other models are unaffected.
-  assert(state.selected.includes("glm-5.3-flash/opencode"));
-  // Without a newer snapshot, the undated release stays shown.
   assert(
-    initialState({ ...results, configurations: [base] }).selected.includes(
-      "deepseek-v4.1-flash/opencode",
-    ),
+    ranked(data, state).some((c) => c.model === "deepseek-v4.1-flash-1017"),
+  );
+  assert(!ranked(data, state).includes(future));
+  assert(
+    table(data, { ...state, selected: [...state.selected, setupKey(future)] })
+      .includes(`data-config="${future.id}"`),
   );
 });
 
-test("latest DeepSeek efforts and only OpenCode Mistral start shown; hidden runs can be enabled", () => {
+test("dated DeepSeek starts shown; hidden Mistral runs remain selectable with lower-bound costs", () => {
   const state = initialState(results);
   const rows = ranked(results, state);
   const deepseek = rows.filter((c) => c.model.startsWith("deepseek"));
-  assert(deepseek.length === 3);
+  assert(deepseek.some((c) => c.agent === "pi"));
+  assert(deepseek.some((c) => c.agent === "opencode"));
   assert(deepseek.every((c) => c.model === "deepseek-v4.1-flash-1017"));
   const mistral = results.configurations.filter((c) =>
     c.model === "mistral-large-4-0"
   );
   assert(mistral.length === 2);
-  assert(rows.filter((c) => mistral.includes(c)).length === 1);
+  assert(rows.filter((c) => mistral.includes(c)).length === 0);
   assert(
-    rows.some((c) => c.model === "mistral-large-4-0" && c.agent === "opencode"),
+    !rows.some((c) => c.model === "mistral-large-4-0"),
   );
   const pi = mistral.find((c) => c.agent === "pi")!;
   assert(!table(results, state).includes(`data-config="${pi.id}"`));
@@ -500,7 +501,10 @@ test("filter options come only from completed runs", () => {
 });
 
 test("developer country filters compose with harness and model filters", () => {
-  const state = initialState(results);
+  const state = {
+    ...initialState(results),
+    selected: results.configurations.map(setupKey),
+  };
   const all = ranked(results, state);
   const china = ranked(results, {
     ...state,
@@ -539,7 +543,10 @@ test("developer country filters compose with harness and model filters", () => {
 });
 
 test("leaderboard has decorative model and pi/OpenCode SVG marks", () => {
-  const html = table(results, initialState(results));
+  const html = table(results, {
+    ...initialState(results),
+    selected: results.configurations.map(setupKey),
+  });
   for (
     const brand of [
       "openai",
@@ -635,6 +642,20 @@ test("category metrics come from their own task records", async () => {
   const state = initialState(data);
   assert(table(data, { ...state, category: "handwritten" }).includes("$2.00"));
   assert(table(data, { ...state, category: "digital" }).includes("$8.00"));
+  for (
+    const model of [
+      "gemini-4-carbon-low",
+      "gemini-4-carbon-medium",
+      "gemini-4-carbon-high",
+      "gemini-4-argon-high",
+    ]
+  ) {
+    bundle.configurations[0].resolved_model = model;
+    assert(
+      aggregate(bundle).configurations[0].model ===
+        (model.includes("carbon") ? "gemini-4-carbon" : "gemini-4-argon"),
+    );
+  }
   bundle.tasks[1].metrics.cost_usd = null as unknown as number;
   assert(aggregate(bundle).configurations[0].digital_cost === null);
 });

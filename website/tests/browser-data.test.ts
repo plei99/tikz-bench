@@ -3,7 +3,7 @@ import { runInNewContext } from "node:vm";
 import snapshot from "../data/results.json";
 import { inlineScript } from "../lib/inline";
 import { chart, table, tooltip } from "../lib/render";
-import { initialState, type Snapshot } from "../lib/model";
+import { initialState, setupKey, type Snapshot } from "../lib/model";
 import { validateSnapshot } from "../scripts/validate";
 
 test("malformed browser data is rejected before it can be rendered as HTML", () => {
@@ -24,7 +24,10 @@ test("result labels stay text in chart, table and tooltip HTML", () => {
     c.model = '<img src=x onerror="alert(1)">';
     c.agent = "<script>alert(1)</script>";
   }
-  const state = initialState(data);
+  const state = {
+    ...initialState(data),
+    selected: data.configurations.map(setupKey),
+  };
   for (
     const markup of [
       chart(data, state),

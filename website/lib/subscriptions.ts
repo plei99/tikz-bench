@@ -4,6 +4,7 @@ import type { Category, Configuration } from "./model";
 // Monthly API-equivalent allowances audited on the author's Uses page:
 // https://plei99.github.io/en/uses.html#ai-subscriptions
 // Codex includes the October 29 doubling; K3.1 was measured November 2.
+// Carbon's November 12 audit uses standard API rates, excluding promotions.
 const allowances = [
   {
     agent: "codex",
@@ -22,6 +23,12 @@ const allowances = [
     models: ["gemini-4-argon"],
     monthlyUsd: 100,
     apiUsd: 426.05901063035714,
+  },
+  {
+    agent: "antigravity",
+    models: ["gemini-4-carbon"],
+    monthlyUsd: 100,
+    apiUsd: 1618.6969114845645,
   },
   {
     agent: "kimi",

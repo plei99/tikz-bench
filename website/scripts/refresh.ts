@@ -116,7 +116,7 @@ export function aggregate(bundle: Bundle) {
       model: (config.run_id === "claude-haiku-xhigh-20261012"
         ? "claude-haiku-5-5"
         : config.resolved_model ?? config.model).split("/").at(-1)!
-        .replace(/^gemini-4-argon-(?:low|medium|high)$/, "gemini-4-argon"),
+        .replace(/^(gemini-4-(?:argon|carbon))-(?:low|medium|high)$/, "$1"),
       agent: config.agent,
       effort: config.effort,
       label: config.label,

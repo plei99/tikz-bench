@@ -103,3 +103,28 @@ test("small subscription prices retain meaningful digits", () => {
   expect(formatMetric(null, "subscription_cost")).toBe("—");
   expect(formatMetric(0, "subscription_cost")).toBe("$0");
 });
+
+test("Carbon subscription cost uses the published High workload allowance", () => {
+  const carbon = configuration("gemini-4-carbon", "high", "antigravity");
+  expect(carbon.score).toBe(0.772);
+  expect(carbon.cost).toBeCloseTo(2.10684918, 8);
+  expect(metricValue(carbon, "subscription_cost")).toBeCloseTo(
+    100 * 2.10684918 / 1618.6969114845645,
+    10,
+  );
+  const hand = metricValue(carbon, "subscription_cost", "handwritten")!;
+  const digital = metricValue(carbon, "subscription_cost", "digital")!;
+  expect(metricValue(carbon, "subscription_cost")).toBeCloseTo(
+    0.8 * hand + 0.2 * digital,
+    10,
+  );
+  expect(metricValue(carbon, "subscription_cost", "taste")).toBe(hand);
+  for (const lang of ["en", "zh"] as const) {
+    const state = {
+      ...initialState(data, lang),
+      metric: "subscription_cost" as const,
+    };
+    expect(chart(data, state)).toContain(`data-config="${carbon.id}"`);
+    expect(table(data, state)).toContain("$0.13");
+  }
+});
