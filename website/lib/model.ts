@@ -163,6 +163,7 @@ const modelNames: Record<string, string> = {
   // https://ai.google.dev/gemini-api/docs/models/gemini-4-argon
   "gemini-4-argon": "Gemini 4 Argon",
   "gemini-4-carbon": "Gemini 4 Carbon",
+  "gemini-4-hydrogen": "Gemini 4 Hydrogen",
   // https://autoclaw.z.ai/blog/model/glm-5.3-flash/
   "glm-5.3-flash": "GLM-5.3-Flash",
   // https://www.kimi.com/ai-models/kimi-k3
@@ -196,7 +197,9 @@ const shapes: Record<string, Shape> = {
   antigravity: "diamond",
 };
 export const shape = (config: Configuration) =>
-  shapes[config.agent] ?? "circle";
+  config.agent === "antigravity" && provider(config) === "google"
+    ? "circle"
+    : shapes[config.agent] ?? "circle";
 
 // The company behind each model, from its name. Display names are in i18n.ts;
 // tests fail if a recorded model matches none of these.
@@ -284,7 +287,7 @@ const defaultModels = new Set([
   "deepseek-v4.1-flash-1017",
   "k3.1-pro",
   "gemini-4-carbon",
-  "gemini-4-argon",
+  "gemini-4-hydrogen",
 ]);
 export const shownByDefault = (config: Configuration) =>
   defaultModels.has(config.model) &&

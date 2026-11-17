@@ -83,7 +83,7 @@ test("only the requested ten model families appear by default", () => {
     "deepseek-v4.1-flash-1017",
     "k3.1-pro",
     "gemini-4-carbon",
-    "gemini-4-argon",
+    "gemini-4-hydrogen",
   ];
   for (const lang of ["en", "zh"] as const) {
     const state = initialState(results, lang);
@@ -104,6 +104,73 @@ test("only the requested ten model families appear by default", () => {
       assert(leaderboard.includes(`data-config="${c.id}"`) === visible, c.id);
       if (!visible) assert(!graph.includes(`data-config="${c.id}"`));
     }
+  }
+});
+
+test("Hydrogen's four completed efforts start shown and Argon remains selectable", () => {
+  const hydrogen = results.configurations.filter((c) =>
+    c.model === "gemini-4-hydrogen" && c.agent === "antigravity"
+  );
+  assert(hydrogen.length === 4);
+  assert(modelName("gemini-4-hydrogen") === "Gemini 4 Hydrogen");
+  const scores: Record<string, number> = {
+    low: 0.6694,
+    medium: 0.7247,
+    high: 0.736,
+    xhigh: 0.732,
+  };
+  for (const lang of ["en", "zh"] as const) {
+    const state = initialState(results, lang);
+    const graph = chart(results, state), leaderboard = table(results, state);
+    for (const c of hydrogen) {
+      assert(c.complete && c.planned === 100 && c.scored === 100);
+      assert(c.score === scores[c.effort!]);
+      assert(graph.includes(`data-config="${c.id}"`));
+      assert(leaderboard.includes(`data-config="${c.id}"`));
+    }
+    const argon = results.configurations.filter((c) =>
+      c.model === "gemini-4-argon" && c.complete && !c.pilot &&
+      c.cohort_id === state.cohort
+    );
+    assert(argon.length > 0);
+    const enabled = {
+      ...state,
+      selected: [...state.selected, ...argon.map(setupKey)],
+    };
+    for (const c of argon) {
+      assert(!graph.includes(`data-config="${c.id}"`));
+      assert(!leaderboard.includes(`data-config="${c.id}"`));
+      assert(chart(results, enabled).includes(`data-config="${c.id}"`));
+      assert(table(results, enabled).includes(`data-config="${c.id}"`));
+    }
+  }
+});
+
+test("Google Antigravity chart points are circles while other Antigravity models keep diamonds", () => {
+  const google = results.configurations.filter((c) =>
+    c.complete && !c.pilot && c.agent === "antigravity" &&
+    provider(c) === "google"
+  );
+  assert(google.length > 0);
+  const claude = results.configurations.find((c) =>
+    c.complete && !c.pilot && provider(c) === "anthropic"
+  )!;
+  const other = {
+    ...claude,
+    id: "anthropic-antigravity-marker",
+    agent: "antigravity",
+  };
+  const configurations = [...google, other];
+  const state = {
+    ...initialState(results),
+    selected: configurations.map(setupKey),
+  };
+  const graph = chart({ ...results, configurations }, state);
+  for (const c of configurations) {
+    const point = graph.split(`data-config="${c.id}"`)[1];
+    assert(point, c.id);
+    const marker = point.match(/<(circle|path|rect) class="marker"/);
+    assert(marker?.[1] === (c === other ? "path" : "circle"), c.id);
   }
 });
 
@@ -659,12 +726,16 @@ test("category metrics come from their own task records", async () => {
       "gemini-4-carbon-medium",
       "gemini-4-carbon-high",
       "gemini-4-argon-high",
+      "gemini-4-hydrogen-low",
+      "gemini-4-hydrogen-medium",
+      "gemini-4-hydrogen-high",
+      "gemini-4-hydrogen-xhigh",
     ]
   ) {
     bundle.configurations[0].resolved_model = model;
     assert(
       aggregate(bundle).configurations[0].model ===
-        (model.includes("carbon") ? "gemini-4-carbon" : "gemini-4-argon"),
+        model.replace(/-(?:low|medium|high|xhigh)$/, ""),
     );
   }
   bundle.tasks[1].metrics.cost_usd = null as unknown as number;
@@ -780,7 +851,7 @@ test("Argon reasoning levels share one model series", () => {
   assert(new Set(rows.map((c) => c.effort)).size === 2);
   const html = chart(
     { ...results, configurations: rows },
-    initialState(results),
+    { ...initialState(results), selected: rows.map(setupKey) },
   );
   assert(html.split('class="series-label"').length - 1 === 1);
 });
