@@ -52,7 +52,7 @@ test("public snapshot contains only allowlisted aggregates", () => {
   }
 });
 
-test("real Sol xhigh and Astra 6.2 max and xhigh are in the first chart and table", () => {
+test("real Sol xhigh and Astra 6.2 max, xhigh and high are in the first chart and table", () => {
   const state = initialState(results);
   const rows = ranked(results, state);
   for (
@@ -60,6 +60,7 @@ test("real Sol xhigh and Astra 6.2 max and xhigh are in the first chart and tabl
       ["gpt-6.1-sol", "xhigh"],
       ["gpt-6.2-astra", "max"],
       ["gpt-6.2-astra", "xhigh"],
+      ["gpt-6.2-astra", "high"],
     ]
   ) {
     const row = rows.find((c: Configuration) =>

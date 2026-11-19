@@ -102,8 +102,8 @@ subscription-cost estimate remains unavailable without a measured allowance. The
 Carbon allowance was measured on High; Gemini models share their subscription
 pool.
 
-The November 19 update adds GPT-6.2 Astra Max and XHigh and makes GPT-6.2 Astra
-the default Astra; GPT-6 Astra stays selectable. It is priced at OpenAI's
+The November 19 update adds GPT-6.2 Astra Max, XHigh and High and makes GPT-6.2
+Astra the default Astra; GPT-6 Astra stays selectable. It is priced at OpenAI's
 standard rates ($8/M input, $0.40/M cached input, $10/M 30-minute cache write,
 $40/M output; double input and 1.5× output above 272K input tokens) and shares
 the Codex allowance. GPT-6.2 Sol Low is selectable at standard rates ($2/M
