@@ -3,6 +3,25 @@
   "checked": "2026-10-03",
   "currency": "USD",
   "models": {
+    "gpt-6.2-astra": {
+      "provider": "openai",
+      "input": 8.0,
+      "cached_input": 0.4,
+      "cache_write": 10.0,
+      "cache_write_1h": null,
+      "output": 40.0,
+      "long_context": {
+        "threshold_tokens": 272000,
+        "input": 16.0,
+        "cached_input": 0.8,
+        "cache_write": 20.0,
+        "cache_write_1h": null,
+        "output": 60.0
+      },
+      "source": "https://developers.openai.com/api/docs/pricing",
+      "checked": "2026-11-19",
+      "notes": "Standard USD per million tokens. Long context applies to requests with >272K input tokens. Cache write is the 30-minute rate; 12-hour writes cost $20.00 short/$40.00 long (not modeled by the current 1h field). Output includes reasoning tokens. Other tiers: Batch $4.00/$0.20/$5.00 write/$20.00 (long context $8.00/$0.40/$10.00/$30.00); no Flex tier. Fast $16/$0.80/$20/$80 (long context $32/$1.60/$40/$120). Ultrafast list $48/$2.40/$60/$240, 3x Standard through 2027-02-28 by promotion ($24/$1.20/$30/$120), 6x from 2027-03-01. Background requests: 30% off (2-hour window) or 40% off (8-hour window). Data residency adds 10%. Subscription runs use API-equivalent estimates, not charges."
+    },
     "gpt-6.1-terra": {
       "provider": "openai",
       "input": 1,

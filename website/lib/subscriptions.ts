@@ -8,7 +8,13 @@ import type { Category, Configuration } from "./model";
 const allowances = [
   {
     agent: "codex",
-    models: ["gpt-6-astra", "gpt-6.1-sol", "gpt-6.1-terra", "gpt-6-luna"],
+    models: [
+      "gpt-6.2-astra",
+      "gpt-6-astra",
+      "gpt-6.1-sol",
+      "gpt-6.1-terra",
+      "gpt-6-luna",
+    ],
     monthlyUsd: 100,
     apiUsd: 2833.2194350755494,
   },
