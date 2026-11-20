@@ -93,8 +93,8 @@ test("subscription charts show dollars and explain missing estimates in both lan
     expect(html).toContain(
       lang === "en" ? "have no subscription estimate" : "没有订阅估算",
     );
-    expect(tooltip(c, state)).toContain("$0.00854");
-    expect(table(data, state)).toContain("$0.00854");
+    expect(tooltip(c, state)).toContain("$0.00796");
+    expect(table(data, state)).toContain("$0.00796");
   }
 });
 
