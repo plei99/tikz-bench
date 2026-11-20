@@ -117,7 +117,7 @@ export function aggregate(bundle: Bundle) {
         ? "claude-haiku-5-5"
         : config.resolved_model ?? config.model).split("/").at(-1)!
         .replace(
-          /^(gemini-4-(?:argon|carbon|hydrogen))-(?:low|medium|high|xhigh)$/,
+          /^(gemini-4-(?:argon|carbon|hydrogen|neon))-(?:low|medium|high|xhigh)$/,
           "$1",
         ),
       agent: config.agent,
