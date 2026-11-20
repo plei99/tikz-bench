@@ -52,12 +52,12 @@ test("public snapshot contains only allowlisted aggregates", () => {
   }
 });
 
-test("real Sol xhigh and Astra 6.2 max, xhigh and high are in the first chart and table", () => {
+test("real Sol 6.2 high and Astra 6.2 max, xhigh and high are in the first chart and table", () => {
   const state = initialState(results);
   const rows = ranked(results, state);
   for (
     const [model, effort] of [
-      ["gpt-6.1-sol", "xhigh"],
+      ["gpt-6.2-sol", "high"],
       ["gpt-6.2-astra", "max"],
       ["gpt-6.2-astra", "xhigh"],
       ["gpt-6.2-astra", "high"],
@@ -76,7 +76,7 @@ test("real Sol xhigh and Astra 6.2 max, xhigh and high are in the first chart an
 test("only the requested ten model families appear by default", () => {
   const allowed = [
     "gpt-6.1-terra",
-    "gpt-6.1-sol",
+    "gpt-6.2-sol",
     "gpt-6.2-astra",
     "claude-haiku-5-5",
     "claude-sonnet-5-5",
@@ -196,14 +196,14 @@ test("all four completed Sonnet efforts appear in the initial chart and table", 
 test("selection shows or hides every effort of a model+harness setup", () => {
   const state = initialState(results);
   const sol = results.configurations.filter((c) =>
-    c.complete && c.model === "gpt-6.1-sol" && c.agent === "codex"
+    c.complete && c.model === "gpt-6.2-sol" && c.agent === "codex"
   );
   assert(sol.length > 1);
-  assert(state.selected.includes("gpt-6.1-sol/codex"));
+  assert(state.selected.includes("gpt-6.2-sol/codex"));
   assert(sol.every((c) => ranked(results, state).includes(c)));
   const hidden = {
     ...state,
-    selected: state.selected.filter((key) => key !== "gpt-6.1-sol/codex"),
+    selected: state.selected.filter((key) => key !== "gpt-6.2-sol/codex"),
   };
   assert(!ranked(results, hidden).some((c) => sol.includes(c)));
 });

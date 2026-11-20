@@ -74,7 +74,7 @@ test("new or changed credit-based generations require matching token evidence", 
 });
 
 test("subscription charts show dollars and explain missing estimates in both languages", () => {
-  const c = configuration("gpt-6.1-sol", "xhigh", "codex");
+  const c = configuration("gpt-6.2-sol", "high", "codex");
   for (const lang of ["en", "zh"] as const) {
     const state = {
       ...initialState(data, lang),

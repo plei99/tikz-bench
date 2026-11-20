@@ -281,7 +281,7 @@ export function facetValues(data: Snapshot, cohort: string | undefined) {
 // only under OpenCode; the other listed models include every harness and effort.
 const defaultModels = new Set([
   "gpt-6.1-terra",
-  "gpt-6.1-sol",
+  "gpt-6.2-sol",
   "gpt-6.2-astra",
   "claude-haiku-5-5",
   "claude-sonnet-5-5",
