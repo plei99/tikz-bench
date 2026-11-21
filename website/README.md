@@ -97,8 +97,8 @@ OpenCode; its pi runs and other models remain selectable. Carbon and Argon use
 standard global API rates ($4/M uncached input, $0.20/M cached input, $20/M
 output), excluding temporary promotions, matching the Uses page’s $1,618.70
 monthly Carbon allowance. Hydrogen uses standard API rates of $1.50/M uncached
-input, $0.075/M cached input and $7.50/M output including thinking. Gemini 4
-Neon XHigh, High and Medium (November 20–21) start shown by default at standard
+input, $0.075/M cached input and $7.50/M output including thinking. Gemini 4 All
+four Gemini 4 Neon efforts (November 20–21) start shown by default at standard
 rates of $3/M uncached input, $0.15/M cached input and $15/M output including
 thinking. Their subscription-cost estimates remain unavailable without a
 measured allowance. The Carbon allowance was measured on High; Gemini models
