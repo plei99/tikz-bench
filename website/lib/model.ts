@@ -291,6 +291,7 @@ const defaultModels = new Set([
   "k3.1-pro",
   "gemini-4-carbon",
   "gemini-4-hydrogen",
+  "gemini-4-neon",
 ]);
 export const shownByDefault = (config: Configuration) =>
   defaultModels.has(config.model) &&

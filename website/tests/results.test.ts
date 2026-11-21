@@ -73,7 +73,7 @@ test("real Sol 6.2 high and Astra 6.2 max, xhigh and high are in the first chart
   }
 });
 
-test("only the requested ten model families appear by default", () => {
+test("only the requested eleven model families appear by default", () => {
   const allowed = [
     "gpt-6.1-terra",
     "gpt-6.2-sol",
@@ -85,6 +85,7 @@ test("only the requested ten model families appear by default", () => {
     "k3.1-pro",
     "gemini-4-carbon",
     "gemini-4-hydrogen",
+    "gemini-4-neon",
   ];
   for (const lang of ["en", "zh"] as const) {
     const state = initialState(results, lang);
